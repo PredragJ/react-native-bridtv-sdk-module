@@ -16,6 +16,7 @@
 
 @implementation BridPlayer : UIView
 
+@synthesize bridPlayerConfig;
 @synthesize type;
 @synthesize playerID;
 @synthesize mediaID;
@@ -28,7 +29,8 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    [self setPlayerTypeByString:typeOfPlayer];
+    
+    [self setPlayerTypeByString:[bridPlayerConfig objectForKey:@"typeOfPlayer"]];
     [self setupEventNetworking];
     
     [self addSubview:self.player.view];
@@ -51,19 +53,18 @@
 
 - (BVPlayer *)player {
     if (!_player) {
-        RCTLogInfo(@"playerID: %@,mediaID: %@",playerID, mediaID);
         switch (type) {
             case SinglePlayer:
-                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forVideoID:(int)[mediaID integerValue]]];
+                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[[bridPlayerConfig objectForKey:@"playerID"] integerValue] forVideoID:(int)[[bridPlayerConfig objectForKey:@"mediaID"] integerValue]]];
                 break;
             case PlaylistPlayer:
-                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forVideoID:(int)[mediaID integerValue]]];
+                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[[bridPlayerConfig objectForKey:@"playerID"] integerValue] forVideoID:(int)[[bridPlayerConfig objectForKey:@"mediaID"] integerValue]]];
                 break;
             case LatestPlayer:
-                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forLatestID:(int)[mediaID integerValue] page:(int)[page integerValue] item:(int)[item integerValue]]];
+                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[[bridPlayerConfig objectForKey:@"playerID"] integerValue] forLatestID:(int)[[bridPlayerConfig objectForKey:@"mediaID"] integerValue] page:(int)[page integerValue] item:(int)[item integerValue]]];
                 break;
             case ChannelPlayer:
-                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forChannelID:(int)[mediaID integerValue] page:(int)[page integerValue] item:(int)[item integerValue]]];
+                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[[bridPlayerConfig objectForKey:@"playerID"] integerValue] forChannelID:(int)[[bridPlayerConfig objectForKey:@"mediaID"] integerValue] page:(int)[page integerValue] item:(int)[item integerValue]]];
                 break;
             case TagPlayer:
                 _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forTag:tagType page:(int)[page integerValue] item:(int)[item integerValue]]];

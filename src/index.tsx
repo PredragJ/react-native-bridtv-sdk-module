@@ -15,8 +15,8 @@ const LINKING_ERROR =
   '- You are not using Expo Go\n';
 
 type BridtvSdkModuleProps = {
+  style?: ViewStyle;
   bridPlayerConfig: BridPlayerConfig;
-  style: ViewStyle;
 };
 
 interface BridPlayerConfig {
