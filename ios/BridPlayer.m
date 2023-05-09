@@ -41,33 +41,33 @@
         type = SinglePlayer;
     else if ([typeString  isEqual: @"Playlist"])
         type = PlaylistPlayer;
-//    else if ([typeString  isEqual: @"Latest"])
-//        type = LatestPlayer;
-//    else if ([typeString  isEqual: @"Channel"])
-//        type =  ChannelPlayer;
-//    else if ([typeString  isEqual: @"Tag"])
-//        type =  TagPlayer;
+    else if ([typeString  isEqual: @"Latest"])
+        type = LatestPlayer;
+    else if ([typeString  isEqual: @"Channel"])
+        type =  ChannelPlayer;
+    else if ([typeString  isEqual: @"Tag"])
+        type =  TagPlayer;
 }
 
 - (BVPlayer *)player {
     if (!_player) {
-        
+        RCTLogInfo(@"playerID: %@,mediaID: %@",playerID, mediaID);
         switch (type) {
             case SinglePlayer:
-                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:37791 forVideoID:1196978]];
+                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forVideoID:(int)[mediaID integerValue]]];
                 break;
             case PlaylistPlayer:
-                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:37791 forVideoID:1196978]];
+                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forVideoID:(int)[mediaID integerValue]]];
                 break;
-//            case LatestPlayer:
-//                _player = [[BVPlayer alloc] initWithData:[[BVData alloc] initPlayerID:(int)playerID forLatestID:(int)mediaID page:page item:item]];
-//                break;
-//            case ChannelPlayer:
-//                _player = [[BVPlayer alloc] initWithData:[[BVData alloc] initPlayerID:(int)playerID forChannelID:(int)mediaID page:page item:item]];
-//                break;
-//            case TagPlayer:
-//                _player = [[BVPlayer alloc] initWithData:[[BVData alloc] initPlayerID:(int)playerID forTag:tagType page:page item:item]];
-//                break;
+            case LatestPlayer:
+                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forLatestID:(int)[mediaID integerValue] page:(int)[page integerValue] item:(int)[item integerValue]]];
+                break;
+            case ChannelPlayer:
+                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forChannelID:(int)[mediaID integerValue] page:(int)[page integerValue] item:(int)[item integerValue]]];
+                break;
+            case TagPlayer:
+                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forTag:tagType page:(int)[page integerValue] item:(int)[item integerValue]]];
+                break;
                 
             default:
                 break;

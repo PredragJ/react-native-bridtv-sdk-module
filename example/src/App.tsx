@@ -1,12 +1,27 @@
 import * as React from 'react';
 
 import { StyleSheet, View } from 'react-native';
-import { BridtvSdkModuleView } from 'react-native-bridtv-sdk-module';
+import  BridPlayer  from 'react-native-bridtv-sdk-module';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <BridtvSdkModuleView color="#32a852" style={styles.square} />
+      <BridPlayer 
+              bridPlayerConfig = {{
+                playerID : "36872",
+                mediaID : "442013",
+                typeofPlayer: "Single"
+              }}
+               style={styles.square}
+            />
+            {/* <BridPlayer 
+              bridPlayerConfig = {{
+                playerID : "37159",
+                mediaID : "13735",
+                typeofPlayer: "Playlist"
+              }}
+               style={styles.square}
+            /> */}
     </View>
   );
 }
@@ -29,7 +44,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   square: {
-    height: 250,
+    height: 200,
     width: 300,
   },
   buttonContainer: {

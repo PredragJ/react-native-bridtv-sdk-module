@@ -1,8 +1,11 @@
+import React from 'react';
+import { Component } from 'react';
 import {
   requireNativeComponent,
   UIManager,
   Platform,
   ViewStyle,
+  StyleSheet,
 } from 'react-native';
 
 const LINKING_ERROR =
@@ -12,15 +15,42 @@ const LINKING_ERROR =
   '- You are not using Expo Go\n';
 
 type BridtvSdkModuleProps = {
-  color: string;
+  bridPlayerConfig: BridPlayerConfig;
   style: ViewStyle;
 };
 
+interface BridPlayerConfig {
+  playerID: string;
+  mediaID: string;
+  typeofPlayer: string;
+}
+
 const ComponentName = 'BridtvSdkModuleView';
 
-export const BridtvSdkModuleView =
-  UIManager.getViewManagerConfig(ComponentName) != null
-    ? requireNativeComponent<BridtvSdkModuleProps>(ComponentName)
-    : () => {
-        throw new Error(LINKING_ERROR);
-      };
+const RNBridPlayerManager =
+	Platform.OS === 'ios'
+		? UIManager.getViewManagerConfig('BridtvSdkModuleViewManager')
+		: UIManager.getViewManagerConfig(ComponentName);
+
+
+
+
+const RNBridPlayer = requireNativeComponent(ComponentName);
+
+
+export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
+
+  //ovde idu probovi
+	constructor(props) {
+		super(props);
+
+	}
+
+  render() {
+		return (
+			<RNBridPlayer 
+       {...this.props}		
+      />
+		);
+	}
+}
