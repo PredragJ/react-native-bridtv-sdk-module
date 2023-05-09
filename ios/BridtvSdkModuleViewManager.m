@@ -19,6 +19,8 @@ BridPlayer *player;
     return player;
 }
 
+RCT_EXPORT_VIEW_PROPERTY(bridPlayerConfig, NSDictionary);
+
 RCT_EXPORT_VIEW_PROPERTY(playerID, NSString);
 RCT_EXPORT_VIEW_PROPERTY(mediaID, NSString);
 RCT_EXPORT_VIEW_PROPERTY(tagType, NSString);

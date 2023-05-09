@@ -7,21 +7,13 @@ export default function App() {
   return (
     <View style={styles.container}>
       <BridPlayer 
-              bridPlayerConfig = {{
-                playerID : "36872",
-                mediaID : "442013",
-                typeofPlayer: "Single"
-              }}
-               style={styles.square}
+            style={styles.square}
+            bridPlayerConfig = {{
+              playerID : "36872",
+              mediaID : "442013",
+              typeOfPlayer: "Single"
+            }}
             />
-            {/* <BridPlayer 
-              bridPlayerConfig = {{
-                playerID : "37159",
-                mediaID : "13735",
-                typeofPlayer: "Playlist"
-              }}
-               style={styles.square}
-            /> */}
     </View>
   );
 }
