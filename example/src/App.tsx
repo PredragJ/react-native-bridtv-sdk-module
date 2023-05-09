@@ -10,10 +10,11 @@ import {
 import BridPlayer from 'react-native-bridtv-sdk-module';
 
 export default function App() {
-  const [playerId, setPlayerId] = React.useState('');
   const [videoId, setVideoId] = React.useState('');
   const [playlistId, setPlaylistId] = React.useState('');
   const [useVpaid, setUseVpaid] = React.useState(false);
+  const [playerId, setPlayerId] = React.useState('');
+
 
   const onLoadConfigPress = React.useCallback(() => {}, []);
 

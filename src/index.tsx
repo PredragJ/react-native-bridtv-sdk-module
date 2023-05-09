@@ -46,15 +46,17 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 
 	}
 
+  play() {
+		if (RNBridPlayerManager)
+        RNBridPlayerManager.play();
+	}
+
   pause() {
 		if (RNBridPlayerManager)
         RNBridPlayerManager.pause();
 	}
 
-  play() {
-		if (RNBridPlayerManager)
-        RNBridPlayerManager.play();
-	}
+
   
 
   render() {

@@ -71,12 +71,14 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<View> {
     }
   }
   @ReactMethod
-  public void pause() {
-    bridPlayer.pause();
-  }
-  @ReactMethod
   public void play() {
     bridPlayer.play();
   }
+
+  @ReactMethod
+  public void pause() {
+    bridPlayer.pause();
+  }
+
 
 }
