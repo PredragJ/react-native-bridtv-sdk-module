@@ -28,11 +28,44 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+
+    <TextInput
+            style={{ height: 40, width: '80%', borderColor: 'gray', borderWidth: 1 }}
+            onChangeText={setPlayerId}
+            value={playerId}
+            placeholder="Player ID"
+            keyboardType="numeric"
+          />
+          <TextInput
+            style={{ height: 40, width: '80%', borderColor: 'gray', borderWidth: 1 }}
+            onChangeText={setVideoId}
+            value={videoId}
+            placeholder="Video ID"
+            keyboardType="numeric"
+          />
+          <TextInput
+            style={{ height: 40, width: '80%', borderColor: 'gray', borderWidth: 1 }}
+            onChangeText={setPlaylistId}
+            value={playlistId}
+            placeholder="Playlist ID"
+            keyboardType="numeric"
+          />
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '80%', marginVertical: 10 }}>
+            <Button title="Load Config" onPress={onLoadConfigPress} />
+            <Button title="Load Video" onPress={onLoadVideoPress} />
+            <Button title="Load Playlist" onPress={onLoadPlaylistPress} />
+          </View>
+
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}>
+            <Switch value={useVpaid} onValueChange={onSwitchValueChange} />
+            <Text>Use VPAID</Text>
+          </View>
       <BridPlayer 
               bridPlayerConfig = {{
                 playerID : "36872",
                 mediaID : "442013",
-                typeofPlayer: "Single"
+                typeOfPlayer: "Single"
               }}
                style={styles.square}
             />
