@@ -22,7 +22,7 @@ type BridtvSdkModuleProps = {
 interface BridPlayerConfig {
   playerID: string;
   mediaID: string;
-  typeofPlayer: string;
+  typeOfPlayer: string;
 }
 
 const ComponentName = 'BridtvSdkModuleView';
@@ -45,6 +45,17 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 		super(props);
 
 	}
+
+  pause() {
+		if (RNBridPlayerManager)
+        RNBridPlayerManager.pause();
+	}
+
+  play() {
+		if (RNBridPlayerManager)
+        RNBridPlayerManager.play();
+	}
+  
 
   render() {
 		return (

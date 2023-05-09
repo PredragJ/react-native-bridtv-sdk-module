@@ -47,7 +47,6 @@ class RNBridPlayerView extends FrameLayout {
 
         View v = bridPlayer.getPlayerView(true);
         v.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        bridPlayer.showControls();
     }
 
     public void setPlayerId(int playerId, int videoId){
@@ -63,9 +62,13 @@ class RNBridPlayerView extends FrameLayout {
 
   public void loadVideo(int playerId, int videoId) {
     bridPlayer.loadVideo(playerId, videoId);
+    bridPlayer.showControls();
+
   }
   public void loadPlaylist(int playerId, int playlistId) {
       bridPlayer.loadPlaylist(playerId,playlistId);
+      bridPlayer.showControls();
+
   }
 
   public void toastMessage(String message){

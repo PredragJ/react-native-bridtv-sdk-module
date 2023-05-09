@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.facebook.react.ReactActivity;
+import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.ReactOverflowViewWithInset;
 import com.facebook.react.uimanager.SimpleViewManager;
@@ -49,37 +50,33 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<View> {
     return  rnBridPlayerView.getRNView();
   }
 
-  @ReactProp(name = "videoConfig")
+  @ReactProp(name = "bridPlayerConfig")
   public void setLoadVideo(RNBridPlayerView bridPlayerView, ReadableMap prop) {
-    int playerId = 0,videoId = 0;
-    boolean autoplay = false;
+    int playerId = 0,mediaId = 0;
+    boolean autoplay = false, playlist = false;
     try {
-      playerId = Integer.parseInt(prop.getString("playerid"));
-      videoId = Integer.parseInt(prop.getString("videoid"));
+      playerId = Integer.parseInt(prop.getString("playerID"));
+      mediaId = Integer.parseInt(prop.getString("mediaID"));
 //      autoplay = prop.getBoolean("autoplay");
+      playlist = prop.getString("typeOfPlayer").equals("Playlist") ? true : false;
 
-
-      bridPlayerView.loadVideo(playerId, videoId);
+      Log.d("ModuleManager", ""+playerId+"_" + mediaId +"_" + prop.getString("typeofPlayer"));
+      if(playlist)
+        bridPlayerView.loadPlaylist(playerId,mediaId);
+      else
+        bridPlayerView.loadVideo(playerId, mediaId);
 
     } catch (NumberFormatException e){
       bridPlayerView.toastMessage(e.getMessage());
     }
   }
-  @ReactProp(name = "playlistConfig")
-  public void setLoadPlaylist(RNBridPlayerView bridPlayerView, ReadableMap prop) {
-    int playerId = 0,playlistId = 0;
-    boolean autoplay = false;
-    try {
-      playerId = Integer.parseInt(prop.getString("playerid"));
-      playlistId = Integer.parseInt(prop.getString("playlistid"));
-//      autoplay = prop.getBoolean("autoplay");
-
-
-      bridPlayerView.loadPlaylist(playerId, playlistId);
-
-    } catch (NumberFormatException e){
-      bridPlayerView.toastMessage(e.getMessage());
-    }
+  @ReactMethod
+  public void pause() {
+    bridPlayer.pause();
+  }
+  @ReactMethod
+  public void play() {
+    bridPlayer.play();
   }
 
 }
