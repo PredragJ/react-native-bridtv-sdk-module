@@ -42,9 +42,7 @@ class RNBridPlayerView extends FrameLayout {
     }
 
     private void init(Context context) {
-
         bridPlayer = new BridPlayerBuilder(context, RNBridPlayerView.this).build();
-
         View v = bridPlayer.getPlayerView(true);
         v.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
@@ -61,14 +59,34 @@ class RNBridPlayerView extends FrameLayout {
     }
 
   public void loadVideo(int playerId, int videoId) {
-    bridPlayer.loadVideo(playerId, videoId);
-    bridPlayer.showControls();
+    if(bridPlayer != null){
+      bridPlayer.loadVideo(playerId, videoId);
+      bridPlayer.showControls();
+    }
+
 
   }
   public void loadPlaylist(int playerId, int playlistId) {
-      bridPlayer.loadPlaylist(playerId,playlistId);
-      bridPlayer.showControls();
+      if(bridPlayer != null){
+        bridPlayer.loadPlaylist(playerId,playlistId);
+        bridPlayer.showControls();
 
+      }
+  }
+
+  public void play(){
+      if(bridPlayer != null)
+         bridPlayer.play();
+  }
+
+  public void pause(){
+    if(bridPlayer != null)
+      bridPlayer.pause();
+  }
+
+  public void setFullScreen(boolean isOn){
+    if(bridPlayer != null)
+      bridPlayer.setFullScreen(isOn);
   }
 
   public void toastMessage(String message){

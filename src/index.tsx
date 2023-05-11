@@ -76,7 +76,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     UIManager.dispatchViewManagerCommand(
       findNodeHandle(this),
      'setFullscreen',
-      [],
+      [on],
  )
   }
   mute() {
