@@ -60,9 +60,6 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
       [fullscreen]
     );
   }
-  mute(mute: boolean) {
-    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'mute', [mute]);
-  }
 
   getCurrentTime() {
     UIManager.dispatchViewManagerCommand(
