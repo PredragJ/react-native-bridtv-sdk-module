@@ -6,6 +6,7 @@ import {
   TextInput,
   Button,
   Switch,
+  ScrollView
 } from 'react-native';
 import BridPlayer from 'react-native-bridtv-sdk-module';
 
@@ -38,6 +39,7 @@ const App = () => {
   const onSwitchValueChange = () => {};
 
   return (
+    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
     <View style={styles.container}>
 
     <TextInput
@@ -74,14 +76,34 @@ const App = () => {
             <Switch value={useVpaid} onValueChange={onSwitchValueChange} />
             <Text>Use VPAID</Text>
           </View>
-          <BridPlayer ref={bridPlayerRef}
-              style={styles.square}
+          <BridPlayer 
+              ref={bridPlayerRef}
               bridPlayerConfig = {{
-                playerID : "36872",
-                mediaID : "511770",
+                playerID : 36872,
+                mediaID : 442012,
                 typeOfPlayer: "Single"
               }}
-           />
+               style={styles.square}
+            />
+           {/* <BridPlayer 
+                      ref={bridPlayerRef2}
+                      bridPlayerConfig = {{
+                        playerID : "36872",
+                        mediaID : "511768",
+                        typeOfPlayer: "Single"
+                      }}
+                      style={styles.square}
+                    />
+
+        <BridPlayer 
+                      ref={bridPlayerRef3}
+                      bridPlayerConfig = {{
+                        playerID : "36872",
+                        mediaID : "442010",
+                        typeOfPlayer: "Single"
+                      }}
+                      style={styles.square}
+                    /> */}
           <View style={styles.buttonContainer}>
             <Button
               title="Play"
@@ -95,12 +117,18 @@ const App = () => {
             />
           </View>
     </View>
+    </ScrollView>
 
 
   );
 }
 
 const styles = StyleSheet.create({
+  scrollViewContainer: {
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   container: {
     flex: 1,
     alignItems: 'center',
