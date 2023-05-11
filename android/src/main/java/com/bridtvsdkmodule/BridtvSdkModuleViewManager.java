@@ -60,8 +60,8 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
     int playerId = 0,mediaId = 0;
     boolean autoplay = false, playlist = false;
     try {
-      playerId = Integer.parseInt(prop.getString("playerID"));
-      mediaId = Integer.parseInt(prop.getString("mediaID"));
+      playerId = (int) prop.getDouble("playerID");
+      mediaId = (int) prop.getDouble("mediaID");
 //      autoplay = prop.getBoolean("autoplay");
       playlist = prop.getString("typeOfPlayer").equals("Playlist") ? true : false;
 
