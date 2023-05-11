@@ -6,6 +6,7 @@ import {
   TextInput,
   Button,
   Switch,
+  ScrollView
 } from 'react-native';
 import BridPlayer from 'react-native-bridtv-sdk-module';
 
@@ -14,12 +15,13 @@ export default function App() {
   const [playlistId, setPlaylistId] = React.useState('');
   const [useVpaid, setUseVpaid] = React.useState(false);
   const [playerId, setPlayerId] = React.useState('');
-
+  const [videoButtonText, setVideoButtonText] = React.useState('Load Video');
+  const bridPlayerRef = React.createRef();
 
   const onLoadConfigPress = React.useCallback(() => {}, []);
 
   const onLoadVideoPress = React.useCallback(() => {
-    BridPlayer.play();
+    setVideoButtonText('Kliknuo sam i loadovao video');
   }, []);
 
   const onLoadPlaylistPress = React.useCallback(() => {}, []);
@@ -27,6 +29,7 @@ export default function App() {
   const onSwitchValueChange = () => {};
 
   return (
+    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
     <View style={styles.container}>
 
     <TextInput
@@ -53,7 +56,7 @@ export default function App() {
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '80%', marginVertical: 10 }}>
             <Button title="Load Config" onPress={onLoadConfigPress} />
-            <Button title="Load Video" onPress={onLoadVideoPress} />
+            <Button title={videoButtonText} onPress={onLoadVideoPress} />
             <Button title="Load Playlist" onPress={onLoadPlaylistPress} />
           </View>
 
@@ -62,6 +65,7 @@ export default function App() {
             <Text>Use VPAID</Text>
           </View>
       <BridPlayer 
+              ref={bridPlayerRef}
               bridPlayerConfig = {{
                 playerID : "36872",
                 mediaID : "442013",
@@ -69,11 +73,37 @@ export default function App() {
               }}
                style={styles.square}
             />
-    </View>
+
+        <BridPlayer 
+                      ref={bridPlayerRef}
+                      bridPlayerConfig = {{
+                        playerID : "36872",
+                        mediaID : "442013",
+                        typeOfPlayer: "Single"
+                      }}
+                      style={styles.square}
+                    />
+
+        <BridPlayer 
+                      ref={bridPlayerRef}
+                      bridPlayerConfig = {{
+                        playerID : "36872",
+                        mediaID : "442013",
+                        typeOfPlayer: "Single"
+                      }}
+                      style={styles.square}
+                    />
+            </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollViewContainer: {
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   container: {
     flex: 1,
     alignItems: 'center',
@@ -91,8 +121,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   square: {
-    height: 200,
-    width: 300,
+    height: 250,
+    width: 400,
+    marginVertical: 20,
   },
   buttonContainer: {
     backgroundColor: '#2E9298',

@@ -39,21 +39,23 @@ const RNBridPlayer = requireNativeComponent(ComponentName);
 
 
 export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
+  playerRef = React.createRef<any>();
 
   //ovde idu probovi
-	constructor(props) {
-		super(props);
 
-	}
 
   play() {
-		if (RNBridPlayerManager)
-        RNBridPlayerManager.play();
+		const { current } = this.playerRef;
+      if (current) {
+        current.play();
+      }
 	}
 
   pause() {
-		if (RNBridPlayerManager)
-        RNBridPlayerManager.pause();
+		const { current } = this.playerRef;
+      if (current) {
+        current.pause();
+      }
 	}
 
 
@@ -61,7 +63,9 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 
   render() {
 		return (
+      
 			<RNBridPlayer 
+      ref={this.playerRef}
        {...this.props}		
       />
 		);
