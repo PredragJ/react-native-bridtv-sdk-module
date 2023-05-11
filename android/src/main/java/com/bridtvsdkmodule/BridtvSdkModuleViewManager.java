@@ -10,9 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.ReactOverflowViewWithInset;
 import com.facebook.react.uimanager.SimpleViewManager;
@@ -22,7 +24,7 @@ import com.facebook.react.uimanager.annotations.ReactProp;
 import tv.brid.sdk.api.BridPlayer;
 import tv.brid.sdk.api.BridPlayerBuilder;
 
-public class BridtvSdkModuleViewManager extends SimpleViewManager<View> {
+public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerView> {
   public static final String REACT_CLASS = "BridtvSdkModuleView";
   public View mRootView;
   public FrameLayout frameLayout;
@@ -41,13 +43,13 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<View> {
 
   @Override
   @NonNull
-  public View createViewInstance(ThemedReactContext reactContext) {
+  public RNBridPlayerView createViewInstance(ThemedReactContext reactContext) {
 
     mReactContext = reactContext;
     rnBridPlayerView = new RNBridPlayerView(reactContext);
     bridPlayer = rnBridPlayerView.getBridPlayer();
 
-    return  rnBridPlayerView.getRNView();
+    return  rnBridPlayerView;
   }
 
   @ReactProp(name = "bridPlayerConfig")
@@ -79,6 +81,15 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<View> {
   public void pause() {
     bridPlayer.pause();
   }
+  @Override
+  public void receiveCommand(@NonNull RNBridPlayerView root, String commandId, @Nullable ReadableArray args) {
+    super.receiveCommand(root, commandId, args);
+    switch (commandId) {
+      case "pause":
+        Log.d("ModuleManager", "" + root.getRNView().toString()+commandId +args.toString());
 
-
+//        root.loadVideo();
+        break;
+    }
+  }
 }

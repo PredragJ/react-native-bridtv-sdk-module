@@ -9,17 +9,27 @@ import {
 } from 'react-native';
 import BridPlayer from 'react-native-bridtv-sdk-module';
 
-export default function App() {
+const App = () => {
+
+  const bridPlayerRef = React.useRef<BridPlayer>(null);
+
+  React.useEffect(() => {
+    // Poziv metode start
+    if (bridPlayerRef.current) {
+      bridPlayerRef.current.start();
+    }
+  }, []);
+
   const [videoId, setVideoId] = React.useState('');
   const [playlistId, setPlaylistId] = React.useState('');
   const [useVpaid, setUseVpaid] = React.useState(false);
   const [playerId, setPlayerId] = React.useState('');
 
 
-  const onLoadConfigPress = React.useCallback(() => {}, []);
+  const onLoadConfigPress = React.useCallback(() => {bridPlayerRef.current?.start()}, []);
 
   const onLoadVideoPress = React.useCallback(() => {
-    BridPlayer.play();
+    bridPlayerRef.current?.pause()
   }, []);
 
   const onLoadPlaylistPress = React.useCallback(() => {}, []);
@@ -61,7 +71,7 @@ export default function App() {
             <Switch value={useVpaid} onValueChange={onSwitchValueChange} />
             <Text>Use VPAID</Text>
           </View>
-      <BridPlayer 
+      <BridPlayer ref={bridPlayerRef}
               bridPlayerConfig = {{
                 playerID : "36872",
                 mediaID : "442013",
@@ -105,3 +115,5 @@ const styles = StyleSheet.create({
     },
   },
 });
+
+export default App;
