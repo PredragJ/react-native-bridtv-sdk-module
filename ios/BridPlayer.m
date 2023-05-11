@@ -24,7 +24,6 @@
 @synthesize item;
 @synthesize page;
 @synthesize tagType;
-@synthesize jsonURL;
 
 -(void)layoutSubviews
 {
@@ -114,15 +113,14 @@
   [self.player previous];
 }
 
-- (void)setJSON
+- (void)destroy
 {
-    if (jsonURL != nil) {
-        if ([[jsonURL substringToIndex:4] isEqualToString:@"http"]) {
-            [self.player setPlaylist:[NSURL URLWithString:jsonURL]];
-        } else {
-            RCTLogInfo(@"JSON url not starting with prefix http");
-        }
-    }
+  [self.player destroy];
+}
+
+- (void)useVPAIDSupport:(BOOL)use
+{
+  [self.player useVPAIDSupport:use];
 }
 
 @end

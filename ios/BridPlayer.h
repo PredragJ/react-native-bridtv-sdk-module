@@ -19,7 +19,7 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 @interface BridPlayer : UIView
 
 
-@property(nonatomic) NSDictionary * bridPlayerConfig;
+@property(nonatomic) NSDictionary *_Nonnull bridPlayerConfig;
 @property(nonatomic) NSString *_Nonnull playerID;
 @property(nonatomic) NSString *_Nonnull mediaID;
 @property(nonatomic) TypePlayer type;
@@ -29,12 +29,12 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 @property(nonatomic) NSString *_Nonnull item;
 @property(nonatomic, readonly, nonnull) NSString *tagType;
 @property(nonatomic, strong) BVPlayer *_Nonnull player;
-@property(nonatomic) NSString *_Nonnull jsonURL;
 
 - (void)pauseVideo;
 - (void)playVideo;
 - (void)nextVideo;
 - (void)previousVideo;
-- (void)setJSON;
+- (void)destroy;
+- (void)useVPAIDSupport:(BOOL)use;
 
 @end
