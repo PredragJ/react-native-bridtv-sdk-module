@@ -56,7 +56,7 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
   }
 
   @ReactProp(name = "bridPlayerConfig")
-  public void setLoadVideo(RNBridPlayerView bridPlayerView, ReadableMap prop) {
+  public void setPlayerConfig(RNBridPlayerView bridPlayerView, ReadableMap prop) {
     int playerId = 0,mediaId = 0;
     boolean autoplay = false, playlist = false;
     try {
@@ -65,7 +65,6 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
 //      autoplay = prop.getBoolean("autoplay");
       playlist = prop.getString("typeOfPlayer").equals("Playlist") ? true : false;
 
-      Log.d("ModuleManager", ""+playerId+"_" + mediaId +"_" + prop.getString("typeofPlayer"));
       if(playlist)
         bridPlayerView.loadPlaylist(playerId,mediaId);
       else
@@ -75,19 +74,12 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
       bridPlayerView.toastMessage(e.getMessage());
     }
   }
-  @ReactMethod
-  public void play() {
-    bridPlayer.play();
-  }
 
-  @ReactMethod
-  public void pause() {
-    bridPlayer.pause();
-  }
   @Override
   public void receiveCommand(@NonNull RNBridPlayerView bridPlayerView, String commandId, @Nullable ReadableArray args) {
     super.receiveCommand(bridPlayerView, commandId, args);
     int playerID, mediaID;
+    boolean isFullscreen;
 
     switch (commandId) {
       case LOAD_VIDEO:
@@ -100,13 +92,35 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
          mediaID = args.getInt(1);
         bridPlayerView.loadPlaylist(playerID, mediaID);
       case PLAY:
-      case PAUSE:
-
-        Log.d("ModuleManager", "" + bridPlayerView.getRNView().toString()+commandId +args.toString());
-
-
-
+        bridPlayerView.play();
         break;
+      case PAUSE:
+        bridPlayerView.pause();
+        break;
+      case DESTROY_PLAYER:
+        break;
+      case SET_FULLSCREEN:
+        isFullscreen = args.getBoolean(0);
+        bridPlayerView.setFullScreen(isFullscreen);
+        break;
+
+      case UNMUTE:
+        break;
+
+      case MUTE:
+        break;
+
+      case GET_CURRENT_TIME:
+        break;
+
+      case SEEK_TO_TIME:
+        break;
+      case SHOW_CONTROLS:
+        break;
+
+      case HIDE_CONTROLS:
+        break;
+
     }
   }
 }
