@@ -16,7 +16,7 @@ const App = () => {
   React.useEffect(() => {
     // Poziv metode start
     if (bridPlayerRef.current) {
-      bridPlayerRef.current.start();
+      bridPlayerRef.current.play();
     }
   }, []);
 
@@ -26,10 +26,11 @@ const App = () => {
   const [playerId, setPlayerId] = React.useState('');
 
 
-  const onLoadConfigPress = React.useCallback(() => {bridPlayerRef.current?.start()}, []);
+  const onLoadConfigPress = React.useCallback(() => {
+    bridPlayerRef.current?.play()}, []);
 
   const onLoadVideoPress = React.useCallback(() => {
-    bridPlayerRef.current?.pause()
+    bridPlayerRef.current?.loadVideo(36872,442013);
   }, []);
 
   const onLoadPlaylistPress = React.useCallback(() => {}, []);

@@ -1,5 +1,8 @@
 package com.bridtvsdkmodule;
 
+import static com.bridtvsdkmodule.BridPlayerCommands.*;
+
+
 import android.app.Activity;
 import android.graphics.Color;
 import android.util.Log;
@@ -82,13 +85,27 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
     bridPlayer.pause();
   }
   @Override
-  public void receiveCommand(@NonNull RNBridPlayerView root, String commandId, @Nullable ReadableArray args) {
-    super.receiveCommand(root, commandId, args);
-    switch (commandId) {
-      case "pause":
-        Log.d("ModuleManager", "" + root.getRNView().toString()+commandId +args.toString());
+  public void receiveCommand(@NonNull RNBridPlayerView bridPlayerView, String commandId, @Nullable ReadableArray args) {
+    super.receiveCommand(bridPlayerView, commandId, args);
+    int playerID, mediaID;
 
-//        root.loadVideo();
+    switch (commandId) {
+      case LOAD_VIDEO:
+         playerID = args.getInt(0);
+         mediaID = args.getInt(1);
+        bridPlayerView.loadVideo(playerID,mediaID);
+        break;
+      case LOAD_PLAYLIST:
+         playerID = args.getInt(0);
+         mediaID = args.getInt(1);
+        bridPlayerView.loadPlaylist(playerID, mediaID);
+      case PLAY:
+      case PAUSE:
+
+        Log.d("ModuleManager", "" + bridPlayerView.getRNView().toString()+commandId +args.toString());
+
+
+
         break;
     }
   }
