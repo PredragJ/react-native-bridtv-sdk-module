@@ -21,9 +21,6 @@
 @synthesize playerID;
 @synthesize mediaID;
 @synthesize typeOfPlayer;
-@synthesize item;
-@synthesize page;
-@synthesize tagType;
 
 -(void)layoutSubviews
 {
@@ -42,12 +39,6 @@
         type = SinglePlayer;
     else if ([typeString  isEqual: @"Playlist"])
         type = PlaylistPlayer;
-    else if ([typeString  isEqual: @"Latest"])
-        type = LatestPlayer;
-    else if ([typeString  isEqual: @"Channel"])
-        type =  ChannelPlayer;
-    else if ([typeString  isEqual: @"Tag"])
-        type =  TagPlayer;
 }
 
 - (BVPlayer *)player {
@@ -59,21 +50,10 @@
             case PlaylistPlayer:
                 _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[[bridPlayerConfig objectForKey:@"playerID"] integerValue] forVideoID:(int)[[bridPlayerConfig objectForKey:@"mediaID"] integerValue]]];
                 break;
-            case LatestPlayer:
-                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[[bridPlayerConfig objectForKey:@"playerID"] integerValue] forLatestID:(int)[[bridPlayerConfig objectForKey:@"mediaID"] integerValue] page:(int)[page integerValue] item:(int)[item integerValue]]];
-                break;
-            case ChannelPlayer:
-                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[[bridPlayerConfig objectForKey:@"playerID"] integerValue] forChannelID:(int)[[bridPlayerConfig objectForKey:@"mediaID"] integerValue] page:(int)[page integerValue] item:(int)[item integerValue]]];
-                break;
-            case TagPlayer:
-                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forTag:tagType page:(int)[page integerValue] item:(int)[item integerValue]]];
-                break;
                 
             default:
                 break;
-                
         }
-        
     }
     
     return _player;
@@ -95,22 +75,22 @@
 
 - (void)pauseVideo
 {
-  [self.player pause];
+    [self.player pause];
 }
 
 - (void)playVideo
 {
-  [self.player play];
+    [self.player play];
 }
 
 - (void)nextVideo
 {
-  [self.player next];
+    [self.player next];
 }
 
 - (void)previousVideo
 {
-  [self.player previous];
+    [self.player previous];
 }
 
 - (void)loadVideo:(NSNumber *)playerID mediaID:(NSNumber *)mediaID
@@ -122,28 +102,28 @@
 
 - (void)destroy
 {
-  [self.player destroy];
+    [self.player destroy];
 }
 
 - (void)useVPAIDSupport:(BOOL)use
 {
-  [self.player useVPAIDSupport:use];
+    [self.player useVPAIDSupport:use];
 }
 
 - (void)setFullscreen:(BOOL)fullscreen
 {
-  if (fullscreen)
-      [_player setFullscreenON];
-  else
-      [_player setFullscreenOFF];
+    if (fullscreen)
+        [_player setFullscreenON];
+    else
+        [_player setFullscreenOFF];
 }
 
 - (void)setMute:(BOOL)mute
 {
-  if (mute)
-      [_player mute];
-  else
-      [_player unmute];
+    if (mute)
+        [_player mute];
+    else
+        [_player unmute];
 }
 
 @end
