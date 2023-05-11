@@ -17,6 +17,8 @@ interface BridPlayerConfig {
   playerID: number;
   mediaID: number;
   typeOfPlayer: string;
+  useVPAIDSupport?: boolean;
+  setFullscreen?: boolean;
 }
 
 const ComponentName = 'BridtvSdkModuleView';

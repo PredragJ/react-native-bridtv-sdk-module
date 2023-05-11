@@ -10,10 +10,7 @@
 
 typedef NS_ENUM(NSUInteger, TypePlayer) {
     SinglePlayer,
-    PlaylistPlayer,
-    LatestPlayer,
-    ChannelPlayer,
-    TagPlayer
+    PlaylistPlayer
 };
 
 @interface BridPlayer : UIView
@@ -24,10 +21,6 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 @property(nonatomic) NSString *_Nonnull mediaID;
 @property(nonatomic) TypePlayer type;
 @property(nonatomic) NSString *_Nonnull typeOfPlayer;
-
-@property(nonatomic) NSString *_Nonnull page;
-@property(nonatomic) NSString *_Nonnull item;
-@property(nonatomic, readonly, nonnull) NSString *tagType;
 @property(nonatomic, strong) BVPlayer *_Nonnull player;
 
 - (void)pauseVideo;
