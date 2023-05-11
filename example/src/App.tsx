@@ -78,12 +78,13 @@ const App = () => {
           </View>
           <BridPlayer 
               ref={bridPlayerRef}
+              style={styles.square}
               bridPlayerConfig = {{
                 playerID : 36872,
                 mediaID : 442012,
                 typeOfPlayer: "Single"
               }}
-               style={styles.square}
+               
             />
            {/* <BridPlayer 
                       ref={bridPlayerRef2}
