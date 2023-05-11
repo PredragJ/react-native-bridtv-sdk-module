@@ -28,12 +28,6 @@ RCT_EXPORT_VIEW_PROPERTY(page, NSString);
 RCT_EXPORT_VIEW_PROPERTY(item, NSString);
 RCT_EXPORT_VIEW_PROPERTY(typeOfPlayer, NSString);
 
-RCT_EXPORT_METHOD(destroy:(nonnull NSNumber *)reactTag) {
-    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-       [player destroy];
-    }];
-}
-
 
 RCT_EXPORT_METHOD(pause:(nonnull NSNumber *)reactTag) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
@@ -59,11 +53,36 @@ RCT_EXPORT_METHOD(previous:(nonnull NSNumber *)reactTag) {
     }];
 }
 
-RCT_EXPORT_METHOD(useVPAIDSupport:(nonnull NSNumber *)reactTag:(BOOL)useVPAIDSupport) {
+RCT_EXPORT_METHOD(loadVideo:(nonnull NSNumber *)reactTag:(NSNumber*)playerID:  (NSNumber*)mediaID) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-        [player ;
+//        [player setMute:mute];
     }];
 }
+
+RCT_EXPORT_METHOD(drestroyPlayer:(nonnull NSNumber *)reactTag) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+       [player destroy];
+    }];
+}
+
+RCT_EXPORT_METHOD(useVpaidSupport:(nonnull NSNumber *)reactTag:(BOOL)useVpaidSupport) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+        [player useVPAIDSupport:useVpaidSupport];
+    }];
+}
+
+RCT_EXPORT_METHOD(setFullscreen:(nonnull NSNumber *)reactTag:(BOOL)fullscreen) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+        [player setFullscreen:fullscreen];
+    }];
+}
+
+RCT_EXPORT_METHOD(mute:(nonnull NSNumber *)reactTag:(BOOL)mute) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+        [player setMute:mute];
+    }];
+}
+
 
 
 @end
