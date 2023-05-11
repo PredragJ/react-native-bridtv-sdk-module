@@ -35,12 +35,6 @@ var RNBridPlayer = requireNativeComponent<BridtvSdkModuleProps>(ComponentName);
 
 export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 
-
-  play() {
-		// if (RNBridPlayerManager)
-    //     RNBridPlayerManager.play();
-	}
-
   pause() {
     UIManager.dispatchViewManagerCommand(
         findNodeHandle(this),
@@ -49,7 +43,12 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
    )
 	}
 
-  start() {
+  play() {
+    UIManager.dispatchViewManagerCommand(
+      findNodeHandle(this),
+     'play',
+      [],
+    )
   }
 
   loadVideo() {

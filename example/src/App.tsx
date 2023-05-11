@@ -71,15 +71,29 @@ const App = () => {
             <Switch value={useVpaid} onValueChange={onSwitchValueChange} />
             <Text>Use VPAID</Text>
           </View>
-      <BridPlayer ref={bridPlayerRef}
+          <BridPlayer ref={bridPlayerRef}
+              style={styles.square}
               bridPlayerConfig = {{
                 playerID : "36872",
-                mediaID : "442013",
+                mediaID : "511770",
                 typeOfPlayer: "Single"
               }}
-               style={styles.square}
+           />
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Play"
+              onPress={() => bridPlayerRef.current?.start()} 
             />
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Pause"
+              onPress={() => bridPlayerRef.current?.pause()} 
+            />
+          </View>
     </View>
+
+
   );
 }
 
@@ -107,6 +121,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     backgroundColor: '#2E9298',
     borderRadius: 10,
+    width: 100,
     padding: 10,
     shadowColor: '#000000',
     shadowOffset: {
