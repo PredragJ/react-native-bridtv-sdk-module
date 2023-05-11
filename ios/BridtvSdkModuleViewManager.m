@@ -27,7 +27,12 @@ RCT_EXPORT_VIEW_PROPERTY(tagType, NSString);
 RCT_EXPORT_VIEW_PROPERTY(page, NSString);
 RCT_EXPORT_VIEW_PROPERTY(item, NSString);
 RCT_EXPORT_VIEW_PROPERTY(typeOfPlayer, NSString);
-RCT_EXPORT_VIEW_PROPERTY(jsonURL, NSString);
+
+RCT_EXPORT_METHOD(destroy:(nonnull NSNumber *)reactTag) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+       [player destroy];
+    }];
+}
 
 
 RCT_EXPORT_METHOD(pause:(nonnull NSNumber *)reactTag) {
@@ -54,29 +59,11 @@ RCT_EXPORT_METHOD(previous:(nonnull NSNumber *)reactTag) {
     }];
 }
 
-RCT_EXPORT_METHOD(loadJSON:(nonnull NSNumber *)reactTag) {
+RCT_EXPORT_METHOD(useVPAIDSupport:(nonnull NSNumber *)reactTag:(BOOL)useVPAIDSupport) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-        [player setJSON];
+        [player ;
     }];
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(color, NSString, UIView)
-{
-  [view setBackgroundColor:[self hexStringToColor:json]];
-}
-
-- hexStringToColor:(NSString *)stringToConvert
-{
-  NSString *noHashString = [stringToConvert stringByReplacingOccurrencesOfString:@"#" withString:@""];
-  NSScanner *stringScanner = [NSScanner scannerWithString:noHashString];
-
-  unsigned hex;
-  if (![stringScanner scanHexInt:&hex]) return nil;
-  int r = (hex >> 16) & 0xFF;
-  int g = (hex >> 8) & 0xFF;
-  int b = (hex) & 0xFF;
-
-  return [UIColor colorWithRed:r / 255.0f green:g / 255.0f blue:b / 255.0f alpha:1.0f];
-}
 
 @end
