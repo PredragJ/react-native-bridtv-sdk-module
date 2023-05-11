@@ -30,8 +30,8 @@ const App = () => {
     bridPlayerRef.current?.play()}, []);
 
   const onLoadVideoPress = React.useCallback(() => {
-    bridPlayerRef.current?.loadVideo(36872,442013);
-  }, []);
+    bridPlayerRef.current?.loadVideo(+playerId,+videoId);
+  }, [playerId, videoId]);
 
   const onLoadPlaylistPress = React.useCallback(() => {}, []);
 
@@ -44,6 +44,7 @@ const App = () => {
             style={{ height: 40, width: '80%', borderColor: 'gray', borderWidth: 1 }}
             onChangeText={setPlayerId}
             value={playerId}
+            defaultValue = "36872"
             placeholder="Player ID"
             keyboardType="numeric"
           />
@@ -52,6 +53,7 @@ const App = () => {
             onChangeText={setVideoId}
             value={videoId}
             placeholder="Video ID"
+            defaultValue="511770"
             keyboardType="numeric"
           />
           <TextInput
@@ -83,7 +85,7 @@ const App = () => {
           <View style={styles.buttonContainer}>
             <Button
               title="Play"
-              onPress={() => bridPlayerRef.current?.start()} 
+              onPress={() => bridPlayerRef.current?.play()} 
             />
           </View>
           <View style={styles.buttonContainer}>
