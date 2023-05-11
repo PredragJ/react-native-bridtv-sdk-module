@@ -10,19 +10,37 @@ import {
 } from 'react-native';
 import BridPlayer from 'react-native-bridtv-sdk-module';
 
-export default function App() {
+const App = () => {
   const [videoId, setVideoId] = React.useState('');
   const [playlistId, setPlaylistId] = React.useState('');
   const [useVpaid, setUseVpaid] = React.useState(false);
-  const [playerId, setPlayerId] = React.useState('');
+  const [playerID, setPlayerId] = React.useState('');
+  const [mediaID, setMediaId] = React.useState('');
   const [videoButtonText, setVideoButtonText] = React.useState('Load Video');
-  const bridPlayerRef = React.createRef();
+  const bridPlayerRef1 = React.useRef<BridPlayer>(null);
+  const bridPlayerRef2 = React.useRef<BridPlayer>(null);
+  const bridPlayerRef3 = React.useRef<BridPlayer>(null);
 
   const onLoadConfigPress = React.useCallback(() => {}, []);
 
-  const onLoadVideoPress = React.useCallback(() => {
-    setVideoButtonText('Kliknuo sam i loadovao video');
+  React.useEffect(() => {
+    // Poziv metode start
+    if (bridPlayerRef1.current) {
+      bridPlayerRef1.current.start();
+    }
+    // if (bridPlayerRef2.current) {
+    //   bridPlayerRef2.current.start();
+    // }
+    // if (bridPlayerRef3.current) {
+    //   bridPlayerRef3.current.start();
+    // }
   }, []);
+
+  const onLoadVideoPress = React.useCallback(() => {
+    bridPlayerRef1.current?.loadVideo(+playerID, +mediaID);
+    // bridPlayerRef2.current?.loadVideo(playerID, mediaID);
+    // bridPlayerRef3.current?.loadVideo(playerID, mediaID);
+  }, [bridPlayerRef1, bridPlayerRef2, bridPlayerRef3, playerID, mediaID]);
 
   const onLoadPlaylistPress = React.useCallback(() => {}, []);
 
@@ -35,14 +53,14 @@ export default function App() {
     <TextInput
             style={{ height: 40, width: '80%', borderColor: 'gray', borderWidth: 1 }}
             onChangeText={setPlayerId}
-            value={playerId}
+            value={playerID}
             placeholder="Player ID"
             keyboardType="numeric"
           />
           <TextInput
             style={{ height: 40, width: '80%', borderColor: 'gray', borderWidth: 1 }}
-            onChangeText={setVideoId}
-            value={videoId}
+            onChangeText={setMediaId}
+            value={mediaID}
             placeholder="Video ID"
             keyboardType="numeric"
           />
@@ -65,34 +83,34 @@ export default function App() {
             <Text>Use VPAID</Text>
           </View>
       <BridPlayer 
-              ref={bridPlayerRef}
+              ref={bridPlayerRef1}
               bridPlayerConfig = {{
                 playerID : "36872",
-                mediaID : "442013",
+                mediaID : "442012",
                 typeOfPlayer: "Single"
               }}
                style={styles.square}
             />
 
-        <BridPlayer 
-                      ref={bridPlayerRef}
+        {/* <BridPlayer 
+                      ref={bridPlayerRef2}
                       bridPlayerConfig = {{
                         playerID : "36872",
-                        mediaID : "442013",
+                        mediaID : "511768",
                         typeOfPlayer: "Single"
                       }}
                       style={styles.square}
                     />
 
         <BridPlayer 
-                      ref={bridPlayerRef}
+                      ref={bridPlayerRef3}
                       bridPlayerConfig = {{
                         playerID : "36872",
-                        mediaID : "442013",
+                        mediaID : "442010",
                         typeOfPlayer: "Single"
                       }}
                       style={styles.square}
-                    />
+                    /> */}
             </View>
     </ScrollView>
   );
@@ -136,3 +154,5 @@ const styles = StyleSheet.create({
     },
   },
 });
+
+export default App;

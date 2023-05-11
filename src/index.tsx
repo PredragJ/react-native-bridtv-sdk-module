@@ -6,13 +6,10 @@ import {
   Platform,
   ViewStyle,
   StyleSheet,
+  Alert,
+  findNodeHandle,
 } from 'react-native';
 
-const LINKING_ERROR =
-  `The package 'react-native-bridtv-sdk-module' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
-  '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo Go\n';
 
 type BridtvSdkModuleProps = {
   style?: ViewStyle;
@@ -35,7 +32,7 @@ const RNBridPlayerManager =
 
 
 
-const RNBridPlayer = requireNativeComponent(ComponentName);
+    var RNBridPlayer = requireNativeComponent<BridtvSdkModuleProps>(ComponentName);
 
 
 export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
@@ -45,27 +42,34 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 
 
   play() {
-		const { current } = this.playerRef;
-      if (current) {
-        current.play();
-      }
+		// if (RNBridPlayerManager)
+    //     RNBridPlayerManager.play();
 	}
 
   pause() {
-		const { current } = this.playerRef;
-      if (current) {
-        current.pause();
-      }
+    UIManager.dispatchViewManagerCommand(
+        findNodeHandle(this),
+       'pause',
+        [],
+   )
 	}
 
+  start() {
+  }
 
+  loadVideo(playerID: number, mediaID: number) {
+    UIManager.dispatchViewManagerCommand(
+      findNodeHandle(this),
+     'loadVideo',
+      [playerID, mediaID],
+    )
+  }
   
 
   render() {
 		return (
       
 			<RNBridPlayer 
-      ref={this.playerRef}
        {...this.props}		
       />
 		);
