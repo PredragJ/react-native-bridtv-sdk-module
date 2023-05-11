@@ -36,5 +36,7 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 - (void)previousVideo;
 - (void)destroy;
 - (void)useVPAIDSupport:(BOOL)use;
+- (void)setFullscreen:(BOOL)fullscreen;
+- (void)setMute:(BOOL)mute;
 
 @end

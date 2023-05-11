@@ -113,6 +113,13 @@
   [self.player previous];
 }
 
+- (void)loadVideo:(NSNumber *)playerID mediaID:(NSNumber *)mediaID
+{
+    [self setPlayerTypeByString:@"Single"];
+    self->playerID = [playerID stringValue];
+    mediaID = mediaID;
+}
+
 - (void)destroy
 {
   [self.player destroy];
@@ -121,6 +128,22 @@
 - (void)useVPAIDSupport:(BOOL)use
 {
   [self.player useVPAIDSupport:use];
+}
+
+- (void)setFullscreen:(BOOL)fullscreen
+{
+  if (fullscreen)
+      [_player setFullscreenON];
+  else
+      [_player setFullscreenOFF];
+}
+
+- (void)setMute:(BOOL)mute
+{
+  if (mute)
+      [_player mute];
+  else
+      [_player unmute];
 }
 
 @end

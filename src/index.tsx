@@ -6,7 +6,7 @@ import {
   ViewStyle,
   findNodeHandle,
 } from 'react-native';
-
+import type { Float } from 'react-native/Libraries/Types/CodegenTypes';
 
 type BridtvSdkModuleProps = {
   style?: ViewStyle;
@@ -14,137 +14,70 @@ type BridtvSdkModuleProps = {
 };
 
 interface BridPlayerConfig {
-  playerID: string;
-  mediaID: string;
+  playerID: number;
+  mediaID: number;
   typeOfPlayer: string;
 }
 
 const ComponentName = 'BridtvSdkModuleView';
 
-// const RNBridPlayerManager =
-// 	Platform.OS === 'ios'
-// 		? UIManager.getViewManagerConfig('BridtvSdkModuleViewManager')
-// 		: UIManager.getViewManagerConfig(ComponentName);
-
-
 var RNBridPlayer = requireNativeComponent<BridtvSdkModuleProps>(ComponentName);
 
-
 export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
-
-
   play() {
-    UIManager.dispatchViewManagerCommand(
-      findNodeHandle(this),
-     'play',
-      [],
- )
-	}
+    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'play', []);
+  }
 
   pause() {
-    UIManager.dispatchViewManagerCommand(
-        findNodeHandle(this),
-       'pause',
-        [],
-   )
-	}
+    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'pause', []);
+  }
 
   loadVideo(playerID: number, mediaID: number) {
-    UIManager.dispatchViewManagerCommand(
-      findNodeHandle(this),
-     'loadVideo',
-      [playerID,mediaID],
- )
+    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'loadVideo', [
+      playerID,
+      mediaID,
+    ]);
   }
 
   loadPlaylist(playerID: number, mediaID: number) {
-    UIManager.dispatchViewManagerCommand(
-      findNodeHandle(this),
-     'loadPlaylist',
-      [playerID,mediaID],
- )
+    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'loadPlaylist', [
+      playerID,
+      mediaID,
+    ]);
   }
-  
+
   destroyPlayer() {
     UIManager.dispatchViewManagerCommand(
       findNodeHandle(this),
-     'drestroyPlayer',
-      [],
- )
+      'drestroyPlayer',
+      []
+    );
   }
-  setFullscreen(on: boolean) {
+  setFullscreen(fullscreen: boolean) {
     UIManager.dispatchViewManagerCommand(
       findNodeHandle(this),
-     'setFullscreen',
-      [],
- )
+      'setFullscreen',
+      [fullscreen]
+    );
   }
-  mute() {
-        UIManager.dispatchViewManagerCommand(
-          findNodeHandle(this),
-        'mute',
-          [],
-      )
-    }
+  mute(mute: boolean) {
+    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'mute', [mute]);
+  }
 
-  unMute() {
-    UIManager.dispatchViewManagerCommand(
-      findNodeHandle(this),
-    'unMute',
-      [],
-    )
-    }
   getCurrentTime() {
     UIManager.dispatchViewManagerCommand(
       findNodeHandle(this),
-     'getCurrentTime',
-      [],
- )
+      'getCurrentTime',
+      []
+    );
   }
-  seekToTime() {
-    UIManager.dispatchViewManagerCommand(
-      findNodeHandle(this),
-     'seekToTime',
-      [],
- )
+  seekToTime(time: Float) {
+    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'seekToTime', [
+      time,
+    ]);
   }
-  useVpaidSupport(use: boolean) {
-    UIManager.dispatchViewManagerCommand(
-      findNodeHandle(this),
-     'useVpaidSupport',
-      [use],
- )
-  }
-  isVpaidEnabled() {
-    UIManager.dispatchViewManagerCommand(
-      findNodeHandle(this),
-     'isVpaidEnabled',
-      [],
- )
-  }
-  showControlls() {
-    UIManager.dispatchViewManagerCommand(
-      findNodeHandle(this),
-     'showControlls',
-      [],
- )
-  }
-  hideControlls() {
-    UIManager.dispatchViewManagerCommand(
-      findNodeHandle(this),
-     'hideControlls',
-      [],
- )
-  }
-
-
-
 
   render() {
-		return (
-			<RNBridPlayer
-        {...this.props}		
-      />
-		);
-	}
+    return <RNBridPlayer {...this.props} />;
+  }
 }
