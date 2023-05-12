@@ -152,5 +152,8 @@
       "module",
       "typescript"
     ]
+  },
+  "dependencies": {
+    "@notifee/react-native": "^7.7.1"
   }
 }
