@@ -17,10 +17,12 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 
 
 @property(nonatomic) NSDictionary *_Nonnull bridPlayerConfig;
-@property(nonatomic) NSString *_Nonnull playerID;
-@property(nonatomic) NSString *_Nonnull mediaID;
+@property(nonatomic) NSNumber *_Nonnull playerID;
+@property(nonatomic) NSNumber *_Nonnull mediaID;
 @property(nonatomic) TypePlayer type;
 @property(nonatomic) NSString *_Nonnull typeOfPlayer;
+@property(nonatomic) BOOL useVPAIDSupport;
+@property(nonatomic) BOOL setFullscreen;
 @property(nonatomic, strong) BVPlayer *_Nonnull player;
 
 - (void)pauseVideo;
@@ -28,8 +30,9 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 - (void)nextVideo;
 - (void)previousVideo;
 - (void)destroy;
-- (void)useVPAIDSupport:(BOOL)use;
-- (void)setFullscreen:(BOOL)fullscreen;
 - (void)setMute:(BOOL)mute;
+- (BOOL)isMuted;
+- (NSNumber *_Nonnull)getPlayerCurrentTime;
+- (void)seekToTime:(float)time;
 
 @end
