@@ -49,13 +49,13 @@ export default interface BridPlayer extends React.Component<BridtvSdkModuleProps
 
 }
 let playerId = 0;
-const RCT_RNJWPLAYER_REF = 'RNJWPlayerKey';
+const RN_BRID_PLAYER_KEY = 'RnBridPlayerKey';
 
 export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   constructor(props: BridtvSdkModuleProps ) {
     super(props);
     // this._playerId = playerId++;
-		// this.ref_key = `${RCT_RNJWPLAYER_REF}-${this._playerId}`;
+		// this.ref_key = `${RN_BRID_PLAYER_KEY}-${this._playerId}`;
   }
 
   componentDidMount(): void {
@@ -70,10 +70,17 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'pause', []);
   }
 
+  mute() {
+    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'mute', []);
+  }
+  unMute() {
+    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'unMute', []);
+  }
+
   destroyPlayer() {
     UIManager.dispatchViewManagerCommand(
       findNodeHandle(this),
-      'drestroyPlayer',
+      'destroyPlayer',
       []
     );
   }
@@ -86,22 +93,6 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     );
   }
 
-  getCurrentTime() {
-    UIManager.dispatchViewManagerCommand(
-      findNodeHandle(this),
-      'getCurrentTime',
-      []
-    );
-  }
-
-  // isMuted() {
-  //   UIManager.dispatchViewManagerCommand(
-  //     findNodeHandle(this),
-  //     'isMuted',
-  //     []
-  //     );
-  // }
-
   seekToTime(time: Float) {
     UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'seekToTime', [
       time,
@@ -111,10 +102,10 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   async isMuted() {
     if (BridtvSdkManager) {
       try {
-        const time = await BridtvSdkManager.getCurrentTime(
+        const isMuted = await BridtvSdkManager.isMuted(
           findNodeHandle(this)
         );
-        return time;
+        return isMuted;
       } catch (e) {
         console.error(e);
         return null;
