@@ -10,32 +10,56 @@ import {
 } from 'react-native';
 import type { Float } from 'react-native/Libraries/Types/CodegenTypes';
 
-type BridtvSdkModuleProps = {
-  style?: ViewStyle;
-  bridPlayerConfig: BridPlayerConfig;
-};
-
-interface BridPlayerConfig {
-  playerID: number;
-  mediaID: number;
-  typeOfPlayer: string;
-  useVPAIDSupport?: boolean;
-  setFullscreen?: boolean;
-}
-
 const ComponentName = 'BridtvSdkModuleView';
+
+var  { BridtvSdkModule } = NativeModules;
 
 const BridtvSdkManager =
   Platform.OS === 'ios'
     ? NativeModules.BridtvSdkModuleView
     : NativeModules.BridtvSdkModule;
 
+
 var RNBridPlayer = requireNativeComponent<BridtvSdkModuleProps>(ComponentName);
 
+
+
+type BridtvSdkModuleProps = {
+  style?: ViewStyle;
+  bridPlayerConfig?: BridPlayerConfig;
+};
+
+interface BridPlayerConfig {
+  playerID?: number;
+  mediaID?: number;
+  typeOfPlayer?: string;
+  useVPAIDSupport?: boolean;
+  setFullscreen?: boolean;
+}
+
+
+export default interface BridPlayer extends React.Component<BridtvSdkModuleProps>{
+
+  play(): void;
+  pause(): void;
+  loadVideo(playerID: number, mediaID: number): void;
+  loadPlaylist(playerID: number, mediaID: number): void;
+  getPlayerCurrentTime(): Promise<number | null>;
+
+
+}
+let playerId = 0;
+const RN_BRID_PLAYER_KEY = 'RnBridPlayerKey';
+
 export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
+  constructor(props: BridtvSdkModuleProps ) {
+    super(props);
+    // this._playerId = playerId++;
+		// this.ref_key = `${RN_BRID_PLAYER_KEY}-${this._playerId}`;
+  }
+
   componentDidMount(): void {
-    this.getPlayerCurrentTime();
-    // this.isMuted();
+    // this.getPlayerCurrentTime();
   }
 
   play() {
@@ -46,10 +70,17 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'pause', []);
   }
 
+  mute() {
+    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'mute', []);
+  }
+  unMute() {
+    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'unMute', []);
+  }
+
   destroyPlayer() {
     UIManager.dispatchViewManagerCommand(
       findNodeHandle(this),
-      'drestroyPlayer',
+      'destroyPlayer',
       []
     );
   }
@@ -62,22 +93,6 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     );
   }
 
-  getCurrentTime() {
-    UIManager.dispatchViewManagerCommand(
-      findNodeHandle(this),
-      'getCurrentTime',
-      []
-    );
-  }
-
-  // isMuted() {
-  //   UIManager.dispatchViewManagerCommand(
-  //     findNodeHandle(this),
-  //     'isMuted',
-  //     []
-  //     );
-  // }
-
   seekToTime(time: Float) {
     UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'seekToTime', [
       time,
@@ -87,10 +102,10 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   async isMuted() {
     if (BridtvSdkManager) {
       try {
-        const time = await BridtvSdkManager.getCurrentTime(
+        const isMuted = await BridtvSdkManager.isMuted(
           findNodeHandle(this)
         );
-        return time;
+        return isMuted;
       } catch (e) {
         console.error(e);
         return null;
