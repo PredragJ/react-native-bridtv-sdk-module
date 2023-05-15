@@ -12,18 +12,28 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.uimanager.ThemedReactContext;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
+
 import tv.brid.sdk.api.BridPlayer;
 import tv.brid.sdk.api.BridPlayerBuilder;
+import tv.brid.sdk.player.BridPlayerListener;
 
-class RNBridPlayerView extends FrameLayout {
+class RNBridPlayerView extends FrameLayout implements BridPlayerListener {
 
     private BridPlayer bridPlayer;
     private Context mContext;
     private BridPlayerBuilder bridPlayerBuilder;
 
+    private ThemedReactContext mThemedReactContext;
+
+
   public RNBridPlayerView(@NonNull Context context) {
         super(context);
         mContext = context;
+        mThemedReactContext = (ThemedReactContext) context;
         init(context);
     }
 
@@ -142,5 +152,13 @@ class RNBridPlayerView extends FrameLayout {
   public void hideControls() {
     if(bridPlayer != null)
       bridPlayer.hideControls();
+  }
+
+  @Override
+  public void onEvent(String status) {
+
+    WritableMap event = Arguments.createMap();
+    event.putString("message", "onAdPause");
+    mThemedReactContext.getJSModule(RCTEventEmitter.class).receiveEvent(getId(), "topAdPause", event);
   }
 }
