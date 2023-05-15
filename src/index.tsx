@@ -86,12 +86,10 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 
   async isMuted() {
     if (BridtvSdkManager) {
-      // Alert.alert('USAOSAMMMMM');
       try {
         const time = await BridtvSdkManager.getCurrentTime(
           findNodeHandle(this)
         );
-        Alert.alert(time);
         return time;
       } catch (e) {
         console.error(e);
@@ -102,19 +100,16 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 
   async getPlayerCurrentTime() {
     if (BridtvSdkManager) {
-      Alert.alert('USAOSAMMMMM');
-
       try {
         const time = await BridtvSdkManager.getCurrentTime(
           findNodeHandle(this)
         );
-        Alert.alert(time);
         return time;
       } catch (e) {
         console.error(e);
         return null;
       }
-    } else Alert.alert('USAOSAMMMMM u DUPE');
+    }
   }
 
   render() {
