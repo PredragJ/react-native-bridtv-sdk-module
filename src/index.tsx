@@ -6,7 +6,6 @@ import {
   findNodeHandle,
   NativeModules,
   Platform,
-  Alert,
   NativeEventEmitter 
 } from 'react-native';
 import type { Float } from 'react-native/Libraries/Types/CodegenTypes';
@@ -19,9 +18,6 @@ const BridtvSdkManager =
     : NativeModules.BridtvSdkModule;
 
 
-
-
-
 var RNBridPlayer = requireNativeComponent<BridtvSdkModuleProps>(ComponentName);
 
 
@@ -29,6 +25,7 @@ var RNBridPlayer = requireNativeComponent<BridtvSdkModuleProps>(ComponentName);
 type BridtvSdkModuleProps = {
   style?: ViewStyle;
   bridPlayerConfig?: BridPlayerConfig;
+  onVideoAdStart? (event: any) : void;
 };
 
 interface BridPlayerConfig {
@@ -38,11 +35,6 @@ interface BridPlayerConfig {
   useVPAIDSupport?: boolean;
   setFullscreen?: boolean;
 }
-
-  const bridPlayerEvent = (event: any) => {
-    console.log('Događaj topAdPause je prihvaćen.', event);
-  };
-  
 
 export default interface BridPlayer extends React.Component<BridtvSdkModuleProps>{
 
@@ -59,6 +51,7 @@ const RN_BRID_PLAYER_KEY = 'RnBridPlayerKey';
 
 export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   eventListener: any;
+  bridPlayerEventEmitter = new NativeEventEmitter();
 
 
   constructor(props: BridtvSdkModuleProps ) {
@@ -67,13 +60,18 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 		// this.ref_key = `${RN_BRID_PLAYER_KEY}-${this._playerId}`;
   }
 
-  componentDidMount(): void {
-    // this.getPlayerCurrentTime();
+  componentDidMount(){
     const eventEmitter = new NativeEventEmitter(NativeModules.BridtvSdkModule);
-    this.eventListener = eventEmitter.addListener('EventReminder', event => {
-      console.log(event.eventProperty) 
-   });
+    this.eventListener = eventEmitter.addListener('BridPlayerEvents', event => {
+      // console.log('Ovo je BridPlayer:', event);
 
+    this.bridPlayerEventEmitter.emit('RNBridPlayerEvent',event.message);
+
+   });
+  }
+
+  componentWillUnmount(){
+    //removes the listener
   }
 
   play() {
