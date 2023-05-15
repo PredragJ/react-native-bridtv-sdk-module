@@ -27,6 +27,7 @@ import com.facebook.react.uimanager.annotations.ReactProp;
 
 import tv.brid.sdk.api.BridPlayer;
 import tv.brid.sdk.api.BridPlayerBuilder;
+import tv.brid.sdk.player.BridPlayerListener;
 
 public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerView> {
   public static final String REACT_CLASS = "BridtvSdkModuleView";
@@ -38,6 +39,8 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
   public ThemedReactContext mReactContext;
 
   public BridPlayer bridPlayer;
+
+  public BridPlayerListener bridPlayerListener;
 
   @Override
   @NonNull
@@ -53,8 +56,12 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
     rnBridPlayerView = new RNBridPlayerView(reactContext);
     bridPlayer = rnBridPlayerView.getBridPlayer();
 
+    setupPlayerListener();
+
     return  rnBridPlayerView;
   }
+
+
 
   @ReactProp(name = "bridPlayerConfig")
   public void setPlayerConfig(RNBridPlayerView bridPlayerView, ReadableMap prop) {
@@ -77,6 +84,9 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
         bridPlayerView.loadPlaylist(playerId,mediaId);
       else
         bridPlayerView.loadVideo(playerId, mediaId, useVpaid, isFullscreen);
+
+      if(bridPlayerListener != null)
+        bridPlayer.setBridListener(bridPlayerListener);
 
     } catch (NumberFormatException e){
       bridPlayerView.toastMessage(e.getMessage());
@@ -130,6 +140,18 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
         break;
 
     }
+  }
+
+
+  private void setupPlayerListener() {
+    bridPlayerListener = new BridPlayerListener() {
+      @Override
+      public void onEvent(String status) {
+        Log.d("BridPlayerEvent", status);
+
+      }
+    };
+
   }
 
 }

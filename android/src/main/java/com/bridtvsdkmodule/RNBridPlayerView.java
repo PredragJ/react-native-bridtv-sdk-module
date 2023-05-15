@@ -3,6 +3,7 @@ package com.bridtvsdkmodule;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -156,6 +157,8 @@ class RNBridPlayerView extends FrameLayout implements BridPlayerListener {
 
   @Override
   public void onEvent(String status) {
+    Log.d("BridPlayerEvent", status);
+
 
     WritableMap event = Arguments.createMap();
     event.putString("message", "onAdPause");
