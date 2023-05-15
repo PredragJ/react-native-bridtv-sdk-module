@@ -16,10 +16,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.facebook.react.ReactActivity;
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.uimanager.ReactOverflowViewWithInset;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
@@ -148,10 +152,38 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
       @Override
       public void onEvent(String status) {
         Log.d("BridPlayerEvent", status);
+        WritableMap params = Arguments.createMap();
+        params.putString("eventProperty", status);
+        sendEvent(mReactContext, "EventReminder", params);
+
+
 
       }
     };
-
   }
 
+  private void sendEvent(ReactContext reactContext,
+                         String eventName,
+                         @Nullable WritableMap params) {
+    reactContext
+      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+      .emit(eventName, params);
+  }
+
+  @ReactMethod
+  public void addListener(String eventName) {
+//    if (listenerCount == 0) {
+//      // Set up any upstream listeners or background tasks as necessary
+//    }
+//
+//    listenerCount += 1;
+  }
+
+  @ReactMethod
+  public void removeListeners(Integer count) {
+//    listenerCount -= count;
+//    if (listenerCount == 0) {
+//      // Remove upstream listeners, stop unnecessary background tasks
+//    }
+  }
 }
