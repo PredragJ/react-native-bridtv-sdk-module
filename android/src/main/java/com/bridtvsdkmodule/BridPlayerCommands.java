@@ -6,7 +6,7 @@ public class BridPlayerCommands {
   public static final String LOAD_PLAYLIST = "loadPlaylist";
   public static final String PLAY = "play";
   public static final String PAUSE = "pause";
-  public static final String DESTROY_PLAYER = "drestroyPlayer";
+  public static final String DESTROY_PLAYER = "destroyPlayer";
   public static final String SET_FULLSCREEN = "setFullscreen";
   public static final String UNMUTE = "unMute";
   public static final String MUTE = "mute";

@@ -18,9 +18,9 @@ const App = () => {
 
   React.useEffect(() => {
     // Poziv metode start
-    if (bridPlayerRef.current) {
-      bridPlayerRef.current.play();
-    }
+    // if (bridPlayerRef.current) {
+    //   bridPlayerRef.current.loadVideo(39118,1248134);
+    // }
   }, []);
 
   return (
