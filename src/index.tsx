@@ -51,7 +51,7 @@ const RN_BRID_PLAYER_KEY = 'RnBridPlayerKey';
 
 export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   eventListener: any;
-  bridPlayerEventEmitter = new NativeEventEmitter();
+  eventEmitter = new NativeEventEmitter();
 
 
   constructor(props: BridtvSdkModuleProps ) {
@@ -61,16 +61,18 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   }
 
   componentDidMount(){
-    const eventEmitter = new NativeEventEmitter(NativeModules.BridtvSdkModule);
-    this.eventListener = eventEmitter.addListener('BridPlayerEvents', event => {
+    this.eventEmitter = new NativeEventEmitter(NativeModules.BridtvSdkModule);
+    this.eventListener = this.eventEmitter.addListener('BridPlayerEvents', event => {
       // console.log('Ovo je BridPlayer:', event);
 
-    this.bridPlayerEventEmitter.emit('RNBridPlayerEvent',event.message);
+    this.eventEmitter.emit('RNBridPlayerEvent',event.message);
 
    });
   }
 
   componentWillUnmount(){
+    // this.eventEmitter.removeAllListeners();
+    this.eventListener.removeListeners();
     //removes the listener
   }
 
