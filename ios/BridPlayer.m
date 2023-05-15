@@ -33,6 +33,7 @@
     
     [self addSubview:self.player.view];
     self.player.view.frame = self.bounds;
+    
 }
 
 - (void)setPlayerTypeByString:(NSString *)typeString
@@ -45,12 +46,12 @@
 
 - (BVPlayer *)player {
     if (!_player) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[playerID stringValue]
-                                                           message:[mediaID stringValue]
-                                                           delegate:self
-                                                           cancelButtonTitle:@"OK"
-                                                           otherButtonTitles:nil];
-       [alert show];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[playerID stringValue]
+//                                                           message:[mediaID stringValue]
+//                                                           delegate:self
+//                                                           cancelButtonTitle:@"OK"
+//                                                           otherButtonTitles:nil];
+//       [alert show];
       
         switch (type) {
             case SinglePlayer:
@@ -109,22 +110,6 @@
     [self.player previous];
 }
 
-- (void)loadVideo:(NSNumber *)playerID mediaID:(NSNumber *)mediaID
-{
-    _player = nil;
-    if (playerID)
-        self->playerID = playerID;
-    if (mediaID)
-        self->mediaID = mediaID;
-    
-    _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[self->playerID integerValue] forVideoID:(int)[self->mediaID integerValue]]];
-    
-//    [self setPlayerTypeByString:@"Single"];
-//    [self addSubview:self.player.view];
-//    self.player.view.frame = self.bounds;
-    [self layoutSubviews];
-}
-
 - (void)destroy
 {
     [self.player destroy];
@@ -133,9 +118,27 @@
 - (void)setMute:(BOOL)mute
 {
     if (mute)
-        [_player mute];
+        [self.player mute];
     else
-        [_player unmute];
+        [self.player unmute];
 }
+
+- (BOOL)isMuted
+{
+    return [self.player getMuted];
+}
+
+- (NSNumber*)getPlayerCurrentTime
+{
+    return [NSNumber numberWithInt:[_player getCurrentTime]];
+}
+
+- (void)seekToTime:(float)time
+{
+//    [self.player seekToTime:time];
+}
+
+
+
 
 @end

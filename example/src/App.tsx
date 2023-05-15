@@ -11,7 +11,6 @@ import {
 import BridPlayer from 'react-native-bridtv-sdk-module';
 
 const App = () => {
-
   const bridPlayerRef = React.useRef<BridPlayer>(null);
 
   const [log, setLog] = React.useState('Log1\nLog2\nLog3');
@@ -37,26 +36,6 @@ const App = () => {
                 }}
                 
               />
-            
-            {/* <BridPlayer 
-                        ref={bridPlayerRef2}
-                        bridPlayerConfig = {{
-                          playerID : "36872",
-                          mediaID : "511768",
-                          typeOfPlayer: "Single"
-                        }}
-                        style={styles.square}
-                      />
-
-          <BridPlayer 
-                        ref={bridPlayerRef3}
-                        bridPlayerConfig = {{
-                          playerID : "36872",
-                          mediaID : "442010",
-                          typeOfPlayer: "Single"
-                        }}
-                        style={styles.square}
-                      /> */}
             <View style={styles.buttonContainer}>
               <Button
                 title="Prev"
@@ -82,13 +61,18 @@ const App = () => {
             </View>
 
             <Text style={{textAlign: 'center', margin: 20}}>{log}</Text>
-                
+        <View style={styles.buttonContainer}>
+          <Button title="Play" onPress={() => bridPlayerRef.current?.play()} />
+
+          <Button
+            title="Pause"
+            onPress={() => bridPlayerRef.current?.pause()}
+          />
+        </View>
       </View>
     </ScrollView>
-
-
   );
-}
+};
 
 const styles = StyleSheet.create({
   scrollViewContainer: {
