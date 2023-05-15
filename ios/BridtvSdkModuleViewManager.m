@@ -53,13 +53,6 @@ RCT_EXPORT_METHOD(previous:(nonnull NSNumber *)reactTag) {
     }];
 }
 
-RCT_EXPORT_METHOD(loadVideo:(nonnull NSNumber *)reactTag:(NSNumber*_Nonnull)playerID:  (NSNumber*_Nonnull)mediaID) {
-    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-        [self showAlert:[playerID stringValue] message:[mediaID stringValue]];
-        [player loadVideo:playerID mediaID:mediaID];
-    }];
-}
-
 RCT_EXPORT_METHOD(drestroyPlayer:(nonnull NSNumber *)reactTag) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
        [player destroy];
@@ -72,14 +65,44 @@ RCT_EXPORT_METHOD(mute:(nonnull NSNumber *)reactTag:(BOOL)mute) {
     }];
 }
 
-- (void)showAlert:(NSString *)title message:(NSString *)message
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                       message:message
-                                                       delegate:self
-                                                       cancelButtonTitle:@"Prvi Alert"
-                                                       otherButtonTitles:nil];
-   [alert show];
+RCT_EXPORT_METHOD(seekToTime:(nonnull NSNumber *)reactTag:(float)time) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+        [player seekToTime:time];
+    }];
+}
+
+RCT_REMAP_METHOD(getCurrentTime, tag:(nonnull NSNumber *)reactTag
+                            resolver:(RCTPromiseResolveBlock)resolve
+                            rejecter:(RCTPromiseRejectBlock)reject) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+        
+        NSNumber *time = [player getPlayerCurrentTime];
+        if (!time) {
+            reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);
+        } else {
+            resolve(time);
+      }
+    }];
+}
+
+RCT_REMAP_METHOD(isMuted_resolver,
+                              resolver:(RCTPromiseResolveBlock)resolve
+                              rejecter:(RCTPromiseRejectBlock)reject) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+        
+        NSNumber *isMuted;
+        
+        if ([player isMuted])
+            isMuted = [NSNumber numberWithInt:0];
+        else
+            isMuted = [NSNumber numberWithInt:1];
+            
+        if (!isMuted) {
+            reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);
+        } else {
+            resolve(isMuted);
+      }
+    }];
 }
 
 
