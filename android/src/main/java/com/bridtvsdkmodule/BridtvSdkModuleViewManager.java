@@ -32,6 +32,7 @@ import com.facebook.react.uimanager.annotations.ReactProp;
 import tv.brid.sdk.api.BridPlayer;
 import tv.brid.sdk.api.BridPlayerBuilder;
 import tv.brid.sdk.player.BridPlayerListener;
+import tv.brid.sdk.player.PlayerEvents;
 
 public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerView> {
   public static final String REACT_CLASS = "BridtvSdkModuleView";
@@ -152,11 +153,79 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
       @Override
       public void onEvent(String status) {
         Log.d("BridPlayerEvent", status);
-        WritableMap params = Arguments.createMap();
-        params.putString("eventProperty", status);
-        sendEvent(mReactContext, "EventReminder", params);
+        WritableMap event = Arguments.createMap();
+        
+        switch (status) {
+          case PlayerEvents.EVENT_PLAYER_LOADED:
+            event.putString("message", "video loaded");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+            break;
+          case PlayerEvents.EVENT_VIDEO_PLAY:
+            event.putString("message", "video played");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
 
+            break;
+          case PlayerEvents.EVENT_VIDEO_PAUSE:
+            event.putString("message", "video paused");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
 
+            break;
+          case PlayerEvents.EVENT_VIDEO_END:
+            event.putString("message", "video ended");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+
+            break;
+          case PlayerEvents.EVENT_AD_LOADED:
+            event.putString("message", "ad loaded");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+
+            break;
+          case PlayerEvents.EVENT_AD_COMPLETED:
+            event.putString("message", "ad completed");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+
+            break;
+          case PlayerEvents.EVENT_AD_RESUMED:
+            event.putString("message", "ad resumed");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+
+            break;
+          case PlayerEvents.EVENT_AD_SKIPPED:
+            event.putString("message", "ad skipped");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+
+            break;
+          case PlayerEvents.EVENT_AD_STARTED:
+            event.putString("message", "ad started");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+
+            break;
+          case PlayerEvents.EVENT_AD_PAUSED:
+            event.putString("message", "ad paused");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+
+            break;
+          case PlayerEvents.EVENT_AD_TAPPED:
+            event.putString("message", "ad tapped");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+
+            break;
+          case PlayerEvents.EVENT_ALL_ADS_COMPLETED:
+            event.putString("message", "all ads completed");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+
+            break;
+          case PlayerEvents.EVENT_AD_PROGRESS:
+            event.putString("message", "ad progress");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+
+            break;
+          case PlayerEvents.EVENT_AD_CLICKED:
+            event.putString("message", "ad clicked");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+
+            break;
+        }
 
       }
     };
