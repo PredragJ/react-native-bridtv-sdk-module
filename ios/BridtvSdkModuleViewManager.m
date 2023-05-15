@@ -53,7 +53,7 @@ RCT_EXPORT_METHOD(previous:(nonnull NSNumber *)reactTag) {
     }];
 }
 
-RCT_EXPORT_METHOD(drestroyPlayer:(nonnull NSNumber *)reactTag) {
+RCT_EXPORT_METHOD(destroyPlayer:(nonnull NSNumber *)reactTag) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
        [player destroy];
     }];
