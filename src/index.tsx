@@ -46,20 +46,6 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'pause', []);
   }
 
-  loadVideo(playerID: number, mediaID: number) {
-    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'loadVideo', [
-      playerID,
-      mediaID,
-    ]);
-  }
-
-  loadPlaylist(playerID: number, mediaID: number) {
-    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'loadPlaylist', [
-      playerID,
-      mediaID,
-    ]);
-  }
-
   destroyPlayer() {
     UIManager.dispatchViewManagerCommand(
       findNodeHandle(this),
