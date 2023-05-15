@@ -7,6 +7,7 @@ import {
   Button,
   ScrollView,
   Keyboard,
+  SafeAreaView,
 } from 'react-native';
 import BridPlayer from 'react-native-bridtv-sdk-module';
 
@@ -23,54 +24,43 @@ const App = () => {
   }, []);
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-      <View style={[styles.container, {alignItems: 'flex-start'}]}>
-
-      <BridPlayer 
-                ref={bridPlayerRef}
-                style={styles.square}
-                bridPlayerConfig = {{
-                  playerID : 39420,
-                  mediaID : 1080418,
-                  typeOfPlayer: "Single"
-                }}
-                
-              />
-            <View style={styles.buttonContainer}>
-              <Button
-                title="Prev"
-                onPress={() => bridPlayerRef.current?.play()} 
-              />
-            
-              <Button
-                title="Play"
-                
-                onPress={() => bridPlayerRef.current?.play()} 
-              />
-
-              <Button
-                title="Pause"
-                onPress={() => bridPlayerRef.current?.pause()} 
-              />
-            
-              <Button
-                title="Next"
-                
-                onPress={() => bridPlayerRef.current?.pause()} 
-              />
-            </View>
-
-            <Text style={{textAlign: 'center', margin: 20}}>{log}</Text>
-        <View style={styles.buttonContainer}>
-          <Button title="Play" onPress={() => bridPlayerRef.current?.play()} />
-
-          <Button
-            title="Pause"
-            onPress={() => bridPlayerRef.current?.pause()}
+    <SafeAreaView>
+      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+        <View style={[styles.container, { alignItems: 'flex-start' }]}>
+          <BridPlayer
+            ref={bridPlayerRef}
+            style={styles.square}
+            bridPlayerConfig={{
+              playerID: 39420,
+              mediaID: 1080418,
+              typeOfPlayer: 'Single',
+            }}
           />
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Prev"
+              onPress={() => bridPlayerRef.current?.play()}
+            />
+
+            <Button
+              title="Play"
+              onPress={() => bridPlayerRef.current?.play()}
+            />
+
+            <Button
+              title="Pause"
+              onPress={() => bridPlayerRef.current?.pause()}
+            />
+
+            <Button
+              title="Next"
+              onPress={() => bridPlayerRef.current?.pause()}
+            />
+          </View>
+          <Text style={{ textAlign: 'center', margin: 20 }}>{log}</Text>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
