@@ -7,17 +7,23 @@ import {
   NativeModules,
   Platform,
   Alert,
+  NativeEventEmitter 
 } from 'react-native';
 import type { Float } from 'react-native/Libraries/Types/CodegenTypes';
 
 const ComponentName = 'BridtvSdkModuleView';
 
-var  { BridtvSdkModule } = NativeModules;
+const { RCTEventEmitter } = NativeModules;
+
 
 const BridtvSdkManager =
   Platform.OS === 'ios'
     ? NativeModules.BridtvSdkModuleView
     : NativeModules.BridtvSdkModule;
+
+
+const eventEmitter = new NativeEventEmitter(RCTEventEmitter);
+
 
 
 var RNBridPlayer = requireNativeComponent<BridtvSdkModuleProps>(ComponentName);
@@ -37,6 +43,10 @@ interface BridPlayerConfig {
   setFullscreen?: boolean;
 }
 
+  const bridPlayerEvent = (event: any) => {
+    console.log('Događaj topAdPause je prihvaćen.', event);
+  };
+  
 
 export default interface BridPlayer extends React.Component<BridtvSdkModuleProps>{
 
@@ -52,6 +62,8 @@ let playerId = 0;
 const RN_BRID_PLAYER_KEY = 'RnBridPlayerKey';
 
 export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
+
+
   constructor(props: BridtvSdkModuleProps ) {
     super(props);
     // this._playerId = playerId++;
@@ -60,6 +72,10 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 
   componentDidMount(): void {
     // this.getPlayerCurrentTime();
+    eventEmitter.addListener(
+      'topAdPause',
+      this.bridPlayerEvent
+    );
   }
 
   play() {
