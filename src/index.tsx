@@ -13,16 +13,12 @@ import type { Float } from 'react-native/Libraries/Types/CodegenTypes';
 
 const ComponentName = 'BridtvSdkModuleView';
 
-const { RCTEventEmitter } = NativeModules;
-
-
 const BridtvSdkManager =
   Platform.OS === 'ios'
     ? NativeModules.BridtvSdkModuleView
     : NativeModules.BridtvSdkModule;
 
 
-const eventEmitter = new NativeEventEmitter(RCTEventEmitter);
 
 
 
@@ -62,6 +58,7 @@ let playerId = 0;
 const RN_BRID_PLAYER_KEY = 'RnBridPlayerKey';
 
 export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
+  eventListener: any;
 
 
   constructor(props: BridtvSdkModuleProps ) {
@@ -72,10 +69,11 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 
   componentDidMount(): void {
     // this.getPlayerCurrentTime();
-    eventEmitter.addListener(
-      'topAdPause',
-      this.bridPlayerEvent
-    );
+    const eventEmitter = new NativeEventEmitter(NativeModules.BridtvSdkModule);
+    this.eventListener = eventEmitter.addListener('EventReminder', event => {
+      console.log(event.eventProperty) 
+   });
+
   }
 
   play() {
