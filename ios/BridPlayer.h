@@ -31,6 +31,8 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 - (void)previousVideo;
 - (void)destroy;
 - (void)setMute:(BOOL)mute;
-- (void)loadVideo:(NSNumber *_Nonnull)playerID mediaID:(NSNumber *_Nonnull)mediaID;
+- (BOOL)isMuted;
+- (NSNumber *_Nonnull)getPlayerCurrentTime;
+- (void)seekToTime:(float)time;
 
 @end
