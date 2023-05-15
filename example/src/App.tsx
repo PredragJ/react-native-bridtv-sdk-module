@@ -16,25 +16,30 @@ const App = () => {
 
   React.useEffect(() => {
     // Poziv metode start
-    if (bridPlayerRef.current) {
-      bridPlayerRef.current.play();
-    }
+    // if (bridPlayerRef.current) {
+    //   bridPlayerRef.current.loadVideo(39118,1248134);
+    // }
   }, []);
 
   const [videoId, setVideoId] = React.useState('');
   const [playlistId, setPlaylistId] = React.useState('');
   const [useVpaid, setUseVpaid] = React.useState(false);
   const [playerId, setPlayerId] = React.useState('');
+  const [buttonText, setButtonText]  = React.useState('Load Config')
 
 
-  const onLoadConfigPress = React.useCallback(() => {
-    bridPlayerRef.current?.play()}, []);
+  const onLoadConfigPress = React.useCallback( async () => {
+    var currentTime  = bridPlayerRef.current?.getPlayerCurrentTime();
+    setButtonText(String(currentTime));
+        
+  }, []);
 
   const onLoadVideoPress = React.useCallback(() => {
     bridPlayerRef.current?.loadVideo(+playerId,+videoId);
   }, [playerId, videoId]);
 
-  const onLoadPlaylistPress = React.useCallback(() => {}, []);
+  const onLoadPlaylistPress = React.useCallback(() => { 
+    bridPlayerRef.current?.loadPlaylist(+playerId,+playlistId);}, []);
 
   const onSwitchValueChange = () => {};
 
@@ -67,7 +72,7 @@ const App = () => {
           />
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '80%', marginVertical: 10 }}>
-            <Button title="Load Config" onPress={onLoadConfigPress} />
+            <Button title={buttonText} onPress={onLoadConfigPress} />
             <Button title="Load Video" onPress={onLoadVideoPress} />
             <Button title="Load Playlist" onPress={onLoadPlaylistPress} />
           </View>
@@ -80,8 +85,8 @@ const App = () => {
               ref={bridPlayerRef}
               style={styles.square}
               bridPlayerConfig = {{
-                playerID : 36872,
-                mediaID : 442012,
+                playerID : 39420,
+                mediaID : 1262083,
                 typeOfPlayer: "Single"
               }}
                
