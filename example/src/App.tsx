@@ -14,6 +14,8 @@ const App = () => {
 
   const bridPlayerRef = React.useRef<BridPlayer>(null);
 
+  const [log, setLog] = React.useState('Log1\nLog2\nLog3');
+
   React.useEffect(() => {
     // Poziv metode start
     if (bridPlayerRef.current) {
@@ -21,62 +23,11 @@ const App = () => {
     }
   }, []);
 
-  const [videoId, setVideoId] = React.useState('1080418');
-  const [playlistId, setPlaylistId] = React.useState('20678');
-  const [useVpaid, setUseVpaid] = React.useState(false);
-  const [playerId, setPlayerId] = React.useState('39420');
-
-
-  const onLoadConfigPress = React.useCallback(() => {
-    bridPlayerRef.current?.play()
-    Keyboard.dismiss();
-  }, []);
-
-  const onLoadVideoPress = React.useCallback(() => {
-    bridPlayerRef.current?.loadVideo(+playerId,+videoId);
-    Keyboard.dismiss();
-  }, [playerId, videoId]);
-
-  const onLoadPlaylistPress = React.useCallback(() => {
-    bridPlayerRef.current?.loadPlaylist(+playerId,+playlistId);
-    Keyboard.dismiss();
-  }, [playerId, playlistId]);
-
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-      <View style={[styles.container, {alignItems: 'center'}]}>
+      <View style={[styles.container, {alignItems: 'flex-start'}]}>
 
-            <TextInput
-              style={{height: 40, width: '100%', borderColor: 'gray', borderWidth: 1 }}
-              onChangeText={setPlayerId}
-              value={playerId}
-              defaultValue = {playerId}
-              placeholder="Player ID"
-              keyboardType="numeric"
-            />
-            <TextInput
-              style={{height: 40, width: '100%', borderColor: 'gray', borderWidth: 1 }}
-              onChangeText={setVideoId}
-              value={videoId}
-              placeholder="Video ID"
-              defaultValue={videoId}
-              keyboardType="numeric"
-            />
-            <TextInput
-              style={{height: 40, width: '100%', borderColor: 'gray', borderWidth: 1 }}
-              onChangeText={setPlaylistId}
-              value={playlistId}
-              defaultValue={playlistId}
-              placeholder="Playlist ID"
-              keyboardType="numeric"
-            />
-
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginVertical: 10 }}>
-              <Button title="Load Config" onPress={onLoadConfigPress} />
-              <Button title="Load Video" onPress={onLoadVideoPress} />
-              <Button title="Load Playlist" onPress={onLoadPlaylistPress} />
-            </View>
-            <BridPlayer 
+      <BridPlayer 
                 ref={bridPlayerRef}
                 style={styles.square}
                 bridPlayerConfig = {{
@@ -86,6 +37,7 @@ const App = () => {
                 }}
                 
               />
+            
             {/* <BridPlayer 
                         ref={bridPlayerRef2}
                         bridPlayerConfig = {{
@@ -107,16 +59,30 @@ const App = () => {
                       /> */}
             <View style={styles.buttonContainer}>
               <Button
-                title="Play"
+                title="Prev"
                 onPress={() => bridPlayerRef.current?.play()} 
               />
             
               <Button
+                title="Play"
+                
+                onPress={() => bridPlayerRef.current?.play()} 
+              />
+
+              <Button
                 title="Pause"
+                onPress={() => bridPlayerRef.current?.pause()} 
+              />
+            
+              <Button
+                title="Next"
                 
                 onPress={() => bridPlayerRef.current?.pause()} 
               />
             </View>
+
+            <Text style={{textAlign: 'center', margin: 20}}>{log}</Text>
+                
       </View>
     </ScrollView>
 
@@ -127,13 +93,13 @@ const App = () => {
 const styles = StyleSheet.create({
   scrollViewContainer: {
     flexGrow: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   container: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'flex-start',
     paddingTop: 20,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   box: {
     width: 60,
@@ -148,17 +114,16 @@ const styles = StyleSheet.create({
   },
   square: {
     height: 222,
-    width: 400,
+    width: '100%',
   },
   buttonContainer: {
-    backgroundColor: '#2E9298',
     borderRadius: 10,
-    width: '50%',
+    width: '100%',
     height: 'auto',
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
-    margin: 20,
+    marginTop: 20,
     shadowColor: '#000000',
     shadowOffset: {
       width: 0,
