@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.facebook.react.ReactActivity;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
@@ -58,17 +59,24 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
   @ReactProp(name = "bridPlayerConfig")
   public void setPlayerConfig(RNBridPlayerView bridPlayerView, ReadableMap prop) {
     int playerId = 0,mediaId = 0;
-    boolean autoplay = false, playlist = false;
+    boolean useVpaid = false, playlist = false, isFullscreen = false;
     try {
-      playerId = (int) prop.getDouble("playerID");
-      mediaId = (int) prop.getDouble("mediaID");
-//      autoplay = prop.getBoolean("autoplay");
-      playlist = prop.getString("typeOfPlayer").equals("Playlist") ? true : false;
+      if(prop.hasKey("playerID"))
+        playerId = (int) prop.getDouble("playerID");
+      if(prop.hasKey("mediaID"))
+        mediaId = (int) prop.getDouble("mediaID");
+      if(prop.hasKey("typeOfPlayer"))
+        playlist = prop.getString("typeOfPlayer").equals("Playlist");
+
+      if(prop.hasKey("useVPAIDSupport"))
+        useVpaid = prop.getBoolean("useVPAIDSupport");
+      if(prop.hasKey("setFullscreen"))
+        isFullscreen = prop.getBoolean("setFullscreen");
 
       if(playlist)
         bridPlayerView.loadPlaylist(playerId,mediaId);
       else
-        bridPlayerView.loadVideo(playerId, mediaId);
+        bridPlayerView.loadVideo(playerId, mediaId, useVpaid, isFullscreen);
 
     } catch (NumberFormatException e){
       bridPlayerView.toastMessage(e.getMessage());
@@ -78,49 +86,50 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
   @Override
   public void receiveCommand(@NonNull RNBridPlayerView bridPlayerView, String commandId, @Nullable ReadableArray args) {
     super.receiveCommand(bridPlayerView, commandId, args);
-    int playerID, mediaID;
+    int playerID, mediaID, seekToTime = 0;
     boolean isFullscreen;
 
     switch (commandId) {
       case LOAD_VIDEO:
          playerID = args.getInt(0);
          mediaID = args.getInt(1);
-        bridPlayerView.loadVideo(playerID,mediaID);
+           bridPlayerView.loadVideo(playerID,mediaID);
         break;
       case LOAD_PLAYLIST:
          playerID = args.getInt(0);
          mediaID = args.getInt(1);
-        bridPlayerView.loadPlaylist(playerID, mediaID);
+          bridPlayerView.loadPlaylist(playerID, mediaID);
       case PLAY:
-        bridPlayerView.play();
+          bridPlayerView.play();
         break;
       case PAUSE:
-        bridPlayerView.pause();
+          bridPlayerView.pause();
         break;
       case DESTROY_PLAYER:
-        break;
+          bridPlayerView.destroyPlayer();
+          break;
       case SET_FULLSCREEN:
         isFullscreen = args.getBoolean(0);
         bridPlayerView.setFullScreen(isFullscreen);
         break;
-
       case UNMUTE:
+        bridPlayerView.unMute();
         break;
-
       case MUTE:
+        bridPlayerView.mute();
         break;
-
-      case GET_CURRENT_TIME:
-        break;
-
       case SEEK_TO_TIME:
+        seekToTime = args.getInt(0);
+        bridPlayerView.seekToTime(seekToTime);
         break;
       case SHOW_CONTROLS:
+        bridPlayerView.showControls();
         break;
-
       case HIDE_CONTROLS:
+        bridPlayerView.hideControls();
         break;
 
     }
   }
+
 }
