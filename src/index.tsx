@@ -7,7 +7,7 @@ import {
   NativeModules,
   Platform,
   Alert,
-  NativeEventEmitter 
+  NativeEventEmitter,
 } from 'react-native';
 import type { Float } from 'react-native/Libraries/Types/CodegenTypes';
 
@@ -18,13 +18,7 @@ const BridtvSdkManager =
     ? NativeModules.BridtvSdkModuleView
     : NativeModules.BridtvSdkModule;
 
-
-
-
-
 var RNBridPlayer = requireNativeComponent<BridtvSdkModuleProps>(ComponentName);
-
-
 
 type BridtvSdkModuleProps = {
   style?: ViewStyle;
@@ -39,20 +33,17 @@ interface BridPlayerConfig {
   setFullscreen?: boolean;
 }
 
-  const bridPlayerEvent = (event: any) => {
-    console.log('Događaj topAdPause je prihvaćen.', event);
-  };
-  
+const bridPlayerEvent = (event: any) => {
+  console.log('Događaj topAdPause je prihvaćen.', event);
+};
 
-export default interface BridPlayer extends React.Component<BridtvSdkModuleProps>{
-
+export default interface BridPlayer
+  extends React.Component<BridtvSdkModuleProps> {
   play(): void;
   pause(): void;
   loadVideo(playerID: number, mediaID: number): void;
   loadPlaylist(playerID: number, mediaID: number): void;
   getPlayerCurrentTime(): Promise<number | null>;
-
-
 }
 let playerId = 0;
 const RN_BRID_PLAYER_KEY = 'RnBridPlayerKey';
@@ -60,20 +51,21 @@ const RN_BRID_PLAYER_KEY = 'RnBridPlayerKey';
 export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   eventListener: any;
 
-
-  constructor(props: BridtvSdkModuleProps ) {
+  constructor(props: BridtvSdkModuleProps) {
     super(props);
     // this._playerId = playerId++;
-		// this.ref_key = `${RN_BRID_PLAYER_KEY}-${this._playerId}`;
+    // this.ref_key = `${RN_BRID_PLAYER_KEY}-${this._playerId}`;
   }
 
   componentDidMount(): void {
     // this.getPlayerCurrentTime();
     const eventEmitter = new NativeEventEmitter(NativeModules.BridtvSdkModule);
-    this.eventListener = eventEmitter.addListener('EventReminder', event => {
-      console.log(event.eventProperty) 
-   });
-
+    this.eventListener = eventEmitter.addListener(
+      'BridPlayerEvents',
+      (event) => {
+        console.log(event.eventProperty);
+      }
+    );
   }
 
   play() {
@@ -116,9 +108,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   async isMuted() {
     if (BridtvSdkManager) {
       try {
-        const isMuted = await BridtvSdkManager.isMuted(
-          findNodeHandle(this)
-        );
+        const isMuted = await BridtvSdkManager.isMuted(findNodeHandle(this));
         return isMuted;
       } catch (e) {
         console.error(e);

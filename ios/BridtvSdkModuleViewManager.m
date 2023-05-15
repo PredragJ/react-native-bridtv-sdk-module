@@ -3,11 +3,19 @@
 #import <React/RCTUIManager.h>
 #import <UIKit/UIKit.h>
 #import <React/RCTLog.h>
+#import <React/RCTEventEmitter.h>
 
 @interface BridtvSdkModuleViewManager : RCTViewManager
+
+@property RCTEventEmitter *emmiter;
+
 @end
 
 @implementation BridtvSdkModuleViewManager
+
+@synthesize emmiter;
+
+NSString *eventName;
 
 RCT_EXPORT_MODULE(BridtvSdkModuleView)
 
@@ -31,7 +39,7 @@ RCT_EXPORT_VIEW_PROPERTY(setFullscreen, BOOL);
 
 RCT_EXPORT_METHOD(pause:(nonnull NSNumber *)reactTag) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-       [player pauseVideo];
+        [player pauseVideo];
     }];
 }
 
@@ -55,7 +63,7 @@ RCT_EXPORT_METHOD(previous:(nonnull NSNumber *)reactTag) {
 
 RCT_EXPORT_METHOD(destroyPlayer:(nonnull NSNumber *)reactTag) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-       [player destroy];
+        [player destroy];
     }];
 }
 
@@ -68,12 +76,13 @@ RCT_EXPORT_METHOD(mute:(nonnull NSNumber *)reactTag:(BOOL)mute) {
 RCT_EXPORT_METHOD(seekToTime:(nonnull NSNumber *)reactTag:(float)time) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
         [player seekToTime:time];
+        
     }];
 }
 
 RCT_REMAP_METHOD(getCurrentTime, tag:(nonnull NSNumber *)reactTag
-                            resolver:(RCTPromiseResolveBlock)resolve
-                            rejecter:(RCTPromiseRejectBlock)reject) {
+                 resolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
         
         NSNumber *time = [player getPlayerCurrentTime];
@@ -81,13 +90,13 @@ RCT_REMAP_METHOD(getCurrentTime, tag:(nonnull NSNumber *)reactTag
             reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);
         } else {
             resolve(time);
-      }
+        }
     }];
 }
 
 RCT_REMAP_METHOD(isMuted_resolver,
-                              resolver:(RCTPromiseResolveBlock)resolve
-                              rejecter:(RCTPromiseRejectBlock)reject) {
+                 resolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
         
         NSNumber *isMuted;
@@ -96,13 +105,35 @@ RCT_REMAP_METHOD(isMuted_resolver,
             isMuted = [NSNumber numberWithInt:0];
         else
             isMuted = [NSNumber numberWithInt:1];
-            
+        
         if (!isMuted) {
             reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);
         } else {
             resolve(isMuted);
-      }
+        }
     }];
+}
+
+- (void)playerEventReceived:(NSNotification *)notification
+{
+    
+    [emmiter sendEventWithName:@"BridPlayerEvents" body:@{@"name": eventName}];
+
+}
+
+- (void) receiveTestNotification:(NSNotification *) notification {
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventWriter:) name:@"PlayerEvent" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventWriter:) name:@"AdEvent" object:nil];
+    
+}
+
+- (void) eventWriter:(NSNotification *)notification {
+    
+    eventName = notification.userInfo[@"PlayerEvent"];
+    eventName = notification.userInfo[@"AdEvent"];
+    NSLog(@"OOFFF: %@", eventName);
+    NSLog(@"OOFFF: %@", eventName);
 }
 
 
