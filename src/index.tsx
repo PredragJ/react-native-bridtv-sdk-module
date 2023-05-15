@@ -6,8 +6,12 @@ import {
   findNodeHandle,
   NativeModules,
   Platform,
+<<<<<<< HEAD
   Alert,
   NativeEventEmitter,
+=======
+  NativeEventEmitter 
+>>>>>>> 205c71771b1b3c73f7e23e3e426a9b22a2448e15
 } from 'react-native';
 import type { Float } from 'react-native/Libraries/Types/CodegenTypes';
 
@@ -18,11 +22,16 @@ const BridtvSdkManager =
     ? NativeModules.BridtvSdkModuleView
     : NativeModules.BridtvSdkModule;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 205c71771b1b3c73f7e23e3e426a9b22a2448e15
 var RNBridPlayer = requireNativeComponent<BridtvSdkModuleProps>(ComponentName);
 
 type BridtvSdkModuleProps = {
   style?: ViewStyle;
   bridPlayerConfig?: BridPlayerConfig;
+  onVideoAdStart? (event: any) : void;
 };
 
 interface BridPlayerConfig {
@@ -33,9 +42,13 @@ interface BridPlayerConfig {
   setFullscreen?: boolean;
 }
 
+<<<<<<< HEAD
 const bridPlayerEvent = (event: any) => {
   console.log('Događaj topAdPause je prihvaćen.', event);
 };
+=======
+export default interface BridPlayer extends React.Component<BridtvSdkModuleProps>{
+>>>>>>> 205c71771b1b3c73f7e23e3e426a9b22a2448e15
 
 export default interface BridPlayer
   extends React.Component<BridtvSdkModuleProps> {
@@ -50,6 +63,7 @@ const RN_BRID_PLAYER_KEY = 'RnBridPlayerKey';
 
 export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   eventListener: any;
+  bridPlayerEventEmitter = new NativeEventEmitter();
 
   constructor(props: BridtvSdkModuleProps) {
     super(props);
@@ -57,15 +71,27 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     // this.ref_key = `${RN_BRID_PLAYER_KEY}-${this._playerId}`;
   }
 
-  componentDidMount(): void {
-    // this.getPlayerCurrentTime();
+  componentDidMount(){
     const eventEmitter = new NativeEventEmitter(NativeModules.BridtvSdkModule);
+<<<<<<< HEAD
     this.eventListener = eventEmitter.addListener(
       'BridPlayerEvents',
       (event) => {
         console.log(event.eventProperty);
       }
     );
+=======
+    this.eventListener = eventEmitter.addListener('BridPlayerEvents', event => {
+      // console.log('Ovo je BridPlayer:', event);
+
+    this.bridPlayerEventEmitter.emit('RNBridPlayerEvent',event.message);
+
+   });
+  }
+
+  componentWillUnmount(){
+    //removes the listener
+>>>>>>> 205c71771b1b3c73f7e23e3e426a9b22a2448e15
   }
 
   play() {

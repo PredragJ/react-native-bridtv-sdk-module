@@ -8,20 +8,32 @@ import {
   ScrollView,
   Keyboard,
   SafeAreaView,
+  NativeEventEmitter,
 } from 'react-native';
 import BridPlayer from 'react-native-bridtv-sdk-module';
 
 const App = () => {
   const bridPlayerRef = React.useRef<BridPlayer>(null);
-
   const [log, setLog] = React.useState('Log1\nLog2\nLog3');
 
+  
   React.useEffect(() => {
     // Poziv metode start
     // if (bridPlayerRef.current) {
     //   bridPlayerRef.current.loadVideo(39118,1248134);
     // }
+
+
+    const eventEmitter = new NativeEventEmitter();
+    const eventListener = eventEmitter.addListener('RNBridPlayerEvent', handleBridPlayerEvent);
+  
   }, []);
+
+  
+  const handleBridPlayerEvent = (eventData: any) => {
+    // Ovdje možete dodati logiku za obradu događaja
+    console.log('Primljen događaj iz BridPlayer:', eventData);
+  };
 
   return (
     <SafeAreaView>
@@ -35,6 +47,8 @@ const App = () => {
               mediaID: 1080418,
               typeOfPlayer: 'Single',
             }}
+            // onVideoAdStart={e => alert(e.nativeEvent?.error || 'Player Error.')}
+
           />
           <View style={styles.buttonContainer}>
             <Button
