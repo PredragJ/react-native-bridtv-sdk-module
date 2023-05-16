@@ -4,16 +4,19 @@
 #import <UIKit/UIKit.h>
 #import <React/RCTLog.h>
 #import <React/RCTEventEmitter.h>
+#import <React/RCTBridgeModule.h>
 
-@interface BridtvSdkModuleViewManager : RCTViewManager
+@interface BridtvSdkModuleViewManager : RCTViewManager <RCTBridgeModule>
 
 @property RCTEventEmitter *emmiter;
+@property RCTCallableJSModules *modulJS;
 
 @end
 
 @implementation BridtvSdkModuleViewManager
 
 @synthesize emmiter;
+@synthesize modulJS;
 
 NSString *eventName;
 
@@ -24,6 +27,11 @@ BridPlayer *player;
 - (UIView *)view
 {
     player = [[BridPlayer alloc] init];
+    emmiter = [[RCTEventEmitter alloc] init];
+    modulJS = [[RCTCallableJSModules alloc] init];
+    [emmiter setCallableJSModules:modulJS];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerEventReceived:) name:@"PlayerEvent" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerEventReceived:) name:@"AdEvent" object:nil];
     return player;
 }
 
@@ -116,26 +124,10 @@ RCT_REMAP_METHOD(isMuted_resolver,
 
 - (void)playerEventReceived:(NSNotification *)notification
 {
-    
-    [emmiter sendEventWithName:@"BridPlayerEvents" body:@{@"name": eventName}];
-
-}
-
-- (void) receiveTestNotification:(NSNotification *) notification {
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventWriter:) name:@"PlayerEvent" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventWriter:) name:@"AdEvent" object:nil];
-    
-}
-
-- (void) eventWriter:(NSNotification *)notification {
-    
     eventName = notification.userInfo[@"PlayerEvent"];
     eventName = notification.userInfo[@"AdEvent"];
-    NSLog(@"OOFFF: %@", eventName);
-    NSLog(@"OOFFF: %@", eventName);
+//    [self.emmiter sendEventWithName:@"BridPlayerEvents" body:@{@"name": @"PRC"}];
+
 }
-
-
 
 @end

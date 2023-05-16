@@ -6,12 +6,7 @@ import {
   findNodeHandle,
   NativeModules,
   Platform,
-<<<<<<< HEAD
-  Alert,
   NativeEventEmitter,
-=======
-  NativeEventEmitter 
->>>>>>> 205c71771b1b3c73f7e23e3e426a9b22a2448e15
 } from 'react-native';
 import type { Float } from 'react-native/Libraries/Types/CodegenTypes';
 
@@ -22,10 +17,6 @@ const BridtvSdkManager =
     ? NativeModules.BridtvSdkModuleView
     : NativeModules.BridtvSdkModule;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 205c71771b1b3c73f7e23e3e426a9b22a2448e15
 var RNBridPlayer = requireNativeComponent<BridtvSdkModuleProps>(ComponentName);
 
 type BridtvSdkModuleProps = {
@@ -41,14 +32,6 @@ interface BridPlayerConfig {
   setFullscreen?: boolean;
 }
 
-<<<<<<< HEAD
-const bridPlayerEvent = (event: any) => {
-  console.log('Događaj topAdPause je prihvaćen.', event);
-};
-=======
-export default interface BridPlayer extends React.Component<BridtvSdkModuleProps>{
->>>>>>> 205c71771b1b3c73f7e23e3e426a9b22a2448e15
-
 export default interface BridPlayer
   extends React.Component<BridtvSdkModuleProps> {
   play(): void;
@@ -62,7 +45,7 @@ export default interface BridPlayer
 
 export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   eventListener: any;
-  eventEmitter = new NativeEventEmitter(BridtvSdkManager);
+  // eventEmitter = new NativeEventEmitter(BridtvSdkManager);
 
   constructor(props: BridtvSdkModuleProps) {
     super(props);
@@ -70,37 +53,20 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     // this.ref_key = `${RN_BRID_PLAYER_KEY}-${this._playerId}`;
   }
 
-  componentDidMount(){
-<<<<<<< HEAD
-<<<<<<< HEAD
-    const eventEmitter = new NativeEventEmitter(NativeModules.BridtvSdkModule);
-<<<<<<< HEAD
-    this.eventListener = eventEmitter.addListener(
-      'BridPlayerEvents',
-      (event) => {
-        console.log(event.eventProperty);
-      }
-    );
-=======
-    this.eventListener = eventEmitter.addListener('BridPlayerEvents', event => {
-=======
-    this.eventEmitter = new NativeEventEmitter(NativeModules.BridtvSdkModule);
-=======
->>>>>>> 9adfde715d730798c773b159ee3279dff9678669
-    this.eventListener = this.eventEmitter.addListener('BridPlayerEvents', event => {
->>>>>>> dbefef93f893bfca777728451eb23a53af85a0d3
-      // console.log('Ovo je BridPlayer:', event);
-
-      this.eventEmitter.emit('RNBridPlayerEvent',event.message);
-
-    });
+  componentDidMount() {
+    // this.eventListener = this.eventEmitter.addListener(
+    //   'BridPlayerEvents',
+    //   (event) => {
+    //     // console.log('Ovo je BridPlayer:', event);
+    //     this.eventEmitter.emit('RNBridPlayerEvent', event.message);
+    //   }
+    // );
   }
 
-  componentWillUnmount(){
-    this.eventEmitter.removeAllListeners('BridPlayerEvents');
+  componentWillUnmount() {
+    // this.eventEmitter.removeAllListeners('BridPlayerEvents');
     // this.eventListener.removeListeners();
     //removes the listener
->>>>>>> 205c71771b1b3c73f7e23e3e426a9b22a2448e15
   }
 
   play() {
@@ -174,46 +140,41 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 const useBridPlayer = () => {
   const listeners: Map<string, () => void> = new Map();
   const [playerState, setPlayerState] = React.useState('Initial state');
-  const eventEmitter = new NativeEventEmitter(NativeModules.BridPlayer);
-  
+  // const eventEmitter = new NativeEventEmitter(NativeModules.BridPlayer);
+
   const handleBridPlayerEvent = (eventData: any) => {
-    if(eventData!==playerState) {
-      if(eventData !== 'ad progress')
-        console.log(eventData);
+    if (eventData !== playerState) {
+      if (eventData !== 'ad progress') console.log(eventData);
       setPlayerState(eventData);
     }
 
     const callBack = listeners.get(eventData);
 
-    if(callBack){
+    if (callBack) {
       callBack();
     }
   };
-  eventEmitter.addListener('RNBridPlayerEvent', handleBridPlayerEvent);
+  // eventEmitter.addListener('RNBridPlayerEvent', handleBridPlayerEvent);
 
-  
-  const registedListener = (eventType: string, handler: Function)=>{
-    listeners.set(eventType, ()=>{
+  const registedListener = (eventType: string, handler: Function) => {
+    listeners.set(eventType, () => {
       handler();
-    })
-  }
+    });
+  };
 
-  const onVideoLoad = useCallback((handler: ()=>void )=>{
+  const onVideoLoad = useCallback((handler: () => void) => {
     registedListener('video loaded', handler);
   }, []);
 
-  const onVideoAdStart = useCallback((handler: ()=>void )=>{
+  const onVideoAdStart = useCallback((handler: () => void) => {
     registedListener('ad started', handler);
   }, []);
-
 
   return {
     playerState,
     onVideoLoad,
-    onVideoAdStart
-  }
-}
+    onVideoAdStart,
+  };
+};
 
-export  {useBridPlayer};
-
-
+export { useBridPlayer };
