@@ -12,14 +12,14 @@ import BridPlayer, { useBridPlayer } from 'react-native-bridtv-sdk-module';
 
 const App = () => {
   const bridPlayerRef = React.useRef<BridPlayer>(null);
-  const {playerState, onVideoLoad, onVideoAdStart} = useBridPlayer();
+  const { playerState, onVideoLoad, onVideoAdStart } = useBridPlayer();
 
   const handleVideoLoad = () => {
     console.log('VIDEO LOADED');
-  }
+  };
   const handleVideoAdStart = () => {
     console.log('VIDEO AD STARTED');
-  }
+  };
 
   onVideoLoad(handleVideoLoad);
 
@@ -44,7 +44,6 @@ const App = () => {
               typeOfPlayer: 'Single',
             }}
             // onVideoAdStart={e => alert(e.nativeEvent?.error || 'Player Error.')}
-
           />
           <View style={styles.buttonContainer}>
             <Button
