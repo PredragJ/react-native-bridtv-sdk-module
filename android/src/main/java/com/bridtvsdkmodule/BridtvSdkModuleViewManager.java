@@ -58,7 +58,7 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
   public RNBridPlayerView createViewInstance(ThemedReactContext reactContext) {
 
     mReactContext = reactContext;
-    rnBridPlayerView = new RNBridPlayerView(reactContext);
+    rnBridPlayerView = new RNBridPlayerView(reactContext.getReactApplicationContext().getCurrentActivity());
     bridPlayer = rnBridPlayerView.getBridPlayer();
 
     setupPlayerListener();
@@ -154,7 +154,7 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
       public void onEvent(String status) {
         Log.d("BridPlayerEvent", status);
         WritableMap event = Arguments.createMap();
-        
+
         switch (status) {
           case PlayerEvents.EVENT_PLAYER_LOADED:
             event.putString("message", "video loaded");
@@ -237,22 +237,5 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
     reactContext
       .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
       .emit(eventName, params);
-  }
-
-  @ReactMethod
-  public void addListener(String eventName) {
-//    if (listenerCount == 0) {
-//      // Set up any upstream listeners or background tasks as necessary
-//    }
-//
-//    listenerCount += 1;
-  }
-
-  @ReactMethod
-  public void removeListeners(Integer count) {
-//    listenerCount -= count;
-//    if (listenerCount == 0) {
-//      // Remove upstream listeners, stop unnecessary background tasks
-//    }
   }
 }

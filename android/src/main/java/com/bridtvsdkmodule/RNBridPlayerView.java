@@ -22,7 +22,7 @@ import tv.brid.sdk.api.BridPlayer;
 import tv.brid.sdk.api.BridPlayerBuilder;
 import tv.brid.sdk.player.BridPlayerListener;
 
-class RNBridPlayerView extends FrameLayout implements BridPlayerListener {
+class RNBridPlayerView extends FrameLayout {
 
     private BridPlayer bridPlayer;
     private Context mContext;
@@ -34,7 +34,7 @@ class RNBridPlayerView extends FrameLayout implements BridPlayerListener {
   public RNBridPlayerView(@NonNull Context context) {
         super(context);
         mContext = context;
-        mThemedReactContext = (ThemedReactContext) context;
+//        mThemedReactContext = (ThemedReactContext) context;
         init(context);
     }
 
@@ -153,15 +153,5 @@ class RNBridPlayerView extends FrameLayout implements BridPlayerListener {
   public void hideControls() {
     if(bridPlayer != null)
       bridPlayer.hideControls();
-  }
-
-  @Override
-  public void onEvent(String status) {
-    Log.d("BridPlayerEvent", status);
-
-
-    WritableMap event = Arguments.createMap();
-    event.putString("message", "onAdPause");
-    mThemedReactContext.getJSModule(RCTEventEmitter.class).receiveEvent(getId(), "topAdPause", event);
   }
 }
