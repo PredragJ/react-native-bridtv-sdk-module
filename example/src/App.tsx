@@ -3,38 +3,33 @@ import {
   StyleSheet,
   View,
   Text,
-  TextInput,
   Button,
   ScrollView,
-  Keyboard,
   SafeAreaView,
-  NativeEventEmitter,
 } from 'react-native';
-import BridPlayer from 'react-native-bridtv-sdk-module';
+
+import BridPlayer, { useBridPlayer } from 'react-native-bridtv-sdk-module';
 
 const App = () => {
   const bridPlayerRef = React.useRef<BridPlayer>(null);
-  const [log, setLog] = React.useState('');
-  const eventEmitter = new NativeEventEmitter();
-  let eventListener
-  
-  React.useEffect(() => {
-    // Poziv metode start
-    // if (bridPlayerRef.current) {
-    //   bridPlayerRef.current.loadVideo(39118,1248134);
-    // }
-    eventListener = eventEmitter.addListener('RNBridPlayerEvent', handleBridPlayerEvent);
-  
-  }, []);
+  const {playerState, onVideoLoad, onVideoAdStart} = useBridPlayer();
 
-  
-  const handleBridPlayerEvent = (eventData: any) => {
-    //Here you can add the logic to handle the event.
-    console.log('Primljen događaj iz BridPlayer:', eventData);
-    setLog((prevLog) => prevLog + '\n' + eventData);
+  const handleVideoLoad = () => {
+    console.log('VIDEO LOADED');
+  }
+  const handleVideoAdStart = () => {
+    console.log('VIDEO AD STARTED');
+  }
 
+  onVideoLoad(handleVideoLoad);
 
-  };
+  onVideoAdStart(handleVideoAdStart);
+
+  //treba nam use effect kad se promeni state da se nesto desi u UI
+
+  // React.useEffect(()=>{
+  // console.log("re-renderovao sam se");
+  // },[playerState])
 
   return (
     <SafeAreaView>
@@ -72,7 +67,7 @@ const App = () => {
               onPress={() => bridPlayerRef.current?.pause()}
             />
           </View>
-          <Text style={{ textAlign: 'center', margin: 20 }}>{log}</Text>
+          <Text style={{ textAlign: 'center', margin: 20 }}>{playerState}</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
