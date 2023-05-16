@@ -39,9 +39,9 @@ const App = () => {
             ref={bridPlayerRef}
             style={styles.square}
             bridPlayerConfig={{
-              playerID: 39420,
-              mediaID: 1080418,
-              typeOfPlayer: 'Single',
+              playerID: 1, // PlayerID from BridTV cms
+              mediaID: 1, //VideoID or PlaylistID from BridTv cms
+              typeOfPlayer: 'Single', // Single or Playlist
             }}
             // onVideoAdStart={e => alert(e.nativeEvent?.error || 'Player Error.')}
           />

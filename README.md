@@ -6,16 +6,39 @@ BridTV SDK player for react native
 
 ```sh
 npm install react-native-bridtv-sdk-module
+
+IOS 
+
+After NPM pod install
+
+Android 
+
+Because Module currently using BridPlayer SDK SNAPSHOT 
+In Gradle (Module:app) need to be added
+
+ repositories {
+    maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
+  }
+
 ```
+
 
 ## Usage
 
 ```js
-import { BridtvSdkModuleView } from "react-native-bridtv-sdk-module";
+import { BridPlayer } from "react-native-bridtv-sdk-module";
 
 // ...
 
-<BridtvSdkModuleView color="tomato" />
+          <BridPlayer
+            ref={bridPlayerRef}
+            style={styles.square}
+            bridPlayerConfig={{
+              playerID: xxxxx, // PlayerID from BridTV cms
+              mediaID: xxxxxxxx, //VideoID or PlaylistID from BridTv cms
+              typeOfPlayer: 'Single', // Single or Playlist
+            }}
+          />
 ```
 
 ## Contributing
