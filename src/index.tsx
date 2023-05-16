@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   requireNativeComponent,
   UIManager,
@@ -146,11 +146,16 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 
 const useBridPlayer = () => {
   const listeners: Map<string, () => void> = new Map();
-  const [playerState] = React.useState('Initial state');
+  const [playerState, setPlayerState] = React.useState('Initial state');
   const eventEmitter = new NativeEventEmitter(NativeModules.BridPlayer);
   
   const handleBridPlayerEvent = (eventData: any) => {
-    // setPlayerState(eventData)
+    if(eventData!==playerState) {
+      if(eventData !== 'ad progress')
+        console.log(eventData);
+      setPlayerState(eventData);
+    }
+
     const callBack = listeners.get(eventData);
 
     if(callBack){
@@ -166,13 +171,13 @@ const useBridPlayer = () => {
     })
   }
 
-  const onVideoLoad = (handler: ()=>void )=>{
+  const onVideoLoad = useCallback((handler: ()=>void )=>{
     registedListener('video loaded', handler);
-  };
+  }, []);
 
-  const onVideoAdStart = (handler:()=>void)=>{
+  const onVideoAdStart = useCallback((handler: ()=>void )=>{
     registedListener('ad started', handler);
-  };
+  }, []);
 
 
   return {

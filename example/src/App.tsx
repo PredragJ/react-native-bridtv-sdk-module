@@ -12,7 +12,7 @@ import BridPlayer, { useBridPlayer } from 'react-native-bridtv-sdk-module';
 
 const App = () => {
   const bridPlayerRef = React.useRef<BridPlayer>(null);
-  const {onVideoLoad, onVideoAdStart} = useBridPlayer();
+  const {playerState, onVideoLoad, onVideoAdStart} = useBridPlayer();
 
   const handleVideoLoad = () => {
     console.log('VIDEO LOADED');
@@ -28,10 +28,9 @@ const App = () => {
   //treba nam use effect kad se promeni state da se nesto desi u UI
 
   // React.useEffect(()=>{
-  //   // console.log(playerState);
+  // console.log("re-renderovao sam se");
   // },[playerState])
 
-  // console.log("re-renderovao sam se");
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
@@ -68,7 +67,7 @@ const App = () => {
               onPress={() => bridPlayerRef.current?.pause()}
             />
           </View>
-          <Text style={{ textAlign: 'center', margin: 20 }}>{}</Text>
+          <Text style={{ textAlign: 'center', margin: 20 }}>{playerState}</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
