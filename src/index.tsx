@@ -6,7 +6,7 @@ import {
   findNodeHandle,
   NativeModules,
   Platform,
-  NativeEventEmitter,
+  // NativeEventEmitter,
 } from 'react-native';
 import type { Float } from 'react-native/Libraries/Types/CodegenTypes';
 
@@ -139,21 +139,21 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 
 const useBridPlayer = () => {
   const listeners: Map<string, () => void> = new Map();
-  const [playerState, setPlayerState] = React.useState('Initial state');
+  const [playerState] = React.useState('Initial state');
   // const eventEmitter = new NativeEventEmitter(NativeModules.BridPlayer);
 
-  const handleBridPlayerEvent = (eventData: any) => {
-    if (eventData !== playerState) {
-      if (eventData !== 'ad progress') console.log(eventData);
-      setPlayerState(eventData);
-    }
+  // const handleBridPlayerEvent = (eventData: any) => {
+  //   if (eventData !== playerState) {
+  //     if (eventData !== 'ad progress') console.log(eventData);
+  //     setPlayerState(eventData);
+  //   }
 
-    const callBack = listeners.get(eventData);
+  //   const callBack = listeners.get(eventData);
 
-    if (callBack) {
-      callBack();
-    }
-  };
+  //   if (callBack) {
+  //     callBack();
+  //   }
+  // };
   // eventEmitter.addListener('RNBridPlayerEvent', handleBridPlayerEvent);
 
   const registedListener = (eventType: string, handler: Function) => {
