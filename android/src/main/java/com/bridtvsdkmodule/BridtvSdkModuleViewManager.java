@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
@@ -42,6 +43,7 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
   public ViewGroup mPlayerViewContainer;
   public RNBridPlayerView rnBridPlayerView;
   public ThemedReactContext mReactContext;
+  private final ReactApplicationContext mAppContext;
 
   public BridPlayer bridPlayer;
 
@@ -53,12 +55,21 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
     return REACT_CLASS;
   }
 
+  public BridtvSdkModuleViewManager(ReactApplicationContext context){
+    mAppContext = context;
+  }
+
   @Override
   @NonNull
   public RNBridPlayerView createViewInstance(ThemedReactContext reactContext) {
 
     mReactContext = reactContext;
-    rnBridPlayerView = new RNBridPlayerView(reactContext.getReactApplicationContext().getCurrentActivity());
+    //VIEW - klasicno kreiranje
+//    rnBridPlayerView = new RNBridPlayerView(reactContext.getReactApplicationContext().getCurrentActivity());
+
+    //TEST VIEW - biranje izmedju boljeg konteksta
+    rnBridPlayerView = new RNBridPlayerView(reactContext, mAppContext);
+
     bridPlayer = rnBridPlayerView.getBridPlayer();
 
     setupPlayerListener();
