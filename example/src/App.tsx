@@ -8,11 +8,15 @@ import {
   SafeAreaView,
 } from 'react-native';
 
-import BridPlayer, { useBridPlayer } from 'react-native-bridtv-sdk-module';
+import BridPlayer from 'react-native-bridtv-sdk-module';
 
 const App = () => {
   const bridPlayerRef = React.useRef<BridPlayer>(null);
-  const { playerState, onVideoLoad, onVideoAdStart } = useBridPlayer();
+  const [playerState, setPlayerState] = React.useState<string>('');
+
+  const updatePlayerState = (newValue: string) => {
+    setPlayerState(newValue);
+  };
 
   const handleVideoLoad = () => {
     console.log('VIDEO LOADED');
@@ -21,28 +25,21 @@ const App = () => {
     console.log('VIDEO AD STARTED');
   };
 
-  onVideoLoad(handleVideoLoad);
-
-  onVideoAdStart(handleVideoAdStart);
-
-  //treba nam use effect kad se promeni state da se nesto desi u UI
-
-  // React.useEffect(()=>{
-  // console.log("re-renderovao sam se");
-  // },[playerState])
-
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
         <View style={[styles.container, { alignItems: 'flex-start' }]}>
           <BridPlayer
             ref={bridPlayerRef}
+            setPlayerState={updatePlayerState}
             style={styles.square}
             bridPlayerConfig={{
-              playerID: 1, // PlayerID from BridTV cms
-              mediaID: 1, //VideoID or PlaylistID from BridTv cms
+              playerID: 36872, // PlayerID from BridTV cms
+              mediaID: 511771, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
+            handleVideoLoad={handleVideoLoad}
+            handleVideoStart={handleVideoAdStart}
             // onVideoAdStart={e => alert(e.nativeEvent?.error || 'Player Error.')}
           />
           <View style={styles.buttonContainer}>
@@ -66,7 +63,7 @@ const App = () => {
               onPress={() => bridPlayerRef.current?.pause()}
             />
           </View>
-          <Text style={{ textAlign: 'center', margin: 20 }}>{playerState}</Text>
+          <Text>{playerState}</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
