@@ -1,5 +1,6 @@
 package com.bridtvsdkmodule;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -13,7 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.facebook.react.ReactActivity;
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
@@ -29,6 +32,9 @@ class RNBridPlayerView extends FrameLayout {
     private BridPlayerBuilder bridPlayerBuilder;
 
     private ThemedReactContext mThemedReactContext;
+    private ReactApplicationContext mAppContext;
+    private ReactActivity mActivity;
+    private ViewGroup mRootView;
 
 
   public RNBridPlayerView(@NonNull Context context) {
@@ -37,6 +43,18 @@ class RNBridPlayerView extends FrameLayout {
 //        mThemedReactContext = (ThemedReactContext) context;
         init(context);
     }
+
+  public RNBridPlayerView(@NonNull ThemedReactContext context, ReactApplicationContext reactApplicationContext) {
+    super(getNonBuggyContext(context, reactApplicationContext));
+    mAppContext = reactApplicationContext;
+    mThemedReactContext = context;
+    mActivity = (ReactActivity) context.getReactApplicationContext().getCurrentActivity();
+    mRootView = mActivity.findViewById(android.R.id.content);
+
+
+    init(context);
+  }
+
 
   public RNBridPlayerView(@NonNull Context context, View rootView) {
     super(context);
@@ -154,4 +172,29 @@ class RNBridPlayerView extends FrameLayout {
     if(bridPlayer != null)
       bridPlayer.hideControls();
   }
+
+  private static Context getNonBuggyContext(ThemedReactContext reactContext,
+                                            ReactApplicationContext appContext) {
+    Context superContext = reactContext;
+    if (!contextHasBug(appContext.getCurrentActivity())) {
+      superContext = appContext.getCurrentActivity();
+    } else if (contextHasBug(superContext)) {
+      // we have the bug! let's try to find a better context to use
+      if (!contextHasBug(reactContext.getCurrentActivity())) {
+        superContext = reactContext.getCurrentActivity();
+      } else if (!contextHasBug(reactContext.getApplicationContext())) {
+        superContext = reactContext.getApplicationContext();
+      } else {
+        // ¯\_(ツ)_/¯
+      }
+    }
+    return superContext;
+  }
+
+  private static boolean contextHasBug(Context context) {
+    return context == null ||
+      context.getResources() == null ||
+      context.getResources().getConfiguration() == null;
+  }
+
 }
