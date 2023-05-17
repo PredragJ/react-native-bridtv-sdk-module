@@ -23,6 +23,8 @@
 		AA0252022A03CD160033CCC2 /* BridtvSdkModuleViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BridtvSdkModuleViewManager.m; sourceTree = "<group>"; };
 		AA0252032A03CDB00033CCC2 /* BridPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BridPlayer.m; sourceTree = "<group>"; };
 		AA0252042A03CDB00033CCC2 /* BridPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridPlayer.h; sourceTree = "<group>"; };
+		AA671DE82A14A74F00D4FD0D /* BridtvSdkModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridtvSdkModule.h; sourceTree = "<group>"; };
+		AA671DE92A14A75E00D4FD0D /* BridtvSdkModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BridtvSdkModule.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +49,8 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				AA671DE82A14A74F00D4FD0D /* BridtvSdkModule.h */,
+				AA671DE92A14A75E00D4FD0D /* BridtvSdkModule.m */,
 				AA0252042A03CDB00033CCC2 /* BridPlayer.h */,
 				AA0252032A03CDB00033CCC2 /* BridPlayer.m */,
 				AA0252022A03CD160033CCC2 /* BridtvSdkModuleViewManager.m */,

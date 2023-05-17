@@ -4,21 +4,16 @@
 #import <UIKit/UIKit.h>
 #import <React/RCTLog.h>
 #import <React/RCTEventEmitter.h>
-#import <React/RCTBridgeModule.h>
+#import "BridtvSdkModule.h"
 
-@interface BridtvSdkModuleViewManager : RCTViewManager <RCTBridgeModule>
-
-@property RCTEventEmitter *emmiter;
-@property RCTCallableJSModules *modulJS;
+@interface BridtvSdkModuleViewManager : RCTViewManager
 
 @end
 
 @implementation BridtvSdkModuleViewManager
 
-@synthesize emmiter;
-@synthesize modulJS;
-
 NSString *eventName;
+//BridtvSdkModule *module;
 
 RCT_EXPORT_MODULE(BridtvSdkModuleView)
 
@@ -27,23 +22,15 @@ BridPlayer *player;
 - (UIView *)view
 {
     player = [[BridPlayer alloc] init];
-    emmiter = [[RCTEventEmitter alloc] init];
-    modulJS = [[RCTCallableJSModules alloc] init];
-    [emmiter setCallableJSModules:modulJS];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerEventReceived:) name:@"PlayerEvent" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerEventReceived:) name:@"AdEvent" object:nil];
     return player;
 }
 
 RCT_EXPORT_VIEW_PROPERTY(bridPlayerConfig, NSDictionary);
-
 RCT_EXPORT_VIEW_PROPERTY(playerID, NSNumber);
 RCT_EXPORT_VIEW_PROPERTY(mediaID, NSNumber);
 RCT_EXPORT_VIEW_PROPERTY(typeOfPlayer, NSString);
 RCT_EXPORT_VIEW_PROPERTY(useVPAIDSupport, BOOL);
 RCT_EXPORT_VIEW_PROPERTY(setFullscreen, BOOL);
-
-
 
 RCT_EXPORT_METHOD(pause:(nonnull NSNumber *)reactTag) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
@@ -120,14 +107,6 @@ RCT_REMAP_METHOD(isMuted_resolver,
             resolve(isMuted);
         }
     }];
-}
-
-- (void)playerEventReceived:(NSNotification *)notification
-{
-    eventName = notification.userInfo[@"PlayerEvent"];
-    eventName = notification.userInfo[@"AdEvent"];
-//    [self.emmiter sendEventWithName:@"BridPlayerEvents" body:@{@"name": @"PRC"}];
-
 }
 
 @end
