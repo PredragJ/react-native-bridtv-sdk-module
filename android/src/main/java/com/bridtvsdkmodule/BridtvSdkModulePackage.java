@@ -19,6 +19,6 @@ public class BridtvSdkModulePackage implements ReactPackage {
 
   @Override
   public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-    return Arrays.<ViewManager>asList(new BridtvSdkModuleViewManager());
+    return Arrays.<ViewManager>asList(new BridtvSdkModuleViewManager(reactContext));
   }
 }
