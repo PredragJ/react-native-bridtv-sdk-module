@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import {
   requireNativeComponent,
   UIManager,
@@ -17,34 +17,34 @@ const BridtvSdkManager =
     ? NativeModules.BridtvSdkModule
     : NativeModules.BridtvSdkModule;
 
-  const BridPlayerEventsIos = {
-      videoAdStart: "",
-      videoLoad:"",
-      videoProgress: "",
-      videoSeek: "",
-      videoEnd: "",
-      videoError: "",
-      videoAdProgress: "",
-      videoAdEnd: "",
-      videoAdTapped: "",
-      videoAdSkipped: "",
-    };
+const BridPlayerEventsIos = {
+  videoAdStart: 'adStarted',
+  videoLoad: 'playerVideoInitialized',
+  videoProgress: '',
+  videoSeek: 'playerSliderValueChanged',
+  videoEnd: 'playerStop',
+  videoError: 'playerVideoError',
+  videoAdProgress: '',
+  videoAdEnd: 'adComplete',
+  videoAdTapped: 'adTapped',
+  videoAdSkipped: 'adSkipped',
+};
 
-  const BridPlayerEventsAndroid = {
+const BridPlayerEventsAndroid = {
       videoAdStart: "ad started",
       videoLoad:"video loaded",
-      videoProgress: "",
-      videoSeek: "",
-      videoEnd: "",
-      videoError: "",
-      videoAdProgress: "",
-      videoAdEnd: "",
-      videoAdTapped: "",
-      videoAdSkipped: "",
+      videoProgress: "video progress",
+      videoSeek: "video seek",
+      videoEnd: "video end",
+      videoError: "video error",
+      videoAdProgress: "ad progress",
+      videoAdEnd: "video ad end",
+      videoAdTapped: "ad tapped",
+      videoAdSkipped: "ad skipped",
   };
 
-    //onPlayerStateChange 
-    //onFullscreenChange 
+//onPlayerStateChange
+//onFullscreenChange
 var RNBridPlayer = requireNativeComponent<BridtvSdkModuleProps>(ComponentName);
 
 type BridtvSdkModuleProps = {
@@ -52,6 +52,14 @@ type BridtvSdkModuleProps = {
   bridPlayerConfig?: BridPlayerConfig;
   handleVideoLoad(): void;
   handleVideoStart(): void;
+  handleAdProgress(): void;
+  handleVideoAdTapped(): void;
+  handleVideoAdSkiped(): void;
+  handleVideoAdEnd(): void;
+  handleVideoProgress(): void;
+  handleVideoEnd(): void;
+  handleVideoSeek(): void;
+  handleVideoError(): void;
   setPlayerState: (newValue: string) => void;
 };
 
@@ -64,10 +72,7 @@ interface BridPlayerConfig {
 }
 
 export const BridPlayerEvents =
-	Platform.OS === 'ios' ? BridPlayerEventsIos : BridPlayerEventsAndroid;
-
- 
-  
+  Platform.OS === 'ios' ? BridPlayerEventsIos : BridPlayerEventsAndroid;
 
 export default interface BridPlayer
   extends React.Component<BridtvSdkModuleProps> {
@@ -90,11 +95,17 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     super(props);
     this.onVideoLoad(props.handleVideoLoad);
     this.onVideoAdStart(props.handleVideoStart);
+    this.onVideoAdProgress(props.handleAdProgress);
+    this.onVideoAdTapped(props.handleVideoAdTapped);
+    this.onVideoAdSkiped(props.handleVideoAdSkiped);
+    this.onVideoAdEnd(props.handleVideoAdEnd);
+    this.onVideoEnd(props.handleVideoEnd);
+    this.onVideoSeek(props.handleVideoSeek);
+    this.onVideoError(props.handleVideoError);
     this.props.setPlayerState('Initial state');
     // this._playerId = playerId++;
     // this.ref_key = `${RN_BRID_PLAYER_KEY}-${this._playerId}`;
   }
-
 
   componentDidMount() {
     this.eventListener = this.eventEmitter.addListener(
@@ -103,7 +114,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
         // console.log(event);
         this.handleBridPlayerEvent(
           Platform.OS === 'ios' ? event.name : event.message
-          );
+        );
       }
     );
   }
