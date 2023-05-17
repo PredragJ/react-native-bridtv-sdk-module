@@ -17,6 +17,34 @@ const BridtvSdkManager =
     ? NativeModules.BridtvSdkModule
     : NativeModules.BridtvSdkModule;
 
+  const BridPlayerEventsIos = {
+      videoAdStart: "",
+      videoLoad:"",
+      videoProgress: "",
+      videoSeek: "",
+      videoEnd: "",
+      videoError: "",
+      videoAdProgress: "",
+      videoAdEnd: "",
+      videoAdTapped: "",
+      videoAdSkipped: "",
+    };
+
+  const BridPlayerEventsAndroid = {
+      videoAdStart: "ad started",
+      videoLoad:"video loaded",
+      videoProgress: "",
+      videoSeek: "",
+      videoEnd: "",
+      videoError: "",
+      videoAdProgress: "",
+      videoAdEnd: "",
+      videoAdTapped: "",
+      videoAdSkipped: "",
+  };
+
+    //onPlayerStateChange 
+    //onFullscreenChange 
 var RNBridPlayer = requireNativeComponent<BridtvSdkModuleProps>(ComponentName);
 
 type BridtvSdkModuleProps = {
@@ -34,6 +62,12 @@ interface BridPlayerConfig {
   useVPAIDSupport?: boolean;
   setFullscreen?: boolean;
 }
+
+export const BridPlayerEvents =
+	Platform.OS === 'ios' ? BridPlayerEventsIos : BridPlayerEventsAndroid;
+
+ 
+  
 
 export default interface BridPlayer
   extends React.Component<BridtvSdkModuleProps> {
@@ -61,8 +95,26 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     // this.ref_key = `${RN_BRID_PLAYER_KEY}-${this._playerId}`;
   }
 
+
+  componentDidMount() {
+    this.eventListener = this.eventEmitter.addListener(
+      'BridPlayerEvents',
+      (event) => {
+        // console.log(event);
+        this.handleBridPlayerEvent(
+          Platform.OS === 'ios' ? event.name : event.message
+          );
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.eventEmitter.removeAllListeners('BridPlayerEvents');
+    // this.eventListener.removeListeners();
+    //removes the listener
+  }
+
   handleBridPlayerEvent = (eventData: any) => {
-    console.log(eventData);
     const callBack = this.listeners.get(eventData);
 
     if (callBack) {
@@ -78,28 +130,44 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   };
 
   onVideoLoad = (handler: () => void) => {
-    console.log('this is not called');
-    this.registedListener('playerMuteVideo', handler);
+    this.registedListener(BridPlayerEvents.videoLoad, handler);
   };
 
   onVideoAdStart = (handler: () => void) => {
-    this.registedListener('adLoaded', handler);
+    this.registedListener(BridPlayerEvents.videoAdStart, handler);
   };
 
-  componentDidMount() {
-    this.eventListener = this.eventEmitter.addListener(
-      'BridPlayerEvents',
-      (event) => {
-        this.handleBridPlayerEvent(event.name);
-      }
-    );
-  }
+  onVideoProgress = (handler: () => void) => {
+    this.registedListener(BridPlayerEvents.videoProgress, handler);
+  };
 
-  componentWillUnmount() {
-    this.eventEmitter.removeAllListeners('BridPlayerEvents');
-    // this.eventListener.removeListeners();
-    //removes the listener
-  }
+  onVideoSeek = (handler: () => void) => {
+    this.registedListener(BridPlayerEvents.videoSeek, handler);
+  };
+
+  onVideoEnd = (handler: () => void) => {
+    this.registedListener(BridPlayerEvents.videoEnd, handler);
+  };
+
+  onVideoError = (handler: () => void) => {
+    this.registedListener(BridPlayerEvents.videoError, handler);
+  };
+
+  onVideoAdProgress = (handler: () => void) => {
+    this.registedListener(BridPlayerEvents.videoAdProgress, handler);
+  };
+
+  onVideoAdTapped = (handler: () => void) => {
+    this.registedListener(BridPlayerEvents.videoAdTapped, handler);
+  };
+
+  onVideoAdSkiped = (handler: () => void) => {
+    this.registedListener(BridPlayerEvents.videoAdSkipped, handler);
+  };
+
+  onVideoAdEnd = (handler: () => void) => {
+    this.registedListener(BridPlayerEvents.videoAdEnd, handler);
+  };
 
   play() {
     UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'play', []);
