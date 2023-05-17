@@ -17,20 +17,20 @@ const BridtvSdkManager =
     ? NativeModules.BridtvSdkModule
     : NativeModules.BridtvSdkModule;
 
-  const BridPlayerEventsIos = {
-      videoAdStart: "",
-      videoLoad:"",
-      videoProgress: "",
-      videoSeek: "",
-      videoEnd: "",
-      videoError: "",
-      videoAdProgress: "",
-      videoAdEnd: "",
-      videoAdTapped: "",
-      videoAdSkipped: "",
-    };
+const BridPlayerEventsIos = {
+  videoAdStart: 'adStarted',
+  videoLoad: 'playerVideoInitialized',
+  videoProgress: '',
+  videoSeek: 'playerSliderValueChanged',
+  videoEnd: 'playerStop',
+  videoError: 'playerVideoError',
+  videoAdProgress: '',
+  videoAdEnd: 'adComplete',
+  videoAdTapped: 'adTapped',
+  videoAdSkipped: 'adSkipped',
+};
 
-  const BridPlayerEventsAndroid = {
+const BridPlayerEventsAndroid = {
       videoAdStart: "ad started",
       videoLoad:"video loaded",
       videoProgress: "video progress",
@@ -43,8 +43,8 @@ const BridtvSdkManager =
       videoAdSkipped: "ad skipped",
   };
 
-    //onPlayerStateChange 
-    //onFullscreenChange 
+//onPlayerStateChange
+//onFullscreenChange
 var RNBridPlayer = requireNativeComponent<BridtvSdkModuleProps>(ComponentName);
 
 type BridtvSdkModuleProps = {
@@ -72,10 +72,7 @@ interface BridPlayerConfig {
 }
 
 export const BridPlayerEvents =
-	Platform.OS === 'ios' ? BridPlayerEventsIos : BridPlayerEventsAndroid;
-
- 
-  
+  Platform.OS === 'ios' ? BridPlayerEventsIos : BridPlayerEventsAndroid;
 
 export default interface BridPlayer
   extends React.Component<BridtvSdkModuleProps> {
@@ -110,7 +107,6 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     // this.ref_key = `${RN_BRID_PLAYER_KEY}-${this._playerId}`;
   }
 
-
   componentDidMount() {
     this.eventListener = this.eventEmitter.addListener(
       'BridPlayerEvents',
@@ -118,7 +114,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
         // console.log(event);
         this.handleBridPlayerEvent(
           Platform.OS === 'ios' ? event.name : event.message
-          );
+        );
       }
     );
   }
