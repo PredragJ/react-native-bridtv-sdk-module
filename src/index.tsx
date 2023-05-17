@@ -23,7 +23,7 @@ const BridPlayerEventsIos = {
   videoProgress: '',
   videoSeek: 'playerSliderValueChanged',
   videoEnd: 'playerStop',
-  videoError: '',
+  videoError: 'playerVideoError',
   videoAdProgress: '',
   videoAdEnd: 'adComplete',
   videoAdTapped: 'adTapped',
