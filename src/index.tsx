@@ -21,6 +21,7 @@ const BridtvSdkManager =
       videoAdStart: "",
       videoLoad:"",
       videoProgress: "",
+      videoPaused:"",
       videoSeek: "",
       videoEnd: "",
       videoError: "",
@@ -31,16 +32,17 @@ const BridtvSdkManager =
     };
 
   const BridPlayerEventsAndroid = {
-      videoAdStart: "ad started",
-      videoLoad:"video loaded",
-      videoProgress: "video progress",
-      videoSeek: "video seek",
-      videoEnd: "video end",
-      videoError: "video error",
-      videoAdProgress: "ad progress",
-      videoAdEnd: "video ad end",
-      videoAdTapped: "ad tapped",
-      videoAdSkipped: "ad skipped",
+      videoAdStart: "ad_started",
+      videoLoad:"video_loaded",
+      videoProgress: "video_progress",
+      videoPaused: "video_paused",
+      videoSeek: "video_seek",
+      videoEnd: "video_ended",
+      videoError: "video_error",
+      videoAdProgress: "ad_progress",
+      videoAdEnd: "video_ad_end",
+      videoAdTapped: "ad_tapped",
+      videoAdSkipped: "ad_skipped",
   };
 
     //onPlayerStateChange 
@@ -57,6 +59,7 @@ type BridtvSdkModuleProps = {
   handleVideoAdSkiped(): void;
   handleVideoAdEnd(): void;
   handleVideoProgress(): void;
+  handleVideoPaused(): void;
   handleVideoEnd(): void;
   handleVideoSeek(): void;
   handleVideoError(): void;
@@ -101,6 +104,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     this.onVideoAdProgress(props.handleAdProgress);
     this.onVideoAdTapped(props.handleVideoAdTapped);
     this.onVideoAdSkiped(props.handleVideoAdSkiped);
+    this.onVideoPaused(props.handleVideoPaused)
     this.onVideoAdEnd(props.handleVideoAdEnd);
     this.onVideoEnd(props.handleVideoEnd);
     this.onVideoSeek(props.handleVideoSeek);
@@ -163,6 +167,10 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   onVideoEnd = (handler: () => void) => {
     this.registedListener(BridPlayerEvents.videoEnd, handler);
   };
+
+  onVideoPaused = (handler: () => void) => {
+    this.registedListener(BridPlayerEvents.videoPaused, handler);
+  }
 
   onVideoError = (handler: () => void) => {
     this.registedListener(BridPlayerEvents.videoError, handler);
