@@ -82,14 +82,15 @@ export default interface BridPlayer
   loadPlaylist(playerID: number, mediaID: number): void;
   getPlayerCurrentTime(): Promise<number | null>;
 }
-// let playerId = 0;
-// const RN_BRID_PLAYER_KEY = 'RnBridPlayerKey';
+let playerId = 0;
+const RN_BRID_PLAYER_KEY = 'RnBridPlayerKey';
 
 export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   eventListener: any;
   eventEmitter = new NativeEventEmitter(BridtvSdkManager);
 
   listeners: Map<string, () => void> = new Map();
+  ref_key: string;
 
   constructor(props: BridtvSdkModuleProps) {
     super(props);
@@ -103,8 +104,10 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     this.onVideoSeek(props.handleVideoSeek);
     this.onVideoError(props.handleVideoError);
     this.props.setPlayerState('Initial state');
-    // this._playerId = playerId++;
-    // this.ref_key = `${RN_BRID_PLAYER_KEY}-${this._playerId}`;
+    this._playerId = ++playerId;
+    this.ref_key = `${RN_BRID_PLAYER_KEY}-${this._playerId}`;
+
+    console.log(this.ref_key);
   }
 
   componentDidMount() {
