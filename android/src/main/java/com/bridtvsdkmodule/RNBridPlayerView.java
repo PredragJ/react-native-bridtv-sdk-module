@@ -1,5 +1,6 @@
 package com.bridtvsdkmodule;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
@@ -7,7 +8,9 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,6 +23,9 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
+import com.facebook.react.views.scroll.ReactScrollView;
+import com.facebook.react.views.text.ReactTextView;
+import com.facebook.react.views.view.ReactViewGroup;
 
 import tv.brid.sdk.api.BridPlayer;
 import tv.brid.sdk.api.BridPlayerBuilder;
@@ -35,6 +41,7 @@ class RNBridPlayerView extends FrameLayout {
     private ReactApplicationContext mAppContext;
     private ReactActivity mActivity;
     private ViewGroup mRootView;
+    private RNBridPlayerView mPlayerView;
 
 
   public RNBridPlayerView(@NonNull Context context) {
@@ -46,13 +53,13 @@ class RNBridPlayerView extends FrameLayout {
 
   public RNBridPlayerView(@NonNull ThemedReactContext context, ReactApplicationContext reactApplicationContext) {
     super(getNonBuggyContext(context, reactApplicationContext));
+    mRootView = this;
     mAppContext = reactApplicationContext;
     mThemedReactContext = context;
     mActivity = (ReactActivity) context.getReactApplicationContext().getCurrentActivity();
     mRootView = mActivity.findViewById(android.R.id.content);
 
-
-    init(context);
+    init(context.getReactApplicationContext().getCurrentActivity());
   }
 
 
@@ -79,10 +86,18 @@ class RNBridPlayerView extends FrameLayout {
     }
 
     private void init(Context context) {
+
+        this.setFocusable(true);
+        this.setFocusableInTouchMode(true);
+
+        setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        this.setLayoutParams(new LinearLayout.LayoutParams(
+          LinearLayout.LayoutParams.MATCH_PARENT,
+          LinearLayout.LayoutParams.MATCH_PARENT));
+
+
         bridPlayerBuilder =  new BridPlayerBuilder(context, RNBridPlayerView.this);
         bridPlayer = bridPlayerBuilder.build();
-        View v = bridPlayer.getPlayerView(true);
-        v.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
     public void setPlayerId(int playerId, int videoId){
@@ -92,6 +107,7 @@ class RNBridPlayerView extends FrameLayout {
         return this;
     }
 
+
     public BridPlayer getBridPlayer() {
         return bridPlayer;
     }
@@ -100,9 +116,10 @@ class RNBridPlayerView extends FrameLayout {
     if (bridPlayer != null) {
       bridPlayerBuilder.useVpaidSupport(vpaidSupport);
       bridPlayerBuilder.fullscreen(isFullscreen);
+      bridPlayerBuilder.mute();
       bridPlayer = bridPlayerBuilder.rebuild();
       bridPlayer.loadVideo(playerId, videoId);
-      bridPlayer.showControls();
+
     }
   }
 
@@ -125,9 +142,11 @@ class RNBridPlayerView extends FrameLayout {
          bridPlayer.play();
   }
 
-  public void pause(){
-    if(bridPlayer != null)
+  public void pause() {
+    if (bridPlayer != null)
       bridPlayer.pause();
+
+
   }
   public void destroyPlayer(){
     if(bridPlayer != null)
@@ -184,8 +203,6 @@ class RNBridPlayerView extends FrameLayout {
         superContext = reactContext.getCurrentActivity();
       } else if (!contextHasBug(reactContext.getApplicationContext())) {
         superContext = reactContext.getApplicationContext();
-      } else {
-        // ¯\_(ツ)_/¯
       }
     }
     return superContext;
@@ -197,4 +214,30 @@ class RNBridPlayerView extends FrameLayout {
       context.getResources().getConfiguration() == null;
   }
 
+
+  public void onFullscreenCloseRequested() {
+
+
+  }
+
+
+  @Override
+  public void requestLayout() {
+    super.requestLayout();
+
+    // The spinner relies on a measure + layout pass happening after it calls requestLayout().
+    // Without this, the widget never actually changes the selection and doesn't call the
+    // appropriate listeners. Since we override onLayout in our ViewGroups, a layout pass never
+    // happens after a call to requestLayout, so we simulate one here.
+    post(measureAndLayout);
+  }
+
+  private final Runnable measureAndLayout = new Runnable() {
+    @Override
+    public void run() {
+      measure(MeasureSpec.makeMeasureSpec(getWidth(), MeasureSpec.EXACTLY),
+        MeasureSpec.makeMeasureSpec(getHeight(), MeasureSpec.EXACTLY));
+      layout(getLeft(), getTop(), getRight(), getBottom());
+    }
+  };
 }

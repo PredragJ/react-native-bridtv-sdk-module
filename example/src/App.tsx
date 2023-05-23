@@ -12,10 +12,14 @@ import BridPlayer from 'react-native-bridtv-sdk-module';
 
 const App = () => {
   const bridPlayerRef = React.useRef<BridPlayer>(null);
-  const [playerState, setPlayerState] = React.useState<string>('');
+  const [playerState, setPlayerState] = React.useState<{ message: string }[]>(
+    []
+  );
+  const bridPlayerRef2 = React.useRef<BridPlayer>(null);
+  const bridPlayerRef3 = React.useRef<BridPlayer>(null);
 
   const updatePlayerState = (newValue: string) => {
-    setPlayerState(newValue);
+    setPlayerState((prevState) => [...prevState, { message: newValue }]);
   };
 
   const handleVideoLoad = () => {
@@ -24,6 +28,10 @@ const App = () => {
 
   const handleVideoAdStart = () => {
     console.log('AD STARTED');
+  };
+
+  const handeVideoPause = () => {
+    console.log('VIDEO PAUSED');
   };
 
   const handleVideoProgress = () => {
@@ -61,14 +69,14 @@ const App = () => {
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-        <View style={[styles.container, { alignItems: 'flex-start' }]}>
+        <View style={[styles.container]}>
           <BridPlayer
             ref={bridPlayerRef}
             setPlayerState={updatePlayerState}
             style={styles.square}
             bridPlayerConfig={{
-              playerID: 1, // PlayerID from BridTV cms
-              mediaID: 1, //VideoID or PlaylistID from BridTv cms
+              playerID: 39437, // PlayerID from BridTV cms
+              mediaID: 1248134, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
             handleVideoLoad={handleVideoLoad}
@@ -81,6 +89,51 @@ const App = () => {
             handleVideoEnd={handleVideoEnd}
             handleVideoError={handleVideoError}
             handleVideoSeek={handleVideoSeek}
+            handleVideoPaused={handeVideoPause}
+          />
+
+          <BridPlayer
+            ref={bridPlayerRef2}
+            setPlayerState={updatePlayerState}
+            style={styles.square}
+            bridPlayerConfig={{
+              playerID: 39118, // PlayerID from BridTV cms
+              mediaID: 1248130, //VideoID or PlaylistID from BridTv cms
+              typeOfPlayer: 'Single', // Single or Playlist
+            }}
+            handleVideoLoad={handleVideoLoad}
+            handleVideoStart={handleVideoAdStart}
+            handleAdProgress={handleVideoAdProgress}
+            handleVideoAdTapped={handleVideoAdTapped}
+            handleVideoAdSkiped={handleVideoAdSkiped}
+            handleVideoAdEnd={handleVideoAdEnd}
+            handleVideoProgress={handleVideoProgress}
+            handleVideoEnd={handleVideoEnd}
+            handleVideoError={handleVideoError}
+            handleVideoSeek={handleVideoSeek}
+            handleVideoPaused={handeVideoPause}
+          />
+
+          <BridPlayer
+            ref={bridPlayerRef3}
+            setPlayerState={updatePlayerState}
+            style={styles.square}
+            bridPlayerConfig={{
+              playerID: 39437, // PlayerID from BridTV cms
+              mediaID: 1248134, //VideoID or PlaylistID from BridTv cms
+              typeOfPlayer: 'Single', // Single or Playlist
+            }}
+            handleVideoLoad={handleVideoLoad}
+            handleVideoStart={handleVideoAdStart}
+            handleAdProgress={handleVideoAdProgress}
+            handleVideoAdTapped={handleVideoAdTapped}
+            handleVideoAdSkiped={handleVideoAdSkiped}
+            handleVideoAdEnd={handleVideoAdEnd}
+            handleVideoProgress={handleVideoProgress}
+            handleVideoEnd={handleVideoEnd}
+            handleVideoError={handleVideoError}
+            handleVideoSeek={handleVideoSeek}
+            handleVideoPaused={handeVideoPause}
             // onVideoAdStart={e => alert(e.nativeEvent?.error || 'Player Error.')}
           />
           <View style={styles.buttonContainer}>
@@ -91,20 +144,27 @@ const App = () => {
 
             <Button
               title="Play"
-              onPress={() => bridPlayerRef.current?.play()}
+              onPress={() => bridPlayerRef3.current?.play()}
             />
 
             <Button
               title="Pause"
-              onPress={() => bridPlayerRef.current?.pause()}
+              onPress={() => bridPlayerRef2.current?.pause()}
             />
 
             <Button
               title="Next"
-              onPress={() => bridPlayerRef.current?.pause()}
+              onPress={() => bridPlayerRef.current?.setFullscreen(true)}
             />
           </View>
-          <Text>{playerState}</Text>
+          <Text style={{ textAlign: 'center', margin: 20 }}>
+            {playerState.map((event, index) => (
+              <Text key={index}>
+                {event.message}
+                {'\n'}
+              </Text>
+            ))}
+          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -113,14 +173,13 @@ const App = () => {
 
 const styles = StyleSheet.create({
   scrollViewContainer: {
-    flexGrow: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
   },
   container: {
     flex: 1,
-    alignItems: 'flex-start',
-    paddingTop: 20,
-    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingTop: 50,
+    justifyContent: 'center',
   },
   box: {
     width: 60,
@@ -134,8 +193,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   square: {
-    height: 222,
-    width: '100%',
+    height: 213,
+    width: 380,
   },
   buttonContainer: {
     borderRadius: 10,
