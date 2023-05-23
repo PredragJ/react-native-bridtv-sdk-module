@@ -26,6 +26,11 @@ RCT_EXPORT_MODULE(BridtvSdkModule);
     return self;
 }
 
++ (BOOL)requiresMainQueueSetup
+{
+    return YES;
+}
+
 -(void)startObserving {
     hasListeners = YES;
 }
