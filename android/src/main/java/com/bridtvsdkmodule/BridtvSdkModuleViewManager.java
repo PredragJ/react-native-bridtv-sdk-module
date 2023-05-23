@@ -30,6 +30,8 @@ import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
 
+import javax.annotation.Nonnull;
+
 import tv.brid.sdk.api.BridPlayer;
 import tv.brid.sdk.api.BridPlayerBuilder;
 import tv.brid.sdk.player.BridPlayerListener;
@@ -37,7 +39,7 @@ import tv.brid.sdk.player.PlayerEvents;
 
 public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerView> {
   public static final String REACT_CLASS = "BridtvSdkModuleView";
-  public View mRootView;
+  public ViewGroup mRootView;
   public FrameLayout frameLayout;
   public Activity mActivity;
   public ViewGroup mPlayerViewContainer;
@@ -246,10 +248,27 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
             sendEvent(mReactContext, "BridPlayerEvents", event);
 
             break;
+
+          case PlayerEvents.EVENT_FULLSCREEN_OPEN_REQUESTED:
+            event.putString("message", "fullscreen open");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+
+            break;
+
+          case PlayerEvents.EVENT_FULLSCREEN_CLOSE_REQUESTED:
+            event.putString("message", "fullscreen close");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+            onFullscreenCloseRequested();
+            break;
         }
 
       }
     };
+  }
+
+  private void onFullscreenCloseRequested() {
+    rnBridPlayerView.onFullscreenCloseRequested();
+
   }
 
   private void sendEvent(ReactContext reactContext,
@@ -259,4 +278,11 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
       .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
       .emit(eventName, params);
   }
+  @Override
+  public void onDropViewInstance(@Nonnull RNBridPlayerView view) {
+    view.destroyPlayer();
+    super.onDropViewInstance(view);
+    view = null;
+  }
+
 }

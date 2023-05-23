@@ -21,7 +21,7 @@ const App = () => {
   const handleVideoLoad = () => {
     console.log('VIDEO LOADED');
   };
-  
+
   const handleVideoAdStart = () => {
     console.log('AD STARTED');
   };
@@ -33,31 +33,31 @@ const App = () => {
   const handleVideoProgress = () => {
     console.log('VIDEO PROGRESS');
   };
-  
+
   const handleVideoSeek = () => {
     console.log('VIDEO SEEK');
   };
-  
+
   const handleVideoEnd = () => {
     console.log('VIDEO END');
   };
-  
+
   const handleVideoError = () => {
     console.log('VIDEO ERROR');
   };
-  
+
   const handleVideoAdProgress = () => {
     console.log('AD PROGRESS');
   };
-  
+
   const handleVideoAdEnd = () => {
     console.log('AD END');
   };
-  
+
   const handleVideoAdTapped = () => {
     console.log('AD TAPPED');
   };
-  
+
   const handleVideoAdSkiped = () => {
     console.log('AD SKIPPED');
   };
@@ -65,14 +65,59 @@ const App = () => {
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-        <View style={[styles.container, { alignItems: 'flex-start' }]}>
+        <View style={[styles.container]}>
           <BridPlayer
             ref={bridPlayerRef}
             setPlayerState={updatePlayerState}
             style={styles.square}
             bridPlayerConfig={{
-              playerID: 36872, // PlayerID from BridTV cms
-              mediaID: 511771, //VideoID or PlaylistID from BridTv cms
+              playerID: 39437, // PlayerID from BridTV cms
+              mediaID: 1248134, //VideoID or PlaylistID from BridTv cms
+              typeOfPlayer: 'Single', // Single or Playlist
+            }}
+            handleVideoLoad={handleVideoLoad}
+            handleVideoStart={handleVideoAdStart}
+            handleAdProgress={handleVideoAdProgress}
+            handleVideoAdTapped={handleVideoAdTapped}
+            handleVideoAdSkiped={handleVideoAdSkiped}
+            handleVideoAdEnd={handleVideoAdEnd}
+            handleVideoProgress={handleVideoProgress}
+            handleVideoEnd={handleVideoEnd}
+            handleVideoError={handleVideoError}
+            handleVideoSeek={handleVideoSeek}
+            // onVideoAdStart={e => alert(e.nativeEvent?.error || 'Player Error.')}
+          />
+
+          <BridPlayer
+            ref={bridPlayerRef}
+            setPlayerState={updatePlayerState}
+            style={styles.square}
+            bridPlayerConfig={{
+              playerID: 39118, // PlayerID from BridTV cms
+              mediaID: 1248130, //VideoID or PlaylistID from BridTv cms
+              typeOfPlayer: 'Single', // Single or Playlist
+            }}
+            handleVideoLoad={handleVideoLoad}
+            handleVideoStart={handleVideoAdStart}
+            handleAdProgress={handleVideoAdProgress}
+            handleVideoAdTapped={handleVideoAdTapped}
+            handleVideoAdSkiped={handleVideoAdSkiped}
+            handleVideoAdEnd={handleVideoAdEnd}
+            handleVideoProgress={handleVideoProgress}
+            handleVideoEnd={handleVideoEnd}
+            handleVideoError={handleVideoError}
+            handleVideoSeek={handleVideoSeek}
+            // onVideoAdStart={e => alert(e.nativeEvent?.error || 'Player Error.')}
+          />
+
+
+           <BridPlayer
+            ref={bridPlayerRef}
+            setPlayerState={updatePlayerState}
+            style={styles.square}
+            bridPlayerConfig={{
+              playerID: 39437, // PlayerID from BridTV cms
+              mediaID: 1248134, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
             handleVideoLoad={handleVideoLoad}
@@ -106,7 +151,7 @@ const App = () => {
 
             <Button
               title="Next"
-              onPress={() => bridPlayerRef.current?.pause()}
+              onPress={() => bridPlayerRef.current?.setFullscreen(true)}
             />
           </View>
           <Text style={{ textAlign: 'center', margin: 20 }}>
@@ -125,14 +170,14 @@ const App = () => {
 
 const styles = StyleSheet.create({
   scrollViewContainer: {
-    flexGrow: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
   },
   container: {
     flex: 1,
-    alignItems: 'flex-start',
-    paddingTop: 20,
-    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingTop: 50,
+    justifyContent: 'center',
+
   },
   box: {
     width: 60,
@@ -146,8 +191,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   square: {
-    height: 222,
-    width: '100%',
+    height: 213,
+    width: 380  ,
   },
   buttonContainer: {
     borderRadius: 10,
