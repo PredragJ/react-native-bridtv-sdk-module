@@ -12,10 +12,10 @@ import BridPlayer from 'react-native-bridtv-sdk-module';
 
 const App = () => {
   const bridPlayerRef = React.useRef<BridPlayer>(null);
-  const [playerState, setPlayerState] = React.useState<string>('');
+  const [playerState, setPlayerState] = React.useState<{ message: string }[]>([]);
 
   const updatePlayerState = (newValue: string) => {
-    setPlayerState(newValue);
+    setPlayerState(prevState => [...prevState, { message: newValue }]);
   };
 
   const handleVideoLoad = () => {
@@ -25,6 +25,10 @@ const App = () => {
   const handleVideoAdStart = () => {
     console.log('AD STARTED');
   };
+  
+  const handeVideoPause = () => {
+    console.log('VIDEO PAUSED');
+  }
 
   const handleVideoProgress = () => {
     console.log('VIDEO PROGRESS');
@@ -126,6 +130,7 @@ const App = () => {
             handleVideoEnd={handleVideoEnd}
             handleVideoError={handleVideoError}
             handleVideoSeek={handleVideoSeek}
+            handleVideoPaused={handeVideoPause}
             // onVideoAdStart={e => alert(e.nativeEvent?.error || 'Player Error.')}
           />
           <View style={styles.buttonContainer}>
@@ -149,7 +154,14 @@ const App = () => {
               onPress={() => bridPlayerRef.current?.setFullscreen(true)}
             />
           </View>
-          <Text>{playerState}</Text>
+          <Text style={{ textAlign: 'center', margin: 20 }}>
+          {playerState.map((event, index) => (
+            <Text key={index}>
+              {event.message}
+              {'\n'}
+            </Text>
+          ))}
+        </Text>
         </View>
       </ScrollView>
     </SafeAreaView>

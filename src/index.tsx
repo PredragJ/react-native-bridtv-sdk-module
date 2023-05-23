@@ -17,31 +17,32 @@ const BridtvSdkManager =
     ? NativeModules.BridtvSdkModule
     : NativeModules.BridtvSdkModule;
 
-const BridPlayerEventsIos = {
-  videoAdStart: 'adStarted',
-  videoLoad: 'playerVideoInitialized',
-  videoProgress: '',
-  videoSeek: 'playerSliderValueChanged',
-  videoEnd: 'playerStop',
-  videoError: 'playerVideoError',
-  videoAdProgress: '',
-  videoAdEnd: 'adComplete',
-  videoAdTapped: 'adTapped',
-  videoAdSkipped: 'adSkipped',
-};
+  const BridPlayerEventsIos = {
+      videoAdStart: 'adStarted',
+      videoLoad: 'playerVideoInitialized',
+      videoProgress: '',
+      videoSeek: 'playerSliderValueChanged',
+      videoEnd: 'playerStop',
+      videoError: 'playerVideoError',
+      videoAdProgress: '',
+      videoAdEnd: 'adComplete',
+      videoAdTapped: 'adTapped',
+      videoAdSkipped: 'adSkipped',
+      videoPaused:"",
+    };
 
-const BridPlayerEventsAndroid = {
-      videoAdStart: "ad started",
-      videoLoad:"video loaded",
-      videoProgress: "video progress",
-      videoSeek: "video seek",
-      videoEnd: "video end",
-      videoError: "video error",
-      videoAdProgress: "ad progress",
-      videoAdEnd: "video ad end",
-      videoAdTapped: "ad tapped",
-      videoAdSkipped: "ad skipped",
-  };
+  const BridPlayerEventsAndroid = {
+      videoAdStart: "ad_started",
+      videoLoad:"video_loaded",
+      videoProgress: "video_progress",
+      videoPaused: "video_paused",
+      videoSeek: "video_seek",
+      videoEnd: "video_ended",
+      videoError: "video_error",
+      videoAdProgress: "ad_progress",
+      videoAdEnd: "video_ad_end",
+      videoAdTapped: "ad_tapped",
+      videoAdSkipped: "ad_skipped",
 
 //onPlayerStateChange
 //onFullscreenChange
@@ -57,6 +58,7 @@ type BridtvSdkModuleProps = {
   handleVideoAdSkiped(): void;
   handleVideoAdEnd(): void;
   handleVideoProgress(): void;
+  handleVideoPaused(): void;
   handleVideoEnd(): void;
   handleVideoSeek(): void;
   handleVideoError(): void;
@@ -99,6 +101,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     this.onVideoAdProgress(props.handleAdProgress);
     this.onVideoAdTapped(props.handleVideoAdTapped);
     this.onVideoAdSkiped(props.handleVideoAdSkiped);
+    this.onVideoPaused(props.handleVideoPaused)
     this.onVideoAdEnd(props.handleVideoAdEnd);
     this.onVideoEnd(props.handleVideoEnd);
     this.onVideoSeek(props.handleVideoSeek);
@@ -162,6 +165,10 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   onVideoEnd = (handler: () => void) => {
     this.registedListener(BridPlayerEvents.videoEnd, handler);
   };
+
+  onVideoPaused = (handler: () => void) => {
+    this.registedListener(BridPlayerEvents.videoPaused, handler);
+  }
 
   onVideoError = (handler: () => void) => {
     this.registedListener(BridPlayerEvents.videoError, handler);
