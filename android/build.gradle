@@ -68,6 +68,7 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation 'tv.brid.sdk:bridsdk:1.0.10-SNAPSHOT'
+
 }
 
 if (isNewArchitectureEnabled()) {

@@ -33,6 +33,7 @@
     
     [self addSubview:self.player.view];
     self.player.view.frame = self.bounds;
+    NSLog(@"Player ID: %@", _player);
     
 }
 
@@ -135,7 +136,7 @@
 
 - (void)seekToTime:(float)time
 {
-//    [self.player seekToTime:time];
+    [self.player seekToTime:time];
 }
 
 
