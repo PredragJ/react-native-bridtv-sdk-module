@@ -17,32 +17,33 @@ const BridtvSdkManager =
     ? NativeModules.BridtvSdkModule
     : NativeModules.BridtvSdkModule;
 
-  const BridPlayerEventsIos = {
-      videoAdStart: 'adStarted',
-      videoLoad: 'playerVideoInitialized',
-      videoProgress: '',
-      videoSeek: 'playerSliderValueChanged',
-      videoEnd: 'playerStop',
-      videoError: 'playerVideoError',
-      videoAdProgress: '',
-      videoAdEnd: 'adComplete',
-      videoAdTapped: 'adTapped',
-      videoAdSkipped: 'adSkipped',
-      videoPaused:"",
-    };
+const BridPlayerEventsIos = {
+  videoAdStart: 'adStarted',
+  videoLoad: 'playerVideoInitialized',
+  videoProgress: '',
+  videoSeek: 'playerSliderValueChanged',
+  videoEnd: 'playerStop',
+  videoError: 'playerVideoError',
+  videoAdProgress: '',
+  videoAdEnd: 'adComplete',
+  videoAdTapped: 'adTapped',
+  videoAdSkipped: 'adSkipped',
+  videoPaused: '',
+};
 
-  const BridPlayerEventsAndroid = {
-      videoAdStart: "ad_started",
-      videoLoad:"video_loaded",
-      videoProgress: "video_progress",
-      videoPaused: "video_paused",
-      videoSeek: "video_seek",
-      videoEnd: "video_ended",
-      videoError: "video_error",
-      videoAdProgress: "ad_progress",
-      videoAdEnd: "video_ad_end",
-      videoAdTapped: "ad_tapped",
-      videoAdSkipped: "ad_skipped",
+const BridPlayerEventsAndroid = {
+  videoAdStart: 'ad_started',
+  videoLoad: 'video_loaded',
+  videoProgress: 'video_progress',
+  videoPaused: 'video_paused',
+  videoSeek: 'video_seek',
+  videoEnd: 'video_ended',
+  videoError: 'video_error',
+  videoAdProgress: 'ad_progress',
+  videoAdEnd: 'video_ad_end',
+  videoAdTapped: 'ad_tapped',
+  videoAdSkipped: 'ad_skipped',
+};
 
 //onPlayerStateChange
 //onFullscreenChange
@@ -84,6 +85,7 @@ export default interface BridPlayer
   loadPlaylist(playerID: number, mediaID: number): void;
   getPlayerCurrentTime(): Promise<number | null>;
 }
+
 let playerId = 0;
 const RN_BRID_PLAYER_KEY = 'RnBridPlayerKey';
 
@@ -101,16 +103,13 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     this.onVideoAdProgress(props.handleAdProgress);
     this.onVideoAdTapped(props.handleVideoAdTapped);
     this.onVideoAdSkiped(props.handleVideoAdSkiped);
-    this.onVideoPaused(props.handleVideoPaused)
+    this.onVideoPaused(props.handleVideoPaused);
     this.onVideoAdEnd(props.handleVideoAdEnd);
     this.onVideoEnd(props.handleVideoEnd);
     this.onVideoSeek(props.handleVideoSeek);
     this.onVideoError(props.handleVideoError);
     this.props.setPlayerState('Initial state');
-    this._playerId = ++playerId;
-    this.ref_key = `${RN_BRID_PLAYER_KEY}-${this._playerId}`;
-
-    console.log(this.ref_key);
+    this.ref_key = `${RN_BRID_PLAYER_KEY}-${playerId++}`;
   }
 
   componentDidMount() {
@@ -168,7 +167,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 
   onVideoPaused = (handler: () => void) => {
     this.registedListener(BridPlayerEvents.videoPaused, handler);
-  }
+  };
 
   onVideoError = (handler: () => void) => {
     this.registedListener(BridPlayerEvents.videoError, handler);
@@ -254,6 +253,6 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   }
 
   render() {
-    return <RNBridPlayer {...this.props} />;
+    return <RNBridPlayer key={this.ref_key} {...this.props} />;
   }
 }
