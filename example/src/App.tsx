@@ -12,11 +12,12 @@ import BridPlayer from 'react-native-bridtv-sdk-module';
 
 const App = () => {
   const bridPlayerRef = React.useRef<BridPlayer>(null);
+  const bridPlayerRef2 = React.useRef<BridPlayer>(null);
+  const bridPlayerRef3 = React.useRef<BridPlayer>(null);
+
   const [playerState, setPlayerState] = React.useState<{ message: string }[]>(
     []
   );
-  const bridPlayerRef2 = React.useRef<BridPlayer>(null);
-  const bridPlayerRef3 = React.useRef<BridPlayer>(null);
 
   const updatePlayerState = (newValue: string) => {
     setPlayerState((prevState) => [...prevState, { message: newValue }]);
@@ -26,8 +27,17 @@ const App = () => {
     console.log('VIDEO LOADED');
   };
 
-  const handleVideoAdStart = () => {
-    console.log('AD STARTED');
+  const handleVideoPlay = () => {
+    console.log('VIDEO PLAYED');
+  };
+
+  const handleVideoBuffering = () => {
+    console.log('VIDEO BUFFERING');
+  };
+
+
+  const handleVideoStart = () => {
+    console.log('VIDEO STARTED');
   };
 
   const handeVideoPause = () => {
@@ -50,6 +60,20 @@ const App = () => {
     console.log('VIDEO ERROR');
   };
 
+  const handleFulscreenOpen = () => {
+    console.log('FULL SCREEN OPEN');
+  };
+
+  const handleFulscreenClose = () => {
+    console.log('FULL SCREEN CLOSE');
+  };
+
+
+  // Ad Events
+  const handleVideoAdStart = () => {
+    console.log('AD STARTED');
+  };
+
   const handleVideoAdProgress = () => {
     console.log('AD PROGRESS');
   };
@@ -70,8 +94,8 @@ const App = () => {
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
         <View style={[styles.container]}>
-          <BridPlayer
-            ref={bridPlayerRef}
+        <BridPlayer
+            ref={bridPlayerRef2}
             setPlayerState={updatePlayerState}
             style={styles.square}
             bridPlayerConfig={{
@@ -79,19 +103,27 @@ const App = () => {
               mediaID: 1262083, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
+            //Video
             handleVideoLoad={handleVideoLoad}
-            handleVideoStart={handleVideoAdStart}
-            handleAdProgress={handleVideoAdProgress}
-            handleVideoAdTapped={handleVideoAdTapped}
-            handleVideoAdSkiped={handleVideoAdSkiped}
+            handleVideoStart={handleVideoStart}
+            handleVideoPlay={handleVideoPlay}
+            handleVideoBuffering={handleVideoBuffering}
             handleVideoAdEnd={handleVideoAdEnd}
             handleVideoProgress={handleVideoProgress}
-            handleVideoEnd={handleVideoEnd}
             handleVideoError={handleVideoError}
             handleVideoSeek={handleVideoSeek}
             handleVideoPaused={handeVideoPause}
-          />
+            handleVideoEnd={handleVideoEnd}
+            handleFulscreenOpen={handleFulscreenOpen}
+            handleFulscreenClose={handleFulscreenClose}
+            //Ad
+            handleVideoAdStart={handleVideoAdStart}
+            handleAdProgress={handleVideoAdProgress}
+            handleVideoAdTapped={handleVideoAdTapped}
+            handleVideoAdSkiped={handleVideoAdSkiped}
 
+          />
+{/* 
           <BridPlayer
             ref={bridPlayerRef2}
             setPlayerState={updatePlayerState}
@@ -101,21 +133,26 @@ const App = () => {
               mediaID: 1262083, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
+         //Video
             handleVideoLoad={handleVideoLoad}
-            handleVideoStart={handleVideoAdStart}
-            handleAdProgress={handleVideoAdProgress}
-            handleVideoAdTapped={handleVideoAdTapped}
-            handleVideoAdSkiped={handleVideoAdSkiped}
+            handleVideoStart={handleVideoStart}
+            handleVideoPlay={handleVideoPlay}
+            handleVideoBuffering={handleVideoBuffering}
             handleVideoAdEnd={handleVideoAdEnd}
             handleVideoProgress={handleVideoProgress}
-            handleVideoEnd={handleVideoEnd}
             handleVideoError={handleVideoError}
             handleVideoSeek={handleVideoSeek}
             handleVideoPaused={handeVideoPause}
+            handleVideoEnd={handleVideoEnd}
+            //Ad
+            handleVideoAdStart={handleVideoAdStart}
+            handleAdProgress={handleVideoAdProgress}
+            handleVideoAdTapped={handleVideoAdTapped}
+
           />
 
-          <BridPlayer
-            ref={bridPlayerRef3}
+            <BridPlayer
+            ref={bridPlayerRef2}
             setPlayerState={updatePlayerState}
             style={styles.square}
             bridPlayerConfig={{
@@ -123,19 +160,23 @@ const App = () => {
               mediaID: 1262083, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
+         //Video
             handleVideoLoad={handleVideoLoad}
-            handleVideoStart={handleVideoAdStart}
-            handleAdProgress={handleVideoAdProgress}
-            handleVideoAdTapped={handleVideoAdTapped}
-            handleVideoAdSkiped={handleVideoAdSkiped}
+            handleVideoStart={handleVideoStart}
+            handleVideoPlay={handleVideoPlay}
+            handleVideoBuffering={handleVideoBuffering}
             handleVideoAdEnd={handleVideoAdEnd}
             handleVideoProgress={handleVideoProgress}
-            handleVideoEnd={handleVideoEnd}
             handleVideoError={handleVideoError}
             handleVideoSeek={handleVideoSeek}
             handleVideoPaused={handeVideoPause}
-            // onVideoAdStart={e => alert(e.nativeEvent?.error || 'Player Error.')}
-          />
+            handleVideoEnd={handleVideoEnd}
+            //Ad
+            handleVideoAdStart={handleVideoAdStart}
+            handleAdProgress={handleVideoAdProgress}
+            handleVideoAdTapped={handleVideoAdTapped} 
+
+          /> */}
           <View style={styles.buttonContainer}>
             <Button
               title="Prev"
