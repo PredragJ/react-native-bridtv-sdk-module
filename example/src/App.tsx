@@ -8,7 +8,6 @@ import {
   SafeAreaView,
 } from 'react-native';
 
-import 'react-native-gesture-handler';
 import BridPlayer from 'react-native-bridtv-sdk-module';
 
 const App = () => {
