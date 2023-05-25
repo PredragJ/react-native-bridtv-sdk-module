@@ -19,25 +19,25 @@ const BridtvSdkManager =
 
 const BridPlayerEventsIos = {
   //Video
-  videoBuffering: 'DODATI SA IOSA',
+  videoBuffering: 'playerVideoBuffering',
   videoLoad: 'playerVideoInitialized',
-  videoStart: 'DODATI SA IOSA',
-  videoPlay: 'DODATI SA IOSA',
-  videoPaused: '',
-  videoProgress: '',
+  videoStart: 'Nemam pojma',
+  videoPlay: 'playerVideoPlay',
+  videoPaused: 'playerVideoPause',
+  videoProgress: 'Nemam pojma',
   videoSeek: 'playerSliderValueChanged',
   videoEnd: 'playerStop',
   videoError: 'playerVideoError',
-  fullscreenOpen: 'DODATI SA IOSA',
-  fullscreenClose: 'DODATI SA IOSA',
+  fullscreenOpen: 'playerSetFullscreenOn',
+  fullscreenClose: 'playerSetFullscreenOff',
 
   //Ad
-  videoAdLoaded: 'DODATI SA IOSA',
-  videoAdCompleted: 'DODATI SA IOSA',
-  videoAdResumed: 'DODATI SA IOSA',
-  videoAdStart: 'ad_started',
-  videoAdPaused: 'DODATI SA IOSA',
-  videoAdProgress: '',
+  videoAdLoaded: 'adLoaded',
+  videoAdCompleted: 'adComplete',
+  videoAdResumed: 'adResumed',
+  videoAdStart: 'adStarted',
+  videoAdPaused: 'adPause',
+  videoAdProgress: 'Nemam pojma',
   videoAdEnd: 'adComplete',
   videoAdTapped: 'adTapped',
   videoAdSkipped: 'adSkipped',
@@ -196,7 +196,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     }
 
     this.props.setPlayerState('Initial state');
-    
+
     this.ref_key = `${RN_BRID_PLAYER_KEY}-${playerId++}`;
   }
 
@@ -256,11 +256,10 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   onVideoSeek = (handler: () => void) => {
     this.registedListener(BridPlayerEvents.videoSeek, handler);
   };
-  
+
   onVideoPaused = (handler: () => void) => {
     this.registedListener(BridPlayerEvents.videoPaused, handler);
   };
-
 
   onVideoEnd = (handler: () => void) => {
     this.registedListener(BridPlayerEvents.videoEnd, handler);
@@ -294,7 +293,6 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   onVideoAdPaused = (handler: () => void) => {
     this.registedListener(BridPlayerEvents.videoAdPaused, handler);
   };
-
 
   onVideoAdProgress = (handler: () => void) => {
     this.registedListener(BridPlayerEvents.videoAdProgress, handler);
