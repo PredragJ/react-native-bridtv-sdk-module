@@ -352,6 +352,18 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     ]);
   }
 
+  //NEED TO BE IMPLEMENTED  
+  //hidePoster
+  //showPoster
+  //loadVideo
+  //loadPlaylist
+  //previous
+  //next
+  //isPlayingAd
+  //showControlls
+  //hidecontrolls
+
+
   //ASYNC METHODS
   async isMuted() {
     if (BridtvSdkManager) {
