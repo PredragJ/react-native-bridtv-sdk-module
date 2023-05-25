@@ -19,6 +19,7 @@ import androidx.annotation.RequiresApi;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.ThemedReactContext;
@@ -31,7 +32,7 @@ import tv.brid.sdk.api.BridPlayer;
 import tv.brid.sdk.api.BridPlayerBuilder;
 import tv.brid.sdk.player.BridPlayerListener;
 
-class RNBridPlayerView extends FrameLayout {
+class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
 
     private BridPlayer bridPlayer;
     private Context mContext;
@@ -240,4 +241,20 @@ class RNBridPlayerView extends FrameLayout {
       layout(getLeft(), getTop(), getRight(), getBottom());
     }
   };
+
+
+  @Override
+  public void onHostResume() {
+//    this.bridPlayer.play();
+  }
+
+  @Override
+  public void onHostPause() {
+    this.bridPlayer.pause();
+  }
+
+  @Override
+  public void onHostDestroy() {
+      this.destroyPlayer();
+  }
 }

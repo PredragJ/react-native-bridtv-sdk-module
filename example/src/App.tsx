@@ -43,7 +43,12 @@ const App = () => {
   const handeVideoPause = () => {
     console.log('VIDEO PAUSED');
   };
-
+  const handeVideoPause2 = () => {
+    console.log('VIDEO PAUSED - REF 2');
+  };
+  const handeVideoPause3 = () => {
+    console.log('VIDEO PAUSED - REF 3');
+  };
   const handleVideoProgress = () => {
     console.log('VIDEO PROGRESS');
   };
@@ -134,36 +139,9 @@ const App = () => {
             handlevideoAdResumed={handlevideoAdResumed}
             handleVideoAdStart={handleVideoAdStart}
             handlevideoAdPaused={handlevideoAdPaused}
-            handleAdProgress={handleVideoAdProgress}
+            // handleAdProgress={handleVideoAdProgress}
             handleVideoAdTapped={handleVideoAdTapped}
             handleVideoAdSkiped={handleVideoAdSkiped}
-
-          />
-{/* 
-          <BridPlayer
-            ref={bridPlayerRef2}
-            setPlayerState={updatePlayerState}
-            style={styles.square}
-            bridPlayerConfig={{
-              playerID: 39437, // PlayerID from BridTV cms
-              mediaID: 1262083, //VideoID or PlaylistID from BridTv cms
-              typeOfPlayer: 'Single', // Single or Playlist
-            }}
-         //Video
-            handleVideoLoad={handleVideoLoad}
-            handleVideoStart={handleVideoStart}
-            handleVideoPlay={handleVideoPlay}
-            handleVideoBuffering={handleVideoBuffering}
-            handleVideoAdEnd={handleVideoAdEnd}
-            handleVideoProgress={handleVideoProgress}
-            handleVideoError={handleVideoError}
-            handleVideoSeek={handleVideoSeek}
-            handleVideoPaused={handeVideoPause}
-            handleVideoEnd={handleVideoEnd}
-            //Ad
-            handleVideoAdStart={handleVideoAdStart}
-            handleAdProgress={handleVideoAdProgress}
-            handleVideoAdTapped={handleVideoAdTapped}
 
           />
 
@@ -173,10 +151,10 @@ const App = () => {
             style={styles.square}
             bridPlayerConfig={{
               playerID: 39437, // PlayerID from BridTV cms
-              mediaID: 1262083, //VideoID or PlaylistID from BridTv cms
+              mediaID: 1092011, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
-         //Video
+            //Video
             handleVideoLoad={handleVideoLoad}
             handleVideoStart={handleVideoStart}
             handleVideoPlay={handleVideoPlay}
@@ -185,14 +163,55 @@ const App = () => {
             handleVideoProgress={handleVideoProgress}
             handleVideoError={handleVideoError}
             handleVideoSeek={handleVideoSeek}
-            handleVideoPaused={handeVideoPause}
+            handleVideoPaused={handeVideoPause2}
             handleVideoEnd={handleVideoEnd}
+            handleFulscreenOpen={handleFulscreenOpen}
+            handleFulscreenClose={handleFulscreenClose}
             //Ad
+            handlevideoAdLoaded={handlevideoAdLoaded}
+            handlevideoAdCompleted={handlevideoAdCompleted}
+            handlevideoAdResumed={handlevideoAdResumed}
             handleVideoAdStart={handleVideoAdStart}
-            handleAdProgress={handleVideoAdProgress}
-            handleVideoAdTapped={handleVideoAdTapped} 
+            handlevideoAdPaused={handlevideoAdPaused}
+            // handleAdProgress={handleVideoAdProgress}
+            handleVideoAdTapped={handleVideoAdTapped}
+            handleVideoAdSkiped={handleVideoAdSkiped}
 
-          /> */}
+          />
+
+        <BridPlayer
+            ref={bridPlayerRef2}
+            setPlayerState={updatePlayerState}
+            style={styles.square}
+            bridPlayerConfig={{
+              playerID: 39437, // PlayerID from BridTV cms
+              mediaID: 1092011, //VideoID or PlaylistID from BridTv cms
+              typeOfPlayer: 'Single', // Single or Playlist
+            }}
+            //Video
+            handleVideoLoad={handleVideoLoad}
+            handleVideoStart={handleVideoStart}
+            handleVideoPlay={handleVideoPlay}
+            handleVideoBuffering={handleVideoBuffering}
+            handleVideoAdEnd={handleVideoAdEnd}
+            handleVideoProgress={handleVideoProgress}
+            handleVideoError={handleVideoError}
+            handleVideoSeek={handleVideoSeek}
+            handleVideoPaused={handeVideoPause3}
+            handleVideoEnd={handleVideoEnd}
+            handleFulscreenOpen={handleFulscreenOpen}
+            handleFulscreenClose={handleFulscreenClose}
+            //Ad
+            handlevideoAdLoaded={handlevideoAdLoaded}
+            handlevideoAdCompleted={handlevideoAdCompleted}
+            handlevideoAdResumed={handlevideoAdResumed}
+            handleVideoAdStart={handleVideoAdStart}
+            handlevideoAdPaused={handlevideoAdPaused}
+            // handleAdProgress={handleVideoAdProgress}
+            handleVideoAdTapped={handleVideoAdTapped}
+            handleVideoAdSkiped={handleVideoAdSkiped}
+
+          />
           <View style={styles.buttonContainer}>
             <Button
               title="Prev"
