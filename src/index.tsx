@@ -21,7 +21,7 @@ const BridPlayerEventsIos = {
   //Video
   videoBuffering: 'playerVideoBuffering',
   videoLoad: 'playerVideoInitialized',
-  videoStart: 'Nemam pojma',
+  videoStart: 'playerVideoStarted',
   videoPlay: 'playerVideoPlay',
   videoPaused: 'playerVideoPause',
   videoProgress: 'Nemam pojma',
@@ -34,7 +34,7 @@ const BridPlayerEventsIos = {
   //Ad
   videoAdLoaded: 'adLoaded',
   videoAdCompleted: 'adComplete',
-  videoAdResumed: 'adResumed',
+  videoAdResumed: 'adResume',
   videoAdStart: 'adStarted',
   videoAdPaused: 'adPause',
   videoAdProgress: 'Nemam pojma',
