@@ -23,6 +23,7 @@ const BridPlayerEventsIos = {
   videoLoad: 'playerVideoInitialized',
   videoStart: 'DODATI SA IOSA',
   videoPlay: 'DODATI SA IOSA',
+  videoPaused: '',
   videoProgress: '',
   videoSeek: 'playerSliderValueChanged',
   videoEnd: 'playerStop',
@@ -31,12 +32,15 @@ const BridPlayerEventsIos = {
   fullscreenClose: 'DODATI SA IOSA',
 
   //Ad
-  videoAdStart: 'adStarted',
+  videoAdLoaded: 'DODATI SA IOSA',
+  videoAdCompleted: 'DODATI SA IOSA',
+  videoAdResumed: 'DODATI SA IOSA',
+  videoAdStart: 'ad_started',
+  videoAdPaused: 'DODATI SA IOSA',
   videoAdProgress: '',
   videoAdEnd: 'adComplete',
   videoAdTapped: 'adTapped',
   videoAdSkipped: 'adSkipped',
-  videoPaused: '',
 };
 
 const BridPlayerEventsAndroid = {
@@ -54,7 +58,11 @@ const BridPlayerEventsAndroid = {
   fullscreenClose: 'fullscreen_close',
 
   //Ad
+  videoAdLoaded: 'ad_loaded',
+  videoAdCompleted: 'video_ad_end',
+  videoAdResumed: 'ad_resumed',
   videoAdStart: 'ad_started',
+  videoAdPaused: 'ad_paused',
   videoAdProgress: 'ad_progress',
   videoAdEnd: 'video_ad_end',
   videoAdTapped: 'ad_tapped',
@@ -82,7 +90,11 @@ type BridtvSdkModuleProps = {
   handleFulscreenClose?(): void;
 
   //Ad
+  handlevideoAdLoaded?(): void;
+  handlevideoAdCompleted?(): void;
+  handlevideoAdResumed?(): void;
   handleVideoAdStart?(): void;
+  handlevideoAdPaused?(): void;
   handleAdProgress?(): void;
   handleVideoAdTapped?(): void;
   handleVideoAdSkiped?(): void;
@@ -155,8 +167,20 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
       this.onFullscreenClose(props.handleFulscreenClose);
     }
     //AD EVENTS
+    if (props.handlevideoAdLoaded) {
+      this.onVideoAdLoaded(props.handlevideoAdLoaded);
+    }
+    if (props.handlevideoAdCompleted) {
+      this.onVideoAdCompleted(props.handlevideoAdCompleted);
+    }
+    if (props.handlevideoAdResumed) {
+      this.onVideoAdResumed(props.handlevideoAdResumed);
+    }
     if (props.handleVideoAdStart) {
       this.onVideoAdStart(props.handleVideoAdStart);
+    }
+    if (props.handlevideoAdPaused) {
+      this.onVideoAdPaused(props.handlevideoAdPaused);
     }
     if (props.handleAdProgress) {
       this.onVideoAdProgress(props.handleAdProgress);
@@ -252,9 +276,25 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 
   //VideoAdEvents
 
+  onVideoAdLoaded = (handler: () => void) => {
+    this.registedListener(BridPlayerEvents.videoAdLoaded, handler);
+  };
+
+  onVideoAdCompleted = (handler: () => void) => {
+    this.registedListener(BridPlayerEvents.videoAdCompleted, handler);
+  };
+
+  onVideoAdResumed = (handler: () => void) => {
+    this.registedListener(BridPlayerEvents.videoAdResumed, handler);
+  };
+
   onVideoAdStart = (handler: () => void) => {
     this.registedListener(BridPlayerEvents.videoAdStart, handler);
   };
+  onVideoAdPaused = (handler: () => void) => {
+    this.registedListener(BridPlayerEvents.videoAdPaused, handler);
+  };
+
 
   onVideoAdProgress = (handler: () => void) => {
     this.registedListener(BridPlayerEvents.videoAdProgress, handler);
