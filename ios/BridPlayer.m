@@ -33,12 +33,12 @@
     
     [self addSubview:self.player.view];
     self.player.view.frame = self.bounds;
-    NSLog(@"Player ID: %@", _player);
     
 }
 
 - (void)setPlayerTypeByString:(NSString *)typeString
 {
+    NSLog(@"PECA TYPE: %@", typeString);
     if ([typeString  isEqual: @"Single"])
         type = SinglePlayer;
     else if ([typeString  isEqual: @"Playlist"])
@@ -47,13 +47,7 @@
 
 - (BVPlayer *)player {
     if (!_player) {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[playerID stringValue]
-//                                                           message:[mediaID stringValue]
-//                                                           delegate:self
-//                                                           cancelButtonTitle:@"OK"
-//                                                           otherButtonTitles:nil];
-//       [alert show];
-      
+        
         switch (type) {
             case SinglePlayer:
                 _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[[bridPlayerConfig objectForKey:@"playerID"] integerValue] forVideoID:(int)[[bridPlayerConfig objectForKey:@"mediaID"] integerValue]]];
@@ -138,8 +132,5 @@
 {
     [self.player seekToTime:time];
 }
-
-
-
 
 @end
