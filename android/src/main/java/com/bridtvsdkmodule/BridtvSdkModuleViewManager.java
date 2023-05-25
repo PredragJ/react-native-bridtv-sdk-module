@@ -169,8 +169,17 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
         WritableMap event = Arguments.createMap();
 
         switch (status) {
+          case PlayerEvents.EVENT_VIDEO_BUFFERING:
+            event.putString("message", "video_buffering");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+            break;
+
           case PlayerEvents.EVENT_PLAYER_LOADED:
             event.putString("message", "video_loaded");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+            break;
+          case "STARTED":
+            event.putString("message", "video_start");
             sendEvent(mReactContext, "BridPlayerEvents", event);
             break;
           case PlayerEvents.EVENT_VIDEO_PLAY:
@@ -250,15 +259,15 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
             break;
 
           case PlayerEvents.EVENT_FULLSCREEN_OPEN_REQUESTED:
-            event.putString("message", "fullscreen open");
+            event.putString("message", "fullscreen_open");
             sendEvent(mReactContext, "BridPlayerEvents", event);
 
             break;
 
           case PlayerEvents.EVENT_FULLSCREEN_CLOSE_REQUESTED:
-            event.putString("message", "fullscreen close");
+            event.putString("message", "fullscreen_close");
             sendEvent(mReactContext, "BridPlayerEvents", event);
-            onFullscreenCloseRequested();
+//            onFullscreenCloseRequested();
             break;
         }
 
@@ -268,7 +277,6 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
 
   private void onFullscreenCloseRequested() {
     rnBridPlayerView.onFullscreenCloseRequested();
-
   }
 
   private void sendEvent(ReactContext reactContext,
