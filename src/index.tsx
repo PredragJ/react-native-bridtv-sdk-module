@@ -103,6 +103,7 @@ type BridtvSdkModuleProps = {
   setPlayerState: (newValue: string) => void;
 };
 
+
 interface BridPlayerConfig {
   playerID?: number;
   mediaID?: number;
@@ -213,9 +214,12 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   }
 
   componentWillUnmount() {
-    this.eventEmitter.removeAllListeners('BridPlayerEvents');
-    // this.eventListener.removeListeners();
-    //removes the listener
+    //remove the listeners
+    if (this.eventListener) {
+      this.eventListener.remove();
+    }
+    this.pause();
+    this.destroyPlayer();
   }
 
   handleBridPlayerEvent = (eventData: any) => {
