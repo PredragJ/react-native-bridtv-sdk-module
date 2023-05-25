@@ -8,6 +8,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 
+import 'react-native-gesture-handler';
 import BridPlayer from 'react-native-bridtv-sdk-module';
 
 const App = () => {
@@ -76,7 +77,7 @@ const App = () => {
             style={styles.square}
             bridPlayerConfig={{
               playerID: 39437, // PlayerID from BridTV cms
-              mediaID: 1248134, //VideoID or PlaylistID from BridTv cms
+              mediaID: 1262083, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
             handleVideoLoad={handleVideoLoad}
@@ -97,8 +98,8 @@ const App = () => {
             setPlayerState={updatePlayerState}
             style={styles.square}
             bridPlayerConfig={{
-              playerID: 39118, // PlayerID from BridTV cms
-              mediaID: 1248130, //VideoID or PlaylistID from BridTv cms
+              playerID: 39437, // PlayerID from BridTV cms
+              mediaID: 1262083, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
             handleVideoLoad={handleVideoLoad}
@@ -120,7 +121,7 @@ const App = () => {
             style={styles.square}
             bridPlayerConfig={{
               playerID: 39437, // PlayerID from BridTV cms
-              mediaID: 1248134, //VideoID or PlaylistID from BridTv cms
+              mediaID: 1262083, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
             handleVideoLoad={handleVideoLoad}
@@ -144,12 +145,12 @@ const App = () => {
 
             <Button
               title="Play"
-              onPress={() => bridPlayerRef3.current?.play()}
+              onPress={() => bridPlayerRef2.current?.play()}
             />
 
             <Button
               title="Pause"
-              onPress={() => bridPlayerRef2.current?.pause()}
+              onPress={() => bridPlayerRef3.current?.play()}
             />
 
             <Button
