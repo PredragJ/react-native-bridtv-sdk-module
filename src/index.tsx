@@ -69,8 +69,6 @@ const BridPlayerEventsAndroid = {
   videoAdSkipped: 'ad_skipped',
 };
 
-//onPlayerStateChange
-//onFullscreenChange
 var RNBridPlayer = requireNativeComponent<BridtvSdkModuleProps>(ComponentName);
 
 type BridtvSdkModuleProps = {
@@ -357,15 +355,18 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   }
 
   //NEED TO BE IMPLEMENTED  
-  //hidePoster
-  //showPoster
   //loadVideo
   //loadPlaylist
   //previous
   //next
   //isPlayingAd
-  //showControlls
-  //hidecontrolls
+  //getAdPlayerCurrentTime
+  //getAdDuration
+  //getVideoDuration
+  //showControlls - enabluje pokazivanje kontrola
+  //hidecontrolls - disabluje u potpunosti pokazivanje kontrola
+  //isPaused
+  //isRepeated - na kraju videa
 
 
   //ASYNC METHODS

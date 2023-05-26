@@ -144,7 +144,7 @@ const App = () => {
             handleVideoAdSkiped={handleVideoAdSkiped}
 
           />
-
+{/* 
             <BridPlayer
             ref={bridPlayerRef2}
             setPlayerState={updatePlayerState}
@@ -211,7 +211,7 @@ const App = () => {
             handleVideoAdTapped={handleVideoAdTapped}
             handleVideoAdSkiped={handleVideoAdSkiped}
 
-          />
+          /> */}
           <View style={styles.buttonContainer}>
             <Button
               title="Prev"
