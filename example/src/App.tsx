@@ -13,8 +13,8 @@ import { BridPlayerError } from 'src/BridPlayerError';
 
 const App = () => {
   const bridPlayerRef = React.useRef<BridPlayer>(null);
-  const bridPlayerRef2 = React.useRef<BridPlayer>(null);
-  const bridPlayerRef3 = React.useRef<BridPlayer>(null);
+  // const bridPlayerRef2 = React.useRef<BridPlayer>(null);
+  // const bridPlayerRef3 = React.useRef<BridPlayer>(null);
 
   const [playerState, setPlayerState] = React.useState<{ message: string }[]>(
     []
@@ -97,7 +97,7 @@ const App = () => {
   };
  
 
-  const handleVideoError = (error: BridPlayerError) => {
+  const handleVideoError = (error: string) => {
     console.log("USAO KOD KLIJENTA");
     console.log(error);
 
@@ -109,11 +109,11 @@ const App = () => {
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
         <View style={[styles.container]}>
           <BridPlayer
-            ref={bridPlayerRef2}
+            ref={bridPlayerRef}
             setPlayerState={updatePlayerState}
             style={styles.square}
             bridPlayerConfig={{
-              playerID: 39437, // PlayerID from BridTV cms
+              playerID: 39159, // PlayerID from BridTV cms
               mediaID: 1092011, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
@@ -216,12 +216,12 @@ const App = () => {
 
             <Button
               title="Play"
-              onPress={() => bridPlayerRef2.current?.play()}
+              onPress={() => bridPlayerRef.current?.play()}
             />
 
             <Button
               title="Pause"
-              onPress={() => bridPlayerRef3.current?.play()}
+              onPress={() => bridPlayerRef.current?.play()}
             />
 
             <Button

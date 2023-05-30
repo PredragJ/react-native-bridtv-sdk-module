@@ -79,12 +79,12 @@ const BridPlayerErrorEvents = {
   },
   videoBadUrl: {
     name: 'videoBadUrl',
-    message: 'Invalid video URL.',
+    message: 'Invalid video from BridTv CMS/Invalid video URL.',
     code: '101'
   },
   unsupportedFormat: {
     name: 'unsupportedFormat',
-    message: 'Unsupported video format.',
+    message: 'Video player error. Probably unsupported video format.',
     code: '102'
   },
   protectedContent: {
@@ -264,7 +264,6 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   }
 
   handleBridPlayerEvent = (eventData: any) => {
-    // Object.values(Color).includes(value);
     const key = Object.keys(BridPlayerErrorEvents).find((key: string)=> BridPlayerErrorEvents[key  as keyof typeof BridPlayerErrorEvents].name === eventData);
     if(key) {
       // console.log(BridPlayerErrorEvents[key as keyof typeof BridPlayerErrorEvents]);
@@ -288,18 +287,6 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     return;
   };
 
-  handleBridPlayerErrorEvent = (eventData: any) => {
-    var callBack;
-
-    if(eventData.name === "adError"){
-       callBack = this.listeners.get(eventData);
-
-    }
-
-    if (callBack) {
-      callBack();
-    }
-  };
 
   registedListener = (eventType: string, handler: Function) => {
     this.listeners.set(eventType, () => {
