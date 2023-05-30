@@ -35,7 +35,6 @@ const App = () => {
     console.log('VIDEO BUFFERING');
   };
 
-
   const handleVideoStart = () => {
     console.log('VIDEO STARTED');
   };
@@ -61,10 +60,6 @@ const App = () => {
     console.log('VIDEO END');
   };
 
-  const handleVideoError = () => {
-    console.log('VIDEO ERROR');
-  };
-
   const handleFulscreenOpen = () => {
     console.log('FULL SCREEN OPEN');
   };
@@ -72,7 +67,6 @@ const App = () => {
   const handleFulscreenClose = () => {
     console.log('FULL SCREEN CLOSE');
   };
-
 
   // Ad Events
   const handlevideoAdLoaded = () => {
@@ -106,12 +100,23 @@ const App = () => {
   const handleVideoAdSkiped = () => {
     console.log('AD SKIPPED');
   };
+ 
+
+type BridError = {
+    name: string,
+    message:string,
+    code: string,
+}
+
+  const handleVideoError = (error: BridError) => {
+    console.log(error.code, error.message);
+  }
 
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
         <View style={[styles.container]}>
-        <BridPlayer
+          <BridPlayer
             ref={bridPlayerRef2}
             setPlayerState={updatePlayerState}
             style={styles.square}
@@ -127,7 +132,6 @@ const App = () => {
             handleVideoBuffering={handleVideoBuffering}
             handleVideoAdEnd={handleVideoAdEnd}
             handleVideoProgress={handleVideoProgress}
-            handleVideoError={handleVideoError}
             handleVideoSeek={handleVideoSeek}
             handleVideoPaused={handeVideoPause}
             handleVideoEnd={handleVideoEnd}
@@ -142,9 +146,9 @@ const App = () => {
             // handleAdProgress={handleVideoAdProgress}
             handleVideoAdTapped={handleVideoAdTapped}
             handleVideoAdSkiped={handleVideoAdSkiped}
-
+            handleVideoError={handleVideoError}
           />
-{/* 
+          {/* 
             <BridPlayer
             ref={bridPlayerRef2}
             setPlayerState={updatePlayerState}
