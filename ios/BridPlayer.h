@@ -25,11 +25,6 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 @property(nonatomic) BOOL setFullscreen;
 @property(nonatomic, strong) BVPlayer *_Nonnull player;
 
-- (void)pauseVideo;
-- (void)playVideo;
-- (void)nextVideo;
-- (void)previousVideo;
-- (void)destroy;
 - (void)setMute:(BOOL)mute;
 - (BOOL)isMuted;
 - (NSNumber *_Nonnull)getPlayerCurrentTime;
