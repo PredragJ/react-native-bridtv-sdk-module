@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import type { Float } from 'react-native/Libraries/Types/CodegenTypes';
 
+import { BridPlayerError } from './BridPlayerError';
 const ComponentName = 'BridtvSdkModuleView';
 
 const BridtvSdkManager =
@@ -133,7 +134,7 @@ type BridtvSdkModuleProps = {
   handleVideoAdEnd?(): void;
 
   //Video Error
-  handleVideoError?(): void;
+  handleVideoError? (error: BridPlayerError): void;
 
   setPlayerState: (newValue: string) => void;
 };
@@ -264,13 +265,15 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 
   handleBridPlayerEvent = (eventData: any) => {
     // Object.values(Color).includes(value);
-    const key = Object.keys(BridPlayerErrorEvents).find((key: string)=> BridPlayerErrorEvents[key].name === eventData);
+    const key = Object.keys(BridPlayerErrorEvents).find((key: string)=> BridPlayerErrorEvents[key  as keyof typeof BridPlayerErrorEvents].name === eventData);
     if(key) {
-      console.log(BridPlayerErrorEvents[key]);
-      const callBack = this.listeners.get("error");
+      // console.log(BridPlayerErrorEvents[key as keyof typeof BridPlayerErrorEvents]);
+      const callBack = this.listeners.get("error") as ((error: BridPlayerError) => void) | undefined;
 
       if (callBack) {
-        callBack(BridPlayerErrorEvents[key]);
+          console.log("JOS SMO U MODULU>>>>" + BridPlayerErrorEvents[key as keyof typeof BridPlayerErrorEvents].code);
+
+        callBack(BridPlayerErrorEvents[key as keyof typeof BridPlayerErrorEvents]);
       }
     }
 
@@ -288,7 +291,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   handleBridPlayerErrorEvent = (eventData: any) => {
     var callBack;
 
-    if(eventData.name === "ad_error"){
+    if(eventData.name === "adError"){
        callBack = this.listeners.get(eventData);
 
     }
@@ -390,7 +393,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   };
 
   //ALL PLAYER ERRORS
-  onVideoError = (handler: () => void) => {
+  onVideoError = (handler: (error: BridPlayerError) => void) => {
     this.registedListener("error", handler);
   };
 

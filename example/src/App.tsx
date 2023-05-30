@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import BridPlayer from 'react-native-bridtv-sdk-module';
+import { BridPlayerError } from 'src/BridPlayerError';
 
 const App = () => {
   const bridPlayerRef = React.useRef<BridPlayer>(null);
@@ -41,12 +42,6 @@ const App = () => {
 
   const handeVideoPause = () => {
     console.log('VIDEO PAUSED');
-  };
-  const handeVideoPause2 = () => {
-    console.log('VIDEO PAUSED - REF 2');
-  };
-  const handeVideoPause3 = () => {
-    console.log('VIDEO PAUSED - REF 3');
   };
   const handleVideoProgress = () => {
     console.log('VIDEO PROGRESS');
@@ -102,14 +97,11 @@ const App = () => {
   };
  
 
-type BridError = {
-    name: string,
-    message:string,
-    code: string,
-}
+  const handleVideoError = (error: BridPlayerError) => {
+    console.log("USAO KOD KLIJENTA");
+    console.log(error);
 
-  const handleVideoError = (error: BridError) => {
-    console.log(error.code, error.message);
+    // console.log(error.message);
   }
 
   return (
