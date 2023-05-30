@@ -69,6 +69,41 @@ const BridPlayerEventsAndroid = {
   videoAdSkipped: 'ad_skipped',
 };
 
+const BridPlayerErrorEvents = {
+  //Video
+  adError: {
+    name: 'adError',
+    message: 'Error occurred during ad playback.',
+    code: '300'
+  },
+  videoBadUrl: {
+    name: 'videoBadUrl',
+    message: 'Invalid video URL.',
+    code: '101'
+  },
+  unsupportedFormat: {
+    name: 'unsupportedFormat',
+    message: 'Unsupported video format.',
+    code: '102'
+  },
+  protectedContent: {
+    name: 'protectedContent',
+    message: 'Cannot play protected content.',
+    code: '103'
+  },
+  lostIntenetConnection: {
+    name: 'lostIntenetConnection',
+    message: 'Lost internet connection.',
+    code: '100'
+  },
+  liveStreamError: {
+    name: 'livestreamError',
+    message: 'An error occurred during live stream playback.',
+    code: '200'
+  },
+
+};
+
 var RNBridPlayer = requireNativeComponent<BridtvSdkModuleProps>(ComponentName);
 
 type BridtvSdkModuleProps = {
@@ -83,7 +118,6 @@ type BridtvSdkModuleProps = {
   handleVideoPaused?(): void;
   handleVideoEnd?(): void;
   handleVideoSeek?(): void;
-  handleVideoError?(): void;
   handleFulscreenOpen?(): void;
   handleFulscreenClose?(): void;
 
@@ -97,6 +131,9 @@ type BridtvSdkModuleProps = {
   handleVideoAdTapped?(): void;
   handleVideoAdSkiped?(): void;
   handleVideoAdEnd?(): void;
+
+  //Video Error
+  handleVideoError?(): void;
 
   setPlayerState: (newValue: string) => void;
 };
@@ -130,6 +167,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   eventEmitter = new NativeEventEmitter(BridtvSdkManager);
 
   listeners: Map<string, () => void> = new Map();
+
   ref_key: string;
 
   constructor(props: BridtvSdkModuleProps) {
@@ -155,9 +193,6 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     }
     if (props.handleVideoSeek) {
       this.onVideoSeek(props.handleVideoSeek);
-    }
-    if (props.handleVideoError) {
-      this.onVideoError(props.handleVideoError);
     }
     if (props.handleFulscreenOpen) {
       this.onFullscreenOpen(props.handleFulscreenOpen);
@@ -194,6 +229,11 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
       this.onVideoAdEnd(props.handleVideoAdEnd);
     }
 
+    //VIDEO ERROR
+    if (props.handleVideoError) {
+      this.onVideoError(props.handleVideoError);
+    }
+
     this.props.setPlayerState('Initial state');
 
     this.ref_key = `${RN_BRID_PLAYER_KEY}-${playerId++}`;
@@ -203,10 +243,12 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     this.eventListener = this.eventEmitter.addListener(
       'BridPlayerEvents',
       (event) => {
-        // console.log(event);
-        this.handleBridPlayerEvent(
-          Platform.OS === 'ios' ? event.name : event.message
-        );
+        if(event.message !== undefined || event.name !== undefined){
+          this.handleBridPlayerEvent(
+            Platform.OS === 'ios' ? event.name : event.message
+          );
+        } else
+          console.log("UNDEFINED EVENT");
       }
     );
   }
@@ -221,7 +263,35 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   }
 
   handleBridPlayerEvent = (eventData: any) => {
-    const callBack = this.listeners.get(eventData);
+    // Object.values(Color).includes(value);
+    const key = Object.keys(BridPlayerErrorEvents).find((key: string)=> BridPlayerErrorEvents[key].name === eventData);
+    if(key) {
+      console.log(BridPlayerErrorEvents[key]);
+      const callBack = this.listeners.get("error");
+
+      if (callBack) {
+        callBack(BridPlayerErrorEvents[key]);
+      }
+    }
+
+    if(Object.values(BridPlayerEvents).includes(eventData)) {
+      const callBack = this.listeners.get(eventData);
+
+      if (callBack) {
+        callBack();
+      }
+    }
+
+    return;
+  };
+
+  handleBridPlayerErrorEvent = (eventData: any) => {
+    var callBack;
+
+    if(eventData.name === "ad_error"){
+       callBack = this.listeners.get(eventData);
+
+    }
 
     if (callBack) {
       callBack();
@@ -229,6 +299,13 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   };
 
   registedListener = (eventType: string, handler: Function) => {
+    this.listeners.set(eventType, () => {
+      this.props.setPlayerState(eventType);
+      handler();
+    });
+  };
+
+  registedErrorListener = (eventType: string, handler: Function) => {
     this.listeners.set(eventType, () => {
       this.props.setPlayerState(eventType);
       handler();
@@ -312,8 +389,9 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     this.registedListener(BridPlayerEvents.videoAdEnd, handler);
   };
 
+  //ALL PLAYER ERRORS
   onVideoError = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoError, handler);
+    this.registedListener("error", handler);
   };
 
   //PLAYER COMMANDS
