@@ -6,6 +6,7 @@ import {
   Button,
   ScrollView,
   SafeAreaView,
+  Alert,
 } from 'react-native';
 
 import BridPlayer from 'react-native-bridtv-sdk-module';
@@ -97,11 +98,8 @@ const App = () => {
   };
  
 
-  const handleVideoError = (error: string) => {
-    console.log("USAO KOD KLIJENTA");
-    console.log(error);
-
-    // console.log(error.message);
+  const handleVideoError = (errorEvent : BridPlayerError) => {
+    console.log(errorEvent);
   }
 
   return (
@@ -138,8 +136,7 @@ const App = () => {
             // handleAdProgress={handleVideoAdProgress}
             handleVideoAdTapped={handleVideoAdTapped}
             handleVideoAdSkiped={handleVideoAdSkiped}
-            handleVideoError={handleVideoError}
-          />
+            handleVideoError={handleVideoError}          />
           {/* 
             <BridPlayer
             ref={bridPlayerRef2}

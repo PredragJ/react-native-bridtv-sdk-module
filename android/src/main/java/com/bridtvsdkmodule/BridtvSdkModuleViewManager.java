@@ -177,7 +177,7 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
             break;
 
           case PlayerEvents.EVENT_PLAYER_LOADED:
-            event.putString("message", "video_loaded");
+            event.putString("message", "video_load");
             sendEvent(mReactContext, "BridPlayerEvents", event);
             break;
           case "STARTED":

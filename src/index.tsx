@@ -134,7 +134,7 @@ type BridtvSdkModuleProps = {
   handleVideoAdEnd?(): void;
 
   //Video Error
-  handleVideoError? (error: BridPlayerError): void;
+  handleVideoError? (errorEvent: BridPlayerError): void;
 
   setPlayerState: (newValue: string) => void;
 };
@@ -266,13 +266,11 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   handleBridPlayerEvent = (eventData: any) => {
     const key = Object.keys(BridPlayerErrorEvents).find((key: string)=> BridPlayerErrorEvents[key  as keyof typeof BridPlayerErrorEvents].name === eventData);
     if(key) {
-      // console.log(BridPlayerErrorEvents[key as keyof typeof BridPlayerErrorEvents]);
-      const callBack = this.listeners.get("error") as ((error: BridPlayerError) => void) | undefined;
+      const errorEvent = BridPlayerErrorEvents[key as keyof typeof BridPlayerErrorEvents];
+      const callBack = this.listeners.get("errorEvent") as ((errorEvent: BridPlayerError) => void) | undefined;
 
       if (callBack) {
-          console.log("JOS SMO U MODULU>>>>" + BridPlayerErrorEvents[key as keyof typeof BridPlayerErrorEvents].code);
-
-        callBack(BridPlayerErrorEvents[key as keyof typeof BridPlayerErrorEvents]);
+        callBack(errorEvent);
       }
     }
 
@@ -380,8 +378,8 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   };
 
   //ALL PLAYER ERRORS
-  onVideoError = (handler: (error: BridPlayerError) => void) => {
-    this.registedListener("error", handler);
+  onVideoError = (handler: (errorEvent: BridPlayerError) => void) => {
+    this.registedListener("errorEvent", handler);
   };
 
   //PLAYER COMMANDS
