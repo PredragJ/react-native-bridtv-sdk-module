@@ -245,16 +245,19 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
 
   @Override
   public void onHostResume() {
-//    this.bridPlayer.play();
+    Log.d("Lifecycle react", "onHostResume");
+    this.bridPlayer.pause();
   }
 
   @Override
   public void onHostPause() {
+    Log.d("Lifecycle react", "onHostPause");
     this.bridPlayer.pause();
   }
 
   @Override
   public void onHostDestroy() {
-      this.destroyPlayer();
+    Log.d("Lifecycle react", "onHostDestroy");
+    this.destroyPlayer();
   }
 }
