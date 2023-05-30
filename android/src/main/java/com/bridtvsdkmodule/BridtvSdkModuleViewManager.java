@@ -3,6 +3,8 @@ package com.bridtvsdkmodule;
 import static com.bridtvsdkmodule.BridPlayerCommands.*;
 
 
+import static tv.brid.sdk.player.PlayerEvents.EVENT_VIDEO_NETWORK_ERROR;
+
 import android.app.Activity;
 import android.graphics.Color;
 import android.util.Log;
@@ -175,7 +177,7 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
             break;
 
           case PlayerEvents.EVENT_PLAYER_LOADED:
-            event.putString("message", "adError");
+            event.putString("message", "video_loaded");
             sendEvent(mReactContext, "BridPlayerEvents", event);
             break;
           case "STARTED":
@@ -202,10 +204,6 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
             sendEvent(mReactContext, "BridPlayerEvents", event);
 
             break;
-//          case PlayerEvents.EVENT_VIDEO_ERROR:
-//            event.putString("message", "video_error");
-//            sendEvent(mReactContext, "BridPlayerEvents", event);
-//            break;
           case PlayerEvents.EVENT_AD_LOADED:
             event.putString("message", "ad_loaded");
             sendEvent(mReactContext, "BridPlayerEvents", event);
@@ -267,6 +265,33 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
             event.putString("message", "fullscreen_close");
             sendEvent(mReactContext, "BridPlayerEvents", event);
 //            onFullscreenCloseRequested();
+            break;
+
+          //PLAYER ERROR EVENTS
+          case PlayerEvents.EVENT_AD_ERROR:
+          case PlayerEvents.EVENT_AD_BREAK_FETCH_ERROR:
+            event.putString("message", "adError");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+            break;
+          case PlayerEvents.EVENT_VIDEO_ERROR:
+            event.putString("message", "unsupportedFormat");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+            break;
+          case PlayerEvents.EVENT_VIDEO_NETWORK_ERROR:
+            event.putString("message", "lostIntenetConnection");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+            break;
+          case PlayerEvents.EVENT_VIDEO_CMS_ERROR:
+            event.putString("message", "videoBadUrl");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+            break;
+          case PlayerEvents.EVENT_VIDEO_LIVESTREAM_ERROR:
+            event.putString("message", "livestreamError");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+            break;
+          case PlayerEvents.EVENT_VIDEO_PROTECTED_ERROR:
+            event.putString("message", "protectedContent");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
             break;
         }
 
