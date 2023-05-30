@@ -6,7 +6,6 @@ import {
   Button,
   ScrollView,
   SafeAreaView,
-  Alert,
 } from 'react-native';
 
 import BridPlayer from 'react-native-bridtv-sdk-module';
@@ -96,11 +95,17 @@ const App = () => {
   const handleVideoAdSkiped = () => {
     console.log('AD SKIPPED');
   };
- 
 
-  const handleVideoError = (errorEvent : BridPlayerError) => {
-    console.log(errorEvent);
-  }
+  const handleVideoError = (errorEvent: BridPlayerError) => {
+    console.log(
+      'Error Code => ' +
+        errorEvent.code +
+        ' | Error Name => ' +
+        errorEvent.name +
+        ' | Error Message => ' +
+        errorEvent.message
+    );
+  };
 
   return (
     <SafeAreaView>
@@ -133,10 +138,11 @@ const App = () => {
             handlevideoAdResumed={handlevideoAdResumed}
             handleVideoAdStart={handleVideoAdStart}
             handlevideoAdPaused={handlevideoAdPaused}
-            // handleAdProgress={handleVideoAdProgress}
+            handleAdProgress={handleVideoAdProgress}
             handleVideoAdTapped={handleVideoAdTapped}
             handleVideoAdSkiped={handleVideoAdSkiped}
-            handleVideoError={handleVideoError}          />
+            handleVideoError={handleVideoError}
+          />
           {/* 
             <BridPlayer
             ref={bridPlayerRef2}
@@ -173,7 +179,7 @@ const App = () => {
           />
 
         <BridPlayer
-            ref={bridPlayerRef2}
+            ref={bridPlayerRef3}
             setPlayerState={updatePlayerState}
             style={styles.square}
             bridPlayerConfig={{
