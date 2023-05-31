@@ -9,11 +9,12 @@ import {
 } from 'react-native';
 
 import BridPlayer from 'react-native-bridtv-sdk-module';
+import { BridPlayerError } from 'src/BridPlayerError';
 
 const App = () => {
   const bridPlayerRef = React.useRef<BridPlayer>(null);
-  const bridPlayerRef2 = React.useRef<BridPlayer>(null);
-  const bridPlayerRef3 = React.useRef<BridPlayer>(null);
+  // const bridPlayerRef2 = React.useRef<BridPlayer>(null);
+  // const bridPlayerRef3 = React.useRef<BridPlayer>(null);
 
   const [playerState, setPlayerState] = React.useState<{ message: string }[]>(
     []
@@ -35,7 +36,6 @@ const App = () => {
     console.log('VIDEO BUFFERING');
   };
 
-
   const handleVideoStart = () => {
     console.log('VIDEO STARTED');
   };
@@ -43,7 +43,6 @@ const App = () => {
   const handeVideoPause = () => {
     console.log('VIDEO PAUSED');
   };
-
   const handleVideoProgress = () => {
     console.log('VIDEO PROGRESS');
   };
@@ -56,10 +55,6 @@ const App = () => {
     console.log('VIDEO END');
   };
 
-  const handleVideoError = () => {
-    console.log('VIDEO ERROR');
-  };
-
   const handleFulscreenOpen = () => {
     console.log('FULL SCREEN OPEN');
   };
@@ -67,7 +62,6 @@ const App = () => {
   const handleFulscreenClose = () => {
     console.log('FULL SCREEN CLOSE');
   };
-
 
   // Ad Events
   const handlevideoAdLoaded = () => {
@@ -102,64 +96,66 @@ const App = () => {
     console.log('AD SKIPPED');
   };
 
+  //VIDEO ERROR EVENTS
+  const handleVideoError = (errorEvent: BridPlayerError) => {
+    console.log(
+      'Error Code => ' +
+        errorEvent.code +
+        ' | Error Name => ' +
+        errorEvent.name +
+        ' | Error Message => ' +
+        errorEvent.message
+    );
+  };
+
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
         <View style={[styles.container]}>
-        <BridPlayer
+
+          <BridPlayer
             ref={bridPlayerRef}
             setPlayerState={updatePlayerState}
             style={styles.square}
             bridPlayerConfig={{
-              playerID: 37159, // PlayerID from BridTV cms
-              mediaID: 511771, //VideoID or PlaylistID from BridTv cms
+              playerID: 39159, // PlayerID from BridTV cms
+              mediaID: 1092011, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
             //Video
             handleVideoLoad={handleVideoLoad}
             handleVideoStart={handleVideoStart}
             handleVideoPlay={handleVideoPlay}
-
-
-          />
-{/* 
-          <BridPlayer
-            ref={bridPlayerRef2}
-            setPlayerState={updatePlayerState}
-            style={styles.square}
-            bridPlayerConfig={{
-              playerID: 39437, // PlayerID from BridTV cms
-              mediaID: 1262083, //VideoID or PlaylistID from BridTv cms
-              typeOfPlayer: 'Single', // Single or Playlist
-            }}
-         //Video
-            handleVideoLoad={handleVideoLoad}
-            handleVideoStart={handleVideoStart}
-            handleVideoPlay={handleVideoPlay}
             handleVideoBuffering={handleVideoBuffering}
             handleVideoAdEnd={handleVideoAdEnd}
             handleVideoProgress={handleVideoProgress}
-            handleVideoError={handleVideoError}
             handleVideoSeek={handleVideoSeek}
             handleVideoPaused={handeVideoPause}
             handleVideoEnd={handleVideoEnd}
+            handleFulscreenOpen={handleFulscreenOpen}
+            handleFulscreenClose={handleFulscreenClose}
             //Ad
+            handlevideoAdLoaded={handlevideoAdLoaded}
+            handlevideoAdCompleted={handlevideoAdCompleted}
+            handlevideoAdResumed={handlevideoAdResumed}
             handleVideoAdStart={handleVideoAdStart}
+            handlevideoAdPaused={handlevideoAdPaused}
             handleAdProgress={handleVideoAdProgress}
             handleVideoAdTapped={handleVideoAdTapped}
-
+            handleVideoAdSkiped={handleVideoAdSkiped}
+            handleVideoError={handleVideoError}
           />
-
+          {/* 
             <BridPlayer
             ref={bridPlayerRef2}
             setPlayerState={updatePlayerState}
             style={styles.square}
             bridPlayerConfig={{
               playerID: 39437, // PlayerID from BridTV cms
-              mediaID: 1262083, //VideoID or PlaylistID from BridTv cms
+              mediaID: 1092011, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
-         //Video
+            //Video
             handleVideoLoad={handleVideoLoad}
             handleVideoStart={handleVideoStart}
             handleVideoPlay={handleVideoPlay}
@@ -168,12 +164,53 @@ const App = () => {
             handleVideoProgress={handleVideoProgress}
             handleVideoError={handleVideoError}
             handleVideoSeek={handleVideoSeek}
-            handleVideoPaused={handeVideoPause}
+            handleVideoPaused={handeVideoPause2}
             handleVideoEnd={handleVideoEnd}
+            handleFulscreenOpen={handleFulscreenOpen}
+            handleFulscreenClose={handleFulscreenClose}
             //Ad
+            handlevideoAdLoaded={handlevideoAdLoaded}
+            handlevideoAdCompleted={handlevideoAdCompleted}
+            handlevideoAdResumed={handlevideoAdResumed}
             handleVideoAdStart={handleVideoAdStart}
-            handleAdProgress={handleVideoAdProgress}
-            handleVideoAdTapped={handleVideoAdTapped} 
+            handlevideoAdPaused={handlevideoAdPaused}
+            // handleAdProgress={handleVideoAdProgress}
+            handleVideoAdTapped={handleVideoAdTapped}
+            handleVideoAdSkiped={handleVideoAdSkiped}
+
+          />
+
+        <BridPlayer
+            ref={bridPlayerRef3}
+            setPlayerState={updatePlayerState}
+            style={styles.square}
+            bridPlayerConfig={{
+              playerID: 39437, // PlayerID from BridTV cms
+              mediaID: 1092011, //VideoID or PlaylistID from BridTv cms
+              typeOfPlayer: 'Single', // Single or Playlist
+            }}
+            //Video
+            handleVideoLoad={handleVideoLoad}
+            handleVideoStart={handleVideoStart}
+            handleVideoPlay={handleVideoPlay}
+            handleVideoBuffering={handleVideoBuffering}
+            handleVideoAdEnd={handleVideoAdEnd}
+            handleVideoProgress={handleVideoProgress}
+            handleVideoError={handleVideoError}
+            handleVideoSeek={handleVideoSeek}
+            handleVideoPaused={handeVideoPause3}
+            handleVideoEnd={handleVideoEnd}
+            handleFulscreenOpen={handleFulscreenOpen}
+            handleFulscreenClose={handleFulscreenClose}
+            //Ad
+            handlevideoAdLoaded={handlevideoAdLoaded}
+            handlevideoAdCompleted={handlevideoAdCompleted}
+            handlevideoAdResumed={handlevideoAdResumed}
+            handleVideoAdStart={handleVideoAdStart}
+            handlevideoAdPaused={handlevideoAdPaused}
+            // handleAdProgress={handleVideoAdProgress}
+            handleVideoAdTapped={handleVideoAdTapped}
+            handleVideoAdSkiped={handleVideoAdSkiped}
 
           /> */}
           <View style={styles.buttonContainer}>
