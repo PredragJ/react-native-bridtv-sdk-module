@@ -107,36 +107,19 @@ const App = () => {
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
         <View style={[styles.container]}>
         <BridPlayer
-            ref={bridPlayerRef2}
+            ref={bridPlayerRef}
             setPlayerState={updatePlayerState}
             style={styles.square}
             bridPlayerConfig={{
-              playerID: 39437, // PlayerID from BridTV cms
-              mediaID: 1092011, //VideoID or PlaylistID from BridTv cms
+              playerID: 37159, // PlayerID from BridTV cms
+              mediaID: 511771, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
             //Video
             handleVideoLoad={handleVideoLoad}
             handleVideoStart={handleVideoStart}
             handleVideoPlay={handleVideoPlay}
-            handleVideoBuffering={handleVideoBuffering}
-            handleVideoAdEnd={handleVideoAdEnd}
-            handleVideoProgress={handleVideoProgress}
-            handleVideoError={handleVideoError}
-            handleVideoSeek={handleVideoSeek}
-            handleVideoPaused={handeVideoPause}
-            handleVideoEnd={handleVideoEnd}
-            handleFulscreenOpen={handleFulscreenOpen}
-            handleFulscreenClose={handleFulscreenClose}
-            //Ad
-            handlevideoAdLoaded={handlevideoAdLoaded}
-            handlevideoAdCompleted={handlevideoAdCompleted}
-            handlevideoAdResumed={handlevideoAdResumed}
-            handleVideoAdStart={handleVideoAdStart}
-            handlevideoAdPaused={handlevideoAdPaused}
-            handleAdProgress={handleVideoAdProgress}
-            handleVideoAdTapped={handleVideoAdTapped}
-            handleVideoAdSkiped={handleVideoAdSkiped}
+
 
           />
 {/* 
@@ -196,22 +179,45 @@ const App = () => {
           <View style={styles.buttonContainer}>
             <Button
               title="Prev"
-              onPress={() => bridPlayerRef.current?.play()}
+              onPress={() => bridPlayerRef.current?.previous()}
             />
 
             <Button
               title="Play"
-              onPress={() => bridPlayerRef2.current?.play()}
+              onPress={() => bridPlayerRef.current?.play()}
             />
 
             <Button
               title="Pause"
-              onPress={() => bridPlayerRef3.current?.play()}
+              onPress={() => bridPlayerRef.current?.play()}
             />
 
             <Button
               title="Next"
-              onPress={() => bridPlayerRef.current?.setFullscreen(true)}
+              onPress={() => bridPlayerRef.current?.next()}
+            />
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Hide Controlls"
+              onPress={() => bridPlayerRef.current?.hideControlls()}
+            />
+
+            <Button
+              title="Show Controlls"
+              onPress={() => bridPlayerRef.current?.showControlls()}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Is Paused"
+              onPress={() => bridPlayerRef.current?.isPaused()}
+            />
+
+            <Button
+              title="Is Repeated"
+              onPress={() => bridPlayerRef.current?.isRepeated()}
             />
           </View>
           <Text style={{ textAlign: 'center', margin: 20 }}>
