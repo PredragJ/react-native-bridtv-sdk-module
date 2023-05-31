@@ -192,6 +192,18 @@ class RNBridPlayerView extends FrameLayout {
       bridPlayer.hideControls();
   }
 
+  public void previous(){
+    Log.d("MODUL PREV", bridPlayer.toString());
+    if (bridPlayer != null)
+      bridPlayer.previous();
+  }
+
+  public void next(){
+    Log.d("MODUL NEXT", bridPlayer.toString());
+    if (bridPlayer != null)
+      bridPlayer.next();
+  }
+
   private static Context getNonBuggyContext(ThemedReactContext reactContext,
                                             ReactApplicationContext appContext) {
     Context superContext = reactContext;

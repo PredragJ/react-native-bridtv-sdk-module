@@ -99,7 +99,6 @@ type BridtvSdkModuleProps = {
   handleVideoAdTapped?(): void;
   handleVideoAdSkiped?(): void;
   handleVideoAdEnd?(): void;
-
   setPlayerState: (newValue: string) => void;
 };
 
@@ -120,7 +119,16 @@ export default interface BridPlayer
   pause(): void;
   loadVideo(playerID: number, mediaID: number): void;
   loadPlaylist(playerID: number, mediaID: number): void;
+  previous(): void;
+  next(): void;
+  isAdPlaying(): void;
   getPlayerCurrentTime(): Promise<number | null>;
+  getAdDuration(): void;
+  getVideoDuration(): void;
+  showControlls(): void;
+  hidecontrolls(): void;
+  isPaused(): void;
+  isRepeated(): void;
 }
 
 let playerId = 0;
@@ -330,6 +338,16 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'unMute', []);
   }
 
+  previous(){
+    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'previous', []);
+    console.log("Prev clicked");
+  }
+
+  next(){
+    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'next', []);
+    // console.log("Next clicked");
+  }
+
   destroyPlayer() {
     UIManager.dispatchViewManagerCommand(
       findNodeHandle(this),
@@ -352,16 +370,44 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     ]);
   }
 
-  //NEED TO BE IMPLEMENTED  
-  //hidePoster
-  //showPoster
+  loadVideo(playerID: number, mediaID: number){
+    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'loadVideo', [playerID, mediaID])
+  }
+
+  loadPlaylist(playerID: number, mediaID: number){
+    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'loadPlaylist', [playerID, mediaID])
+  }
+
+  showControlls() {
+    UIManager.dispatchViewManagerCommand(
+      findNodeHandle(this),
+     'showControlls',
+      [],
+ )
+  }
+  hideControlls() {
+    UIManager.dispatchViewManagerCommand(
+      findNodeHandle(this),
+     'hideControlls',
+      [],
+ )
+  }
+
+  
+
+//NEED TO BE IMPLEMENTED  
   //loadVideo
   //loadPlaylist
   //previous
   //next
   //isPlayingAd
-  //showControlls
-  //hidecontrolls
+  //getAdPlayerCurrentTime
+  //getAdDuration
+  //getVideoDuration
+  //showControlls - enabluje pokazivanje kontrola
+  //hidecontrolls - disabluje u potpunosti pokazivanje kontrola
+  //isPaused
+  //isRepeated - na kraju videa
 
 
   //ASYNC METHODS
@@ -389,6 +435,47 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
         return null;
       }
     }
+  }
+
+  async isPlayingAd(){
+    if(BridtvSdkManager){
+      try{
+        const isPlayingAd = await BridtvSdkManager.isAdPlaying(
+          findNodeHandle(this)
+        );
+
+        console.log(isPlayingAd);
+
+      }
+      catch(e){
+        console.error(e);
+        return null;
+      }
+    }
+  }
+
+  async isPaused(){
+      if(BridtvSdkManager){
+        try{
+          const isPaused = await BridtvSdkManager.isPaused(findNodeHandle(this));
+          return isPaused;
+        }catch(e){
+          console.error(e);
+          return null;
+        }
+      }
+  }
+
+  async isRepeated(){
+      if(BridtvSdkManager){
+        try {
+          const isRepeated = await BridtvSdkManager.isRepeated(findNodeHandle(this));
+          return isRepeated;
+        } catch (e) {
+          console.error(e);
+          return null;
+        }
+      }
   }
 
   //BRID PLAYER NATIVE
