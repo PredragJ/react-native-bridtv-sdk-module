@@ -85,31 +85,6 @@
     }
 }
 
-- (void)pauseVideo
-{
-    [self.player pause];
-}
-
-- (void)playVideo
-{
-    [self.player play];
-}
-
-- (void)nextVideo
-{
-    [self.player next];
-}
-
-- (void)previousVideo
-{
-    [self.player previous];
-}
-
-- (void)destroy
-{
-    [self.player destroy];
-}
-
 - (void)setMute:(BOOL)mute
 {
     if (mute)

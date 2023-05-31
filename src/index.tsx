@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import type { Float } from 'react-native/Libraries/Types/CodegenTypes';
 
+import { BridPlayerError } from './BridPlayerError';
 const ComponentName = 'BridtvSdkModuleView';
 
 const BridtvSdkManager =
@@ -69,36 +70,70 @@ const BridPlayerEventsAndroid = {
   videoAdSkipped: 'ad_skipped',
 };
 
-//onPlayerStateChange
-//onFullscreenChange
+const BridPlayerErrorEvents = {
+  //Video
+  adError: {
+    name: 'adError',
+    message: 'Error occurred during ad playback.',
+    code: '300',
+  },
+  videoBadUrl: {
+    name: 'playerVideoBadUrl',
+    message: 'Invalid video from BridTv CMS/Invalid video URL.',
+    code: '101',
+  },
+  unsupportedFormat: {
+    name: 'playernsupportedFormat',
+    message: 'Video player error. Probably unsupported video format.',
+    code: '102',
+  },
+  protectedContent: {
+    name: 'playerProtectedContent',
+    message: 'Cannot play protected content.',
+    code: '103',
+  },
+  lostIntenetConnection: {
+    name: 'playerLostIntenetConnection',
+    message: 'Lost internet connection.',
+    code: '100',
+  },
+  liveStreamError: {
+    name: 'playerLivestreamError',
+    message: 'An error occurred during live stream playback.',
+    code: '200',
+  },
+};
+
 var RNBridPlayer = requireNativeComponent<BridtvSdkModuleProps>(ComponentName);
 
 type BridtvSdkModuleProps = {
   style?: ViewStyle;
   bridPlayerConfig?: BridPlayerConfig;
   //Video
-  handleVideoLoad?(): void;
-  handleVideoStart?(): void;
-  handleVideoPlay?(): void;
-  handleVideoBuffering?(): void;
-  handleVideoProgress?(): void;
-  handleVideoPaused?(): void;
-  handleVideoEnd?(): void;
-  handleVideoSeek?(): void;
-  handleVideoError?(): void;
-  handleFulscreenOpen?(): void;
-  handleFulscreenClose?(): void;
+  handleVideoLoad?: () => void;
+  handleVideoStart?: () => void;
+  handleVideoPlay?: () => void;
+  handleVideoBuffering?: () => void;
+  handleVideoProgress?: () => void;
+  handleVideoPaused?: () => void;
+  handleVideoEnd?: () => void;
+  handleVideoSeek?: () => void;
+  handleFulscreenOpen?: () => void;
+  handleFulscreenClose?: () => void;
 
   //Ad
-  handlevideoAdLoaded?(): void;
-  handlevideoAdCompleted?(): void;
-  handlevideoAdResumed?(): void;
-  handleVideoAdStart?(): void;
-  handlevideoAdPaused?(): void;
-  handleAdProgress?(): void;
-  handleVideoAdTapped?(): void;
-  handleVideoAdSkiped?(): void;
-  handleVideoAdEnd?(): void;
+  handlevideoAdLoaded?: () => void;
+  handlevideoAdCompleted?: () => void;
+  handlevideoAdResumed?: () => void;
+  handleVideoAdStart?: () => void;
+  handlevideoAdPaused?: () => void;
+  handleAdProgress?: () => void;
+  handleVideoAdTapped?: () => void;
+  handleVideoAdSkiped?: () => void;
+  handleVideoAdEnd?: () => void;
+
+  //Video Error
+  handleVideoError?: (errorEvent: BridPlayerError) => void;
   setPlayerState: (newValue: string) => void;
 };
 
@@ -139,6 +174,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   eventEmitter = new NativeEventEmitter(BridtvSdkManager);
 
   listeners: Map<string, () => void> = new Map();
+
   ref_key: string;
 
   constructor(props: BridtvSdkModuleProps) {
@@ -164,9 +200,6 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     }
     if (props.handleVideoSeek) {
       this.onVideoSeek(props.handleVideoSeek);
-    }
-    if (props.handleVideoError) {
-      this.onVideoError(props.handleVideoError);
     }
     if (props.handleFulscreenOpen) {
       this.onFullscreenOpen(props.handleFulscreenOpen);
@@ -203,6 +236,11 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
       this.onVideoAdEnd(props.handleVideoAdEnd);
     }
 
+    //VIDEO ERRORr
+    if (props.handleVideoError) {
+      this.onVideoError(props.handleVideoError);
+    }
+
     this.props.setPlayerState('Initial state');
 
     this.ref_key = `${RN_BRID_PLAYER_KEY}-${playerId++}`;
@@ -212,33 +250,55 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     this.eventListener = this.eventEmitter.addListener(
       'BridPlayerEvents',
       (event) => {
-        // console.log(event);
-        this.handleBridPlayerEvent(
-          Platform.OS === 'ios' ? event.name : event.message
-        );
+        if (event.message !== undefined || event.name !== undefined) {
+          this.handleBridPlayerEvent(
+            Platform.OS === 'ios' ? event.name : event.message
+          );
+        } else console.log('UNDEFINED EVENT');
       }
     );
   }
 
   componentWillUnmount() {
-    this.eventEmitter.removeAllListeners('BridPlayerEvents');
-    // this.eventListener.removeListeners();
-    //removes the listener
+    //remove the listeners
+    if (this.eventListener) {
+      this.eventListener.remove();
+    }
+    this.pause();
+    this.destroyPlayer();
   }
 
   handleBridPlayerEvent = (eventData: any) => {
-    const callBack = this.listeners.get(eventData);
+    const key = Object.keys(BridPlayerErrorEvents).find(
+      (key: string) =>
+        BridPlayerErrorEvents[key as keyof typeof BridPlayerErrorEvents]
+          .name === eventData
+    );
+    if (key) {
+      const errorEvent =
+        BridPlayerErrorEvents[key as keyof typeof BridPlayerErrorEvents];
+      const callBack = this.listeners.get('errorEvent') as
+        | ((errorEvent: BridPlayerError) => void)
+        | undefined;
 
-    if (callBack) {
-      callBack();
+      if (callBack) {
+        callBack(errorEvent);
+      }
     }
+
+    if (Object.values(BridPlayerEvents).includes(eventData)) {
+      const callBack = this.listeners.get(eventData);
+
+      if (callBack) {
+        callBack();
+      }
+    }
+
+    return;
   };
 
-  registedListener = (eventType: string, handler: Function) => {
-    this.listeners.set(eventType, () => {
-      this.props.setPlayerState(eventType);
-      handler();
-    });
+  registedListener = (eventType: string, handler: () => void) => {
+    this.listeners.set(eventType, handler);
   };
 
   //VideoEvents
@@ -318,8 +378,9 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     this.registedListener(BridPlayerEvents.videoAdEnd, handler);
   };
 
-  onVideoError = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoError, handler);
+  //ALL PLAYER ERRORS
+  onVideoError = (handler: (errorEvent: BridPlayerError) => void) => {
+    this.registedListener('errorEvent', handler);
   };
 
   //PLAYER COMMANDS
@@ -392,23 +453,6 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
       [],
  )
   }
-
-  
-
-//NEED TO BE IMPLEMENTED  
-  //loadVideo
-  //loadPlaylist
-  //previous
-  //next
-  //isPlayingAd
-  //getAdPlayerCurrentTime
-  //getAdDuration
-  //getVideoDuration
-  //showControlls - enabluje pokazivanje kontrola
-  //hidecontrolls - disabluje u potpunosti pokazivanje kontrola
-  //isPaused
-  //isRepeated - na kraju videa
-
 
   //ASYNC METHODS
   async isMuted() {
