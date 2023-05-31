@@ -2,38 +2,38 @@ import * as React from 'react';
 import {
   StyleSheet,
   View,
-  Text,
   Button,
   ScrollView,
   SafeAreaView,
 } from 'react-native';
 
 import BridPlayer from 'react-native-bridtv-sdk-module';
+import { BridPlayerError } from 'src/BridPlayerError';
 
 const App = () => {
   const bridPlayerRef = React.useRef<BridPlayer>(null);
-  const [playerState, setPlayerState] = React.useState<{ message: string }[]>(
-    []
-  );
-  const bridPlayerRef2 = React.useRef<BridPlayer>(null);
-  const bridPlayerRef3 = React.useRef<BridPlayer>(null);
-
-  const updatePlayerState = (newValue: string) => {
-    setPlayerState((prevState) => [...prevState, { message: newValue }]);
-  };
+  // const bridPlayerRef2 = React.useRef<BridPlayer>(null);
+  // const bridPlayerRef3 = React.useRef<BridPlayer>(null);
 
   const handleVideoLoad = () => {
     console.log('VIDEO LOADED');
   };
 
-  const handleVideoAdStart = () => {
-    console.log('AD STARTED');
+  const handleVideoPlay = () => {
+    console.log('VIDEO PLAYED');
+  };
+
+  const handleVideoBuffering = () => {
+    console.log('VIDEO BUFFERING');
+  };
+
+  const handleVideoStart = () => {
+    console.log('VIDEO STARTED');
   };
 
   const handeVideoPause = () => {
     console.log('VIDEO PAUSED');
   };
-
   const handleVideoProgress = () => {
     console.log('VIDEO PROGRESS');
   };
@@ -46,8 +46,29 @@ const App = () => {
     console.log('VIDEO END');
   };
 
-  const handleVideoError = () => {
-    console.log('VIDEO ERROR');
+  const handleFulscreenOpen = () => {
+    console.log('FULL SCREEN OPEN');
+  };
+
+  const handleFulscreenClose = () => {
+    console.log('FULL SCREEN CLOSE');
+  };
+
+  // Ad Events
+  const handlevideoAdLoaded = () => {
+    console.log('AD LOADED');
+  };
+  const handlevideoAdCompleted = () => {
+    console.log('AD COMPLETED');
+  };
+  const handlevideoAdResumed = () => {
+    console.log('AD RESUMED');
+  };
+  const handleVideoAdStart = () => {
+    console.log('AD STARTED');
+  };
+  const handlevideoAdPaused = () => {
+    console.log('AD PAUSED');
   };
 
   const handleVideoAdProgress = () => {
@@ -66,105 +87,119 @@ const App = () => {
     console.log('AD SKIPPED');
   };
 
+  //VIDEO ERROR EVENTS
+  const handleVideoError = (errorEvent: BridPlayerError) => {
+    console.log(
+      'Error Code => ' +
+        errorEvent.code +
+        ' | Error Name => ' +
+        errorEvent.name +
+        ' | Error Message => ' +
+        errorEvent.message
+    );
+  };
+
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
         <View style={[styles.container]}>
           <BridPlayer
             ref={bridPlayerRef}
-            setPlayerState={updatePlayerState}
             style={styles.square}
             bridPlayerConfig={{
-              playerID: 39437, // PlayerID from BridTV cms
-              mediaID: 1248134, //VideoID or PlaylistID from BridTv cms
+              playerID: 39159, // PlayerID from BridTV cms
+              mediaID: 1092011, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
+            //Video
             handleVideoLoad={handleVideoLoad}
-            handleVideoStart={handleVideoAdStart}
+            handleVideoStart={handleVideoStart}
+            handleVideoPlay={handleVideoPlay}
+            handleVideoBuffering={handleVideoBuffering}
+            handleVideoAdEnd={handleVideoAdEnd}
+            handleVideoProgress={handleVideoProgress}
+            handleVideoSeek={handleVideoSeek}
+            handleVideoPaused={handeVideoPause}
+            handleVideoEnd={handleVideoEnd}
+            handleFulscreenOpen={handleFulscreenOpen}
+            handleFulscreenClose={handleFulscreenClose}
+            //Ad
+            handlevideoAdLoaded={handlevideoAdLoaded}
+            handlevideoAdCompleted={handlevideoAdCompleted}
+            handlevideoAdResumed={handlevideoAdResumed}
+            handleVideoAdStart={handleVideoAdStart}
+            handlevideoAdPaused={handlevideoAdPaused}
             handleAdProgress={handleVideoAdProgress}
             handleVideoAdTapped={handleVideoAdTapped}
             handleVideoAdSkiped={handleVideoAdSkiped}
-            handleVideoAdEnd={handleVideoAdEnd}
-            handleVideoProgress={handleVideoProgress}
-            handleVideoEnd={handleVideoEnd}
             handleVideoError={handleVideoError}
-            handleVideoSeek={handleVideoSeek}
-            handleVideoPaused={handeVideoPause}
           />
-
-          <BridPlayer
+          {/* 
+            <BridPlayer
             ref={bridPlayerRef2}
             setPlayerState={updatePlayerState}
             style={styles.square}
             bridPlayerConfig={{
-              playerID: 39118, // PlayerID from BridTV cms
-              mediaID: 1248130, //VideoID or PlaylistID from BridTv cms
+              playerID: 39437, // PlayerID from BridTV cms
+              mediaID: 1092011, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
-            handleVideoLoad={handleVideoLoad}
-            handleVideoStart={handleVideoAdStart}
-            handleAdProgress={handleVideoAdProgress}
-            handleVideoAdTapped={handleVideoAdTapped}
-            handleVideoAdSkiped={handleVideoAdSkiped}
-            handleVideoAdEnd={handleVideoAdEnd}
-            handleVideoProgress={handleVideoProgress}
-            handleVideoEnd={handleVideoEnd}
-            handleVideoError={handleVideoError}
-            handleVideoSeek={handleVideoSeek}
-            handleVideoPaused={handeVideoPause}
           />
 
-          <BridPlayer
+        <BridPlayer
             ref={bridPlayerRef3}
             setPlayerState={updatePlayerState}
             style={styles.square}
             bridPlayerConfig={{
               playerID: 39437, // PlayerID from BridTV cms
-              mediaID: 1248134, //VideoID or PlaylistID from BridTv cms
+              mediaID: 1092011, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
-            handleVideoLoad={handleVideoLoad}
-            handleVideoStart={handleVideoAdStart}
-            handleAdProgress={handleVideoAdProgress}
-            handleVideoAdTapped={handleVideoAdTapped}
-            handleVideoAdSkiped={handleVideoAdSkiped}
-            handleVideoAdEnd={handleVideoAdEnd}
-            handleVideoProgress={handleVideoProgress}
-            handleVideoEnd={handleVideoEnd}
-            handleVideoError={handleVideoError}
-            handleVideoSeek={handleVideoSeek}
-            handleVideoPaused={handeVideoPause}
-            // onVideoAdStart={e => alert(e.nativeEvent?.error || 'Player Error.')}
-          />
+          /> */}
           <View style={styles.buttonContainer}>
             <Button
               title="Prev"
-              onPress={() => bridPlayerRef.current?.play()}
+              onPress={() => bridPlayerRef.current?.previous()}
             />
 
             <Button
               title="Play"
-              onPress={() => bridPlayerRef3.current?.play()}
+              onPress={() => bridPlayerRef.current?.play()}
             />
 
             <Button
               title="Pause"
-              onPress={() => bridPlayerRef2.current?.pause()}
+              onPress={() => bridPlayerRef.current?.pause()}
             />
 
             <Button
               title="Next"
-              onPress={() => bridPlayerRef.current?.setFullscreen(true)}
+              onPress={() => bridPlayerRef.current?.next()}
             />
           </View>
-          <Text style={{ textAlign: 'center', margin: 20 }}>
-            {playerState.map((event, index) => (
-              <Text key={index}>
-                {event.message}
-                {'\n'}
-              </Text>
-            ))}
-          </Text>
+
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Hide Controlls"
+              onPress={() => bridPlayerRef.current?.hideControlls()}
+            />
+
+            <Button
+              title="Show Controlls"
+              onPress={() => bridPlayerRef.current?.showControlls()}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Is Paused"
+              onPress={() => bridPlayerRef.current?.isPaused()}
+            />
+
+            <Button
+              title="Is Repeated"
+              onPress={() => bridPlayerRef.current?.isRepeated()}
+            />
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

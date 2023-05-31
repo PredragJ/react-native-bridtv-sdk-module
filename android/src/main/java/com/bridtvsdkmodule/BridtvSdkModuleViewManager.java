@@ -3,6 +3,8 @@ package com.bridtvsdkmodule;
 import static com.bridtvsdkmodule.BridPlayerCommands.*;
 
 
+import static tv.brid.sdk.player.PlayerEvents.EVENT_VIDEO_NETWORK_ERROR;
+
 import android.app.Activity;
 import android.graphics.Color;
 import android.util.Log;
@@ -156,6 +158,12 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
       case HIDE_CONTROLS:
         bridPlayerView.hideControls();
         break;
+      case PREVIOUS:
+        bridPlayerView.previous();
+        break;
+      case NEXT:
+        bridPlayerView.next();
+        break;
 
     }
   }
@@ -169,8 +177,17 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
         WritableMap event = Arguments.createMap();
 
         switch (status) {
+          case PlayerEvents.EVENT_VIDEO_BUFFERING:
+            event.putString("message", "video_buffering");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+            break;
+
           case PlayerEvents.EVENT_PLAYER_LOADED:
-            event.putString("message", "video_loaded");
+            event.putString("message", "video_load");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+            break;
+          case "STARTED":
+            event.putString("message", "video_start");
             sendEvent(mReactContext, "BridPlayerEvents", event);
             break;
           case PlayerEvents.EVENT_VIDEO_PLAY:
@@ -190,11 +207,6 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
             break;
           case PlayerEvents.EVENT_VIDEO_SEEK:
             event.putString("message", "video_seek");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-
-            break;
-          case PlayerEvents.EVENT_VIDEO_ERROR:
-            event.putString("message", "video_error");
             sendEvent(mReactContext, "BridPlayerEvents", event);
 
             break;
@@ -250,15 +262,42 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
             break;
 
           case PlayerEvents.EVENT_FULLSCREEN_OPEN_REQUESTED:
-            event.putString("message", "fullscreen open");
+            event.putString("message", "fullscreen_open");
             sendEvent(mReactContext, "BridPlayerEvents", event);
 
             break;
 
           case PlayerEvents.EVENT_FULLSCREEN_CLOSE_REQUESTED:
-            event.putString("message", "fullscreen close");
+            event.putString("message", "fullscreen_close");
             sendEvent(mReactContext, "BridPlayerEvents", event);
-            onFullscreenCloseRequested();
+//            onFullscreenCloseRequested();
+            break;
+
+          //PLAYER ERROR EVENTS
+          case PlayerEvents.EVENT_AD_ERROR:
+          case PlayerEvents.EVENT_AD_BREAK_FETCH_ERROR:
+            event.putString("message", "adError");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+            break;
+          case PlayerEvents.EVENT_VIDEO_ERROR:
+            event.putString("message", "unsupportedFormat");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+            break;
+          case PlayerEvents.EVENT_VIDEO_NETWORK_ERROR:
+            event.putString("message", "lostIntenetConnection");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+            break;
+          case PlayerEvents.EVENT_VIDEO_CMS_ERROR:
+            event.putString("message", "videoBadUrl");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+            break;
+          case PlayerEvents.EVENT_VIDEO_LIVESTREAM_ERROR:
+            event.putString("message", "livestreamError");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
+            break;
+          case PlayerEvents.EVENT_VIDEO_PROTECTED_ERROR:
+            event.putString("message", "protectedContent");
+            sendEvent(mReactContext, "BridPlayerEvents", event);
             break;
         }
 
@@ -268,7 +307,6 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
 
   private void onFullscreenCloseRequested() {
     rnBridPlayerView.onFullscreenCloseRequested();
-
   }
 
   private void sendEvent(ReactContext reactContext,

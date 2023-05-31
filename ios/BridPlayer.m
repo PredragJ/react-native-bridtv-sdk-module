@@ -33,12 +33,12 @@
     
     [self addSubview:self.player.view];
     self.player.view.frame = self.bounds;
-    NSLog(@"Player ID: %@", _player);
     
 }
 
 - (void)setPlayerTypeByString:(NSString *)typeString
 {
+    NSLog(@"PECA TYPE: %@", typeString);
     if ([typeString  isEqual: @"Single"])
         type = SinglePlayer;
     else if ([typeString  isEqual: @"Playlist"])
@@ -47,13 +47,7 @@
 
 - (BVPlayer *)player {
     if (!_player) {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[playerID stringValue]
-//                                                           message:[mediaID stringValue]
-//                                                           delegate:self
-//                                                           cancelButtonTitle:@"OK"
-//                                                           otherButtonTitles:nil];
-//       [alert show];
-      
+        
         switch (type) {
             case SinglePlayer:
                 _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[[bridPlayerConfig objectForKey:@"playerID"] integerValue] forVideoID:(int)[[bridPlayerConfig objectForKey:@"mediaID"] integerValue]]];
@@ -91,31 +85,6 @@
     }
 }
 
-- (void)pauseVideo
-{
-    [self.player pause];
-}
-
-- (void)playVideo
-{
-    [self.player play];
-}
-
-- (void)nextVideo
-{
-    [self.player next];
-}
-
-- (void)previousVideo
-{
-    [self.player previous];
-}
-
-- (void)destroy
-{
-    [self.player destroy];
-}
-
 - (void)setMute:(BOOL)mute
 {
     if (mute)
@@ -134,12 +103,24 @@
     return [NSNumber numberWithInt:[_player getCurrentTime]];
 }
 
+- (NSNumber*)getVideoDuration
+{
+    return [NSNumber numberWithInt:[_player getDuration]];
+}
+
+- (NSNumber*)getAdDuration
+{
+    return [NSNumber numberWithInt:[_player getAdDuration]];
+}
+
+- (NSNumber*)getAdCurrentTime
+{
+    return [NSNumber numberWithInt:[_player getAdCurrentTime]];
+}
+
 - (void)seekToTime:(float)time
 {
     [self.player seekToTime:time];
 }
-
-
-
 
 @end
