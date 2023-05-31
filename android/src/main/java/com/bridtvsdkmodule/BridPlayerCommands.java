@@ -16,5 +16,7 @@ public class BridPlayerCommands {
   public static final String IS_VPAID_ENABLED = "isVpaidEnabled";
   public static final String SHOW_CONTROLS = "showControlls";
   public static final String HIDE_CONTROLS = "hideControlls";
+  public static final String PREVIOUS = "previous";
+  public static final String NEXT = "next";
 
 }

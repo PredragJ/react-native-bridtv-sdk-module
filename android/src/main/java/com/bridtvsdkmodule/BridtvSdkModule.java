@@ -70,6 +70,70 @@ public class BridtvSdkModule extends ReactContextBaseJavaModule {
     }
 
   @ReactMethod
+  public void isAdPlaying(final int reactTag, Promise promise){
+    Log.d("BridtvSdkModuleLog", "isAdPlaying");
+    try {
+      UIManagerModule uiManager = mReactContext.getNativeModule(UIManagerModule.class);
+      uiManager.addUIBlock(new UIBlock() {
+        @Override
+        public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
+          RNBridPlayerView playerView = (RNBridPlayerView) nativeViewHierarchyManager.resolveView(reactTag);
+          if(playerView != null && playerView.getBridPlayer() != null){
+            promise.resolve(playerView.getBridPlayer().isPlayingAd());
+          }else {
+            promise.reject("RNBridPlayerError", "Player is null");
+          }
+        }
+      });
+
+    } catch (Exception e){
+      promise.reject("Error happened", e);
+    }
+  }
+
+  @ReactMethod
+  public void isPaused(final int reactTag, Promise promise){
+    Log.d("BridtvSdkModuleLog", "isPaused");
+    try {
+      UIManagerModule uiManager = mReactContext.getNativeModule(UIManagerModule.class);
+      uiManager.addUIBlock(new UIBlock() {
+        @Override
+        public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
+          RNBridPlayerView playerView = (RNBridPlayerView) nativeViewHierarchyManager.resolveView(reactTag);
+          if(playerView != null && playerView.getBridPlayer() != null){
+            promise.resolve(playerView.getBridPlayer().isPaused());
+          }else {
+            promise.reject("RNBridPlayerError", "Player is null");
+          }
+        }
+      });
+    } catch (Exception e){
+      promise.reject("Error happened", e);
+    }
+  }
+
+  @ReactMethod
+  public void isRepeated(final int reactTag, Promise promise){
+    Log.d("BridtvSdkModuleLog", "isRepeated");
+    try {
+      UIManagerModule uiManager = mReactContext.getNativeModule(UIManagerModule.class);
+      uiManager.addUIBlock(new UIBlock() {
+        @Override
+        public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
+          RNBridPlayerView playerView = (RNBridPlayerView) nativeViewHierarchyManager.resolveView(reactTag);
+          if(playerView != null && playerView.getBridPlayer() != null){
+            promise.resolve(playerView.getBridPlayer().isRepeated());
+          }else {
+            promise.reject("RNBridPlayerError", "Player is null");
+          }
+        }
+      });
+    } catch (Exception e){
+      promise.reject("Error happened", e);
+    }
+  }
+
+  @ReactMethod
   public void addListener(String eventName) {
 //    if (listenerCount == 0) {
 //      // Set up any upstream listeners or background tasks as necessary
