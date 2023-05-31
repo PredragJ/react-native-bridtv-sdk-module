@@ -480,7 +480,7 @@ export default class BridPlayer extends React.Component {
       }
     }
   }
-  
+   
   //BRID PLAYER NATIVE
   render() {
     return <RNBridPlayer key={this.ref_key} {...this.props} />;
