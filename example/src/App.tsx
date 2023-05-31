@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {
   StyleSheet,
@@ -112,7 +113,6 @@ const App = () => {
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
         <View style={[styles.container]}>
-
           <BridPlayer
             ref={bridPlayerRef}
             setPlayerState={updatePlayerState}
@@ -226,7 +226,7 @@ const App = () => {
 
             <Button
               title="Pause"
-              onPress={() => bridPlayerRef.current?.play()}
+              onPress={() => bridPlayerRef.current?.pause()}
             />
 
             <Button

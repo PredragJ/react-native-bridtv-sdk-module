@@ -2,7 +2,6 @@ import React from 'react';
 import {
   requireNativeComponent,
   UIManager,
-  ViewStyle,
   findNodeHandle,
   NativeModules,
   Platform,
@@ -104,72 +103,14 @@ const BridPlayerErrorEvents = {
   },
 };
 
-var RNBridPlayer = requireNativeComponent<BridtvSdkModuleProps>(ComponentName);
-
-type BridtvSdkModuleProps = {
-  style?: ViewStyle;
-  bridPlayerConfig?: BridPlayerConfig;
-  //Video
-  handleVideoLoad?: () => void;
-  handleVideoStart?: () => void;
-  handleVideoPlay?: () => void;
-  handleVideoBuffering?: () => void;
-  handleVideoProgress?: () => void;
-  handleVideoPaused?: () => void;
-  handleVideoEnd?: () => void;
-  handleVideoSeek?: () => void;
-  handleFulscreenOpen?: () => void;
-  handleFulscreenClose?: () => void;
-
-  //Ad
-  handlevideoAdLoaded?: () => void;
-  handlevideoAdCompleted?: () => void;
-  handlevideoAdResumed?: () => void;
-  handleVideoAdStart?: () => void;
-  handlevideoAdPaused?: () => void;
-  handleAdProgress?: () => void;
-  handleVideoAdTapped?: () => void;
-  handleVideoAdSkiped?: () => void;
-  handleVideoAdEnd?: () => void;
-
-  //Video Error
-  handleVideoError?: (errorEvent: BridPlayerError) => void;
-  setPlayerState: (newValue: string) => void;
-};
-
-interface BridPlayerConfig {
-  playerID?: number;
-  mediaID?: number;
-  typeOfPlayer?: string;
-  useVPAIDSupport?: boolean;
-  setFullscreen?: boolean;
-}
-
+var RNBridPlayer = requireNativeComponent(ComponentName);
 export const BridPlayerEvents =
   Platform.OS === 'ios' ? BridPlayerEventsIos : BridPlayerEventsAndroid;
-
-export default interface BridPlayer
-  extends React.Component<BridtvSdkModuleProps> {
-  play(): void;
-  pause(): void;
-  loadVideo(playerID: number, mediaID: number): void;
-  loadPlaylist(playerID: number, mediaID: number): void;
-  previous(): void;
-  next(): void;
-  isAdPlaying(): void;
-  getPlayerCurrentTime(): Promise<number | null>;
-  getAdDuration(): void;
-  getVideoDuration(): void;
-  showControlls(): void;
-  hidecontrolls(): void;
-  isPaused(): void;
-  isRepeated(): void;
-}
 
 let playerId = 0;
 const RN_BRID_PLAYER_KEY = 'RnBridPlayerKey';
 
-export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
+export default class BridPlayer extends React.Component {
   eventListener: any;
   eventEmitter = new NativeEventEmitter(BridtvSdkManager);
 
@@ -177,7 +118,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 
   ref_key: string;
 
-  constructor(props: BridtvSdkModuleProps) {
+  constructor(props: any) {
     super(props);
     //VIDEO EVENTS
     if (props.handleVideoLoad) {
@@ -241,7 +182,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
       this.onVideoError(props.handleVideoError);
     }
 
-    this.props.setPlayerState('Initial state');
+    // this.setPlayerState('Initial state');
 
     this.ref_key = `${RN_BRID_PLAYER_KEY}-${playerId++}`;
   }
@@ -399,12 +340,12 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'unMute', []);
   }
 
-  previous(){
+  previous() {
     UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'previous', []);
-    console.log("Prev clicked");
+    console.log('Prev clicked');
   }
 
-  next(){
+  next() {
     UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'next', []);
     // console.log("Next clicked");
   }
@@ -431,27 +372,33 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     ]);
   }
 
-  loadVideo(playerID: number, mediaID: number){
-    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'loadVideo', [playerID, mediaID])
+  loadVideo(playerID: number, mediaID: number) {
+    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'loadVideo', [
+      playerID,
+      mediaID,
+    ]);
   }
 
-  loadPlaylist(playerID: number, mediaID: number){
-    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'loadPlaylist', [playerID, mediaID])
+  loadPlaylist(playerID: number, mediaID: number) {
+    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'loadPlaylist', [
+      playerID,
+      mediaID,
+    ]);
   }
 
   showControlls() {
     UIManager.dispatchViewManagerCommand(
       findNodeHandle(this),
-     'showControlls',
-      [],
- )
+      'showControlls',
+      []
+    );
   }
   hideControlls() {
     UIManager.dispatchViewManagerCommand(
       findNodeHandle(this),
-     'hideControlls',
-      [],
- )
+      'hideControlls',
+      []
+    );
   }
 
   //ASYNC METHODS
@@ -481,45 +428,72 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     }
   }
 
-  async isPlayingAd(){
-    if(BridtvSdkManager){
-      try{
+  async isPlayingAd() {
+    if (BridtvSdkManager) {
+      try {
         const isPlayingAd = await BridtvSdkManager.isAdPlaying(
           findNodeHandle(this)
         );
-
-        console.log(isPlayingAd);
-
-      }
-      catch(e){
+        return isPlayingAd;
+      } catch (e) {
         console.error(e);
         return null;
       }
     }
   }
 
-  async isPaused(){
-      if(BridtvSdkManager){
-        try{
-          const isPaused = await BridtvSdkManager.isPaused(findNodeHandle(this));
-          return isPaused;
-        }catch(e){
-          console.error(e);
-          return null;
-        }
+  async isPaused() {
+    if (BridtvSdkManager) {
+      try {
+        const isPaused = await BridtvSdkManager.isPaused(findNodeHandle(this));
+        return isPaused;
+      } catch (e) {
+        console.error(e);
+        return null;
       }
+    }
   }
 
-  async isRepeated(){
-      if(BridtvSdkManager){
-        try {
-          const isRepeated = await BridtvSdkManager.isRepeated(findNodeHandle(this));
-          return isRepeated;
-        } catch (e) {
-          console.error(e);
-          return null;
-        }
+  async isRepeated() {
+    if (BridtvSdkManager) {
+      try {
+        const isRepeated = await BridtvSdkManager.isRepeated(
+          findNodeHandle(this)
+        );
+        return isRepeated;
+      } catch (e) {
+        console.error(e);
+        return null;
       }
+    }
+  }
+
+  async getVideoDuration() {
+    if (BridtvSdkManager) {
+      try {
+        const videoDuration = await BridtvSdkManager.getVideoDuration(
+          findNodeHandle(this)
+        );
+        return videoDuration;
+      } catch (e) {
+        console.error(e);
+        return null;
+      }
+    }
+  }
+
+  async getAdDuration() {
+    if (BridtvSdkManager) {
+      try {
+        const adDuration = await BridtvSdkManager.getAdDuration(
+          findNodeHandle(this)
+        );
+        return adDuration;
+      } catch (e) {
+        console.error(e);
+        return null;
+      }
+    }
   }
 
   //BRID PLAYER NATIVE
