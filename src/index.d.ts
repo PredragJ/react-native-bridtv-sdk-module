@@ -58,7 +58,6 @@ declare module 'react-native-bridtv-sdk-module' {
     isAdPlaying(): void;
     seekToTime(time: number): void;
     getPlayerCurrentTime(): Promise<number | null>;
-    getAdDuration(): Promise<number | null>;
     getVideoDuration(): Promise<number | null>;
     isPaused(): void;
     isRepeated(): void;

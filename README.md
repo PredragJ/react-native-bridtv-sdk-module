@@ -6,10 +6,13 @@ BridTV SDK player for react native
 
 ```sh
 npm install react-native-bridtv-sdk-module
+or 
+yarn add react-native-bridtv-sdk-module
+
 
 IOS 
 
-After NPM pod install
+After NPM, cd to IOS and run  pod install
 
 Android 
 
@@ -32,14 +35,107 @@ import { BridPlayer } from "react-native-bridtv-sdk-module";
 
           <BridPlayer
             ref={bridPlayerRef}
-            style={styles.square}
+            style={...}
             bridPlayerConfig={{
               playerID: xxxxx, // PlayerID from BridTV cms
               mediaID: xxxxxxxx, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
+            handleVideoLoad={...} // Player event callbacks
+            ...
+            handleVideoError={...}
+
           />
 ```
+
+# Props
+
+The BridPlayer component accepts the following props:
+
+style (optional): Specifies the style for the player component.
+
+bridPlayerConfig: An object that contains configuration options for the player.  It includes properties playerID, mediaID, typeOfPlayer, useVPAIDSupport, and setFullscreen.
+
+Video event callbacks: These props allow you to specify callback functions for various video events like:
+  handleVideoLoad, 
+  handleVideoStart, 
+  handleVideoPlay, 
+  handleVideoBuffering, 
+  handleVideoProgress, 
+  handleVideoPaused, handleVideoEnd, 
+  handleVideoSeek, 
+  handleFulscreenOpen, 
+  handleFulscreenClose
+
+Ad event callbacks: These props allow you to specify callback functions for various ad events like:
+  handlevideoAdLoaded, 
+  handlevideoAdCompleted, 
+  handlevideoAdResumed, 
+  handleVideoAdStart, 
+  handlevideoAdPaused, 
+  handleAdProgress, 
+  handleVideoAdTapped, 
+  handleVideoAdSkiped, 
+  handleVideoAdEnd
+
+handleVideoError: A callback function that handles video errors. It receives an errorEvent object. These are the error event types that can occur with the BridPlayer:
+
+adError:
+Name: adError
+Message: Error occurred during ad playback.
+Code: 300
+
+videoBadUrl:
+Name: playerVideoBadUrl
+Message: Invalid video from BridTv CMS/Invalid video URL.
+Code: 101
+
+unsupportedFormat:
+Name: playernsupportedFormat
+Message: Video player error. Probably unsupported video format.
+Code: 102
+
+protectedContent:
+Name: playerProtectedContent
+Message: Cannot play protected content.
+Code: 103
+
+lostIntenetConnection:
+Name: playerLostIntenetConnection
+Message: Lost internet connection.
+Code: 100
+
+liveStreamError:
+Name: playerLivestreamError
+Message: An error occurred during live stream playback.
+Code: 200
+
+These error types represent various issues that can occur during the playback of videos or ads with the BridPlayer. By handling these error events appropriately, you can provide better error feedback and take necessary actions to address the specific error conditions encountered during playback.
+
+# Methods
+
+play(): void: Plays the video.
+pause(): void: Pauses the video.
+previous(): void: Plays the previous video in the playlist.
+next(): void: Plays the next video in the playlist.
+mute(): void: Mutes the video.
+unMute(): void: Unmutes the video.
+loadVideo(playerID: number, mediaID: number): void: Loads a video with the specified playerID and mediaID from BridTv CMS.
+loadPlaylist(playerID: number, mediaID: number): void: Loads a playlist with the specified playerID and mediaID from BridTv CMS.
+setFullscreen(fullscreen: boolean): void: Sets the fullscreen mode of the player. Pass true to enter fullscreen mode or false to exit fullscreen mode.
+showControlls(): void: Enable the video controls.
+hidecontrolls(): void: Disable the video controls.
+isAdPlaying(): void: Checks if an ad is currently playing.
+getPlayerCurrentTime(): Promise<number | null>: Retrieves the current playback time of the player in miliseconds. Returns a promise that resolves with the current time or null if the player is not loaded.
+getAdDuration(): Promise<number | null>: Retrieves the duration of the currently playing ad in miliseconds. Returns a promise that resolves with the ad duration or null if no ad is playing.
+getVideoDuration(): Promise<number | null>: Retrieves the duration of the currently loaded video in smilisecondseconds. Returns a promise that resolves with the video duration or null if no video is loaded.
+isPaused(): void: Checks if the video is currently paused.
+isRepeated(): void: Checks if the video is alerady repeated.
+destroyPlayer(): void: Destroys the player instance and cleans up any resources associated with it.
+
+Please note that these methods should be called on an instance of the BridPlayer class.
+
+Take a look at our Example App for best practices while implementing BridPlayer RN module.
 
 ## Contributing
 
