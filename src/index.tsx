@@ -5,12 +5,51 @@ import {
   findNodeHandle,
   NativeModules,
   Platform,
+  ViewStyle,
   NativeEventEmitter,
 } from 'react-native';
 
 import { BridPlayerError } from './BridPlayerError';
+
 const ComponentName = 'BridtvSdkModuleView';
 
+type BridtvSdkModuleProps = {
+  style?: ViewStyle;
+  bridPlayerConfig?: BridPlayerConfig;
+  //Video
+  handleVideoLoad?: () => void;
+  handleVideoStart?: () => void;
+  handleVideoPlay?: () => void;
+  handleVideoBuffering?: () => void;
+  handleVideoProgress?: () => void;
+  handleVideoPaused?: () => void;
+  handleVideoEnd?: () => void;
+  handleVideoSeek?: () => void;
+  handleFulscreenOpen?: () => void;
+  handleFulscreenClose?: () => void;
+
+  //Ad
+  handlevideoAdLoaded?: () => void;
+  handlevideoAdCompleted?: () => void;
+  handlevideoAdResumed?: () => void;
+  handleVideoAdStart?: () => void;
+  handlevideoAdPaused?: () => void;
+  handleAdProgress?: () => void;
+  handleVideoAdTapped?: () => void;
+  handleVideoAdSkiped?: () => void;
+  handleVideoAdEnd?: () => void;
+
+  //Video Error
+  handleVideoError?: (errorEvent?: BridPlayerError) => void;
+};
+
+interface BridPlayerConfig {
+  playerID?: number;
+  mediaID?: number;
+  typeOfPlayer?: string;
+  useVPAIDSupport?: boolean;
+  setFullscreen?: boolean;
+}
 const BridtvSdkManager =
   Platform.OS === 'ios'
     ? NativeModules.BridtvSdkModule
@@ -109,7 +148,7 @@ export const BridPlayerEvents =
 let playerId = 0;
 const RN_BRID_PLAYER_KEY = 'RnBridPlayerKey';
 
-export default class BridPlayer extends React.Component {
+export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   eventListener: any;
   eventEmitter = new NativeEventEmitter(BridtvSdkManager);
 
@@ -117,7 +156,7 @@ export default class BridPlayer extends React.Component {
 
   ref_key: string;
 
-  constructor(props: any) {
+  constructor(props: BridtvSdkModuleProps) {
     super(props);
     //VIDEO EVENTS
     if (props.handleVideoLoad) {
@@ -319,7 +358,7 @@ export default class BridPlayer extends React.Component {
   };
 
   //ALL PLAYER ERRORS
-  onVideoError = (handler: (errorEvent: BridPlayerError) => void) => {
+  onVideoError = (handler: (errorEvent?: BridPlayerError) => void) => {
     this.registedListener('errorEvent', handler);
   };
 
@@ -341,12 +380,10 @@ export default class BridPlayer extends React.Component {
 
   previous() {
     UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'previous', []);
-    console.log('Prev clicked');
   }
 
   next() {
     UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'next', []);
-    // console.log("Next clicked");
   }
 
   destroyPlayer() {
@@ -480,7 +517,6 @@ export default class BridPlayer extends React.Component {
       }
     }
   }
-   
   //BRID PLAYER NATIVE
   render() {
     return <RNBridPlayer key={this.ref_key} {...this.props} />;
