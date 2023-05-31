@@ -1,10 +1,9 @@
 {
   "name": "react-native-bridtv-sdk-module",
   "version": "0.1.4",
-  "description": "test",
-  "main": "lib/commonjs/index.js",
-  "module": "lib/module/index.js",
-  "types": "lib/typescript/src/index.d.ts",
+  "description": "React native module for Android/IOS BridTV SDK",
+  "main": "src/index.tsx",
+  "types": "src/index.d.ts",
   "react-native": "src/index.tsx",
   "source": "src/index",
   "files": [
@@ -39,7 +38,16 @@
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "audio",
+    "video",
+    "sdk",
+    "media",
+    "player",
+    "mediaplayer",
+    "media-player",
+    "bridTv",
+    "bridSDK"
   ],
   "repository": "https://github.com/PredragJ/react-native-bridtv-sdk-module",
   "author": "BridTV <predrag.jevtic@brid.tv> (https://github.com/PredragJ)",
