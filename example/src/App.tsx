@@ -88,14 +88,14 @@ const App = () => {
   };
 
   //VIDEO ERROR EVENTS
-  const handleVideoError = (errorEvent: BridPlayerError) => {
+  const handleVideoError = (errorEvent?: BridPlayerError) => {
     console.log(
       'Error Code => ' +
-        errorEvent.code +
+        errorEvent?.code +
         ' | Error Name => ' +
-        errorEvent.name +
+        errorEvent?.name +
         ' | Error Message => ' +
-        errorEvent.message
+        errorEvent?.message
     );
   };
 
