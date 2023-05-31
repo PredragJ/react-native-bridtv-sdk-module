@@ -4,7 +4,8 @@ declare module 'react-native-bridtv-sdk-module' {
 
   import BridPlayerError from 'react-native-bridtv-sdk-module';
 
-  type BridtvSdkModuleProps = {
+  export type BridtvSdkModuleProps = {
+    setPlayerState: (newValue: string) => void;
     style?: ViewStyle;
     bridPlayerConfig?: BridPlayerConfig;
     //Video
@@ -32,10 +33,9 @@ declare module 'react-native-bridtv-sdk-module' {
 
     //Video Error
     handleVideoError?: (errorEvent: BridPlayerError) => void;
-    setPlayerState: (newValue: string) => void;
   };
 
-  interface BridPlayerConfig {
+  export interface BridPlayerConfig {
     playerID?: number;
     mediaID?: number;
     typeOfPlayer?: string;
@@ -56,6 +56,7 @@ declare module 'react-native-bridtv-sdk-module' {
     showControlls(): void;
     hidecontrolls(): void;
     isAdPlaying(): void;
+    seekToTime(time: number): void;
     getPlayerCurrentTime(): Promise<number | null>;
     getAdDuration(): Promise<number | null>;
     getVideoDuration(): Promise<number | null>;
