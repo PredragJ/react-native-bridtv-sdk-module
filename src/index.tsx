@@ -78,27 +78,27 @@ const BridPlayerErrorEvents = {
     code: '300',
   },
   videoBadUrl: {
-    name: 'videoBadUrl',
+    name: 'playerVideoBadUrl',
     message: 'Invalid video from BridTv CMS/Invalid video URL.',
     code: '101',
   },
   unsupportedFormat: {
-    name: 'unsupportedFormat',
+    name: 'playernsupportedFormat',
     message: 'Video player error. Probably unsupported video format.',
     code: '102',
   },
   protectedContent: {
-    name: 'protectedContent',
+    name: 'playerProtectedContent',
     message: 'Cannot play protected content.',
     code: '103',
   },
   lostIntenetConnection: {
-    name: 'lostIntenetConnection',
+    name: 'playerLostIntenetConnection',
     message: 'Lost internet connection.',
     code: '100',
   },
   liveStreamError: {
-    name: 'livestreamError',
+    name: 'playerLivestreamError',
     message: 'An error occurred during live stream playback.',
     code: '200',
   },
@@ -224,7 +224,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     if (props.handleVideoAdSkiped) {
       this.onVideoAdSkiped(props.handleVideoAdSkiped);
     }
-    if (this.props.handleVideoAdEnd) {
+    if (props.handleVideoAdEnd) {
       this.onVideoAdEnd(props.handleVideoAdEnd);
     }
 
