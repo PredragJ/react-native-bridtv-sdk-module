@@ -112,6 +112,7 @@ const App = () => {
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
         <View style={[styles.container]}>
+
           <BridPlayer
             ref={bridPlayerRef}
             setPlayerState={updatePlayerState}
@@ -215,7 +216,7 @@ const App = () => {
           <View style={styles.buttonContainer}>
             <Button
               title="Prev"
-              onPress={() => bridPlayerRef.current?.play()}
+              onPress={() => bridPlayerRef.current?.previous()}
             />
 
             <Button
@@ -230,7 +231,30 @@ const App = () => {
 
             <Button
               title="Next"
-              onPress={() => bridPlayerRef.current?.setFullscreen(true)}
+              onPress={() => bridPlayerRef.current?.next()}
+            />
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Hide Controlls"
+              onPress={() => bridPlayerRef.current?.hideControlls()}
+            />
+
+            <Button
+              title="Show Controlls"
+              onPress={() => bridPlayerRef.current?.showControlls()}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Is Paused"
+              onPress={() => bridPlayerRef.current?.isPaused()}
+            />
+
+            <Button
+              title="Is Repeated"
+              onPress={() => bridPlayerRef.current?.isRepeated()}
             />
           </View>
           <Text style={{ textAlign: 'center', margin: 20 }}>
