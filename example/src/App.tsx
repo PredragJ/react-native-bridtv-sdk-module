@@ -96,6 +96,7 @@ const App = () => {
     console.log('AD SKIPPED');
   };
 
+  //VIDEO ERROR EVENTS
   const handleVideoError = (errorEvent: BridPlayerError) => {
     console.log(
       'Error Code => ' +
