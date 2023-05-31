@@ -1,9 +1,7 @@
-/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {
   StyleSheet,
   View,
-  Text,
   Button,
   ScrollView,
   SafeAreaView,
