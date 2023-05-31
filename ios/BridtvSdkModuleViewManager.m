@@ -13,7 +13,6 @@
 @implementation BridtvSdkModuleViewManager
 
 NSString *eventName;
-//BridtvSdkModule *module;
 
 RCT_EXPORT_MODULE(BridtvSdkModuleView)
 
@@ -34,44 +33,103 @@ RCT_EXPORT_VIEW_PROPERTY(setFullscreen, BOOL);
 
 RCT_EXPORT_METHOD(pause:(nonnull NSNumber *)reactTag) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-        [player pauseVideo];
+        BridPlayer *view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[BridPlayer class]] || view.player == nil) {
+            RCTLogError(@"Invalid view returned from registry, expecting BridPlayer, got: %@", view);
+        } else {
+            [view.player pause];
+        }
     }];
 }
 
 RCT_EXPORT_METHOD(play:(nonnull NSNumber *)reactTag) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-        [player playVideo];
+        BridPlayer *view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[BridPlayer class]] || view.player == nil) {
+            RCTLogError(@"Invalid view returned from registry, expecting BridPlayer, got: %@", view);
+        } else {
+            [view.player play];
+        }
     }];
 }
 
 RCT_EXPORT_METHOD(next:(nonnull NSNumber *)reactTag) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-        [player nextVideo];
+        BridPlayer *view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[BridPlayer class]] || view.player == nil) {
+            RCTLogError(@"Invalid view returned from registry, expecting BridPlayer, got: %@", view);
+        } else {
+            [view.player next];
+        }
     }];
 }
 
 RCT_EXPORT_METHOD(previous:(nonnull NSNumber *)reactTag) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-        [player previousVideo];
+        BridPlayer *view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[BridPlayer class]] || view.player == nil) {
+            RCTLogError(@"Invalid view returned from registry, expecting BridPlayer, got: %@", view);
+        } else {
+            [view.player previous];
+        }
     }];
 }
 
 RCT_EXPORT_METHOD(destroyPlayer:(nonnull NSNumber *)reactTag) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-        [player destroy];
+        BridPlayer *view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[BridPlayer class]] || view.player == nil) {
+            RCTLogError(@"Invalid view returned from registry, expecting BridPlayer, got: %@", view);
+        } else {
+            [view.player destroy];
+        }
+    }];
+}
+
+RCT_EXPORT_METHOD(showControlls:(nonnull NSNumber *)reactTag) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+        BridPlayer *view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[BridPlayer class]] || view.player == nil) {
+            RCTLogError(@"Invalid view returned from registry, expecting BridPlayer, got: %@", view);
+        } else {
+            [view.player autoHideControls:NO];
+        }
+    }];
+}
+
+RCT_EXPORT_METHOD(hideControlls:(nonnull NSNumber *)reactTag) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+        BridPlayer *view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[BridPlayer class]] || view.player == nil) {
+            RCTLogError(@"Invalid view returned from registry, expecting BridPlayer, got: %@", view);
+        } else {
+            [view.player autoHideControls:YES];
+        }
     }];
 }
 
 RCT_EXPORT_METHOD(mute:(nonnull NSNumber *)reactTag:(BOOL)mute) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-        [player setMute:mute];
+        BridPlayer *view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[BridPlayer class]] || view.player == nil) {
+            RCTLogError(@"Invalid view returned from registry, expecting BridPlayer, got: %@", view);
+        } else {
+            if (mute)
+                [view.player unmute];
+            else
+                [view.player mute];
+        }
     }];
 }
 
 RCT_EXPORT_METHOD(seekToTime:(nonnull NSNumber *)reactTag:(float)time) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-        [player seekToTime:time];
-        
+        BridPlayer *view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[BridPlayer class]] || view.player == nil) {
+            RCTLogError(@"Invalid view returned from registry, expecting BridPlayer, got: %@", view);
+        } else {
+            [view.player seekToTime:time];
+        }
     }];
 }
 
@@ -81,6 +139,48 @@ RCT_REMAP_METHOD(getCurrentTime, tag:(nonnull NSNumber *)reactTag
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
         
         NSNumber *time = [player getPlayerCurrentTime];
+        if (!time) {
+            reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);
+        } else {
+            resolve(time);
+        }
+    }];
+}
+
+RCT_REMAP_METHOD(getVideoDuration, videoDurationTag:(nonnull NSNumber *)reactTag
+                 resolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+
+        NSNumber *videoDuration = [player getVideoDuration];
+        if (!videoDuration) {
+            reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);
+        } else {
+            resolve(videoDuration);
+        }
+    }];
+}
+
+RCT_REMAP_METHOD(getAdDuration, adDurationTag:(nonnull NSNumber *)reactTag
+                 resolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+
+        NSNumber *time = [player getAdDuration];
+        if (!time) {
+            reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);
+        } else {
+            resolve(time);
+        }
+    }];
+}
+
+RCT_REMAP_METHOD(getAdCurrentTime, adCurrentTimeTag:(nonnull NSNumber *)reactTag
+                 resolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+
+        NSNumber *time = [player getAdCurrentTime];
         if (!time) {
             reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);
         } else {
