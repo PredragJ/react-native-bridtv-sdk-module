@@ -86,6 +86,28 @@ RCT_EXPORT_METHOD(destroyPlayer:(nonnull NSNumber *)reactTag) {
     }];
 }
 
+RCT_EXPORT_METHOD(showControlls:(nonnull NSNumber *)reactTag) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+        BridPlayer *view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[BridPlayer class]] || view.player == nil) {
+            RCTLogError(@"Invalid view returned from registry, expecting BridPlayer, got: %@", view);
+        } else {
+            [view.player autoHideControls:NO];
+        }
+    }];
+}
+
+RCT_EXPORT_METHOD(hideControlls:(nonnull NSNumber *)reactTag) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+        BridPlayer *view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[BridPlayer class]] || view.player == nil) {
+            RCTLogError(@"Invalid view returned from registry, expecting BridPlayer, got: %@", view);
+        } else {
+            [view.player autoHideControls:YES];
+        }
+    }];
+}
+
 RCT_EXPORT_METHOD(mute:(nonnull NSNumber *)reactTag:(BOOL)mute) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
         BridPlayer *view = viewRegistry[reactTag];
@@ -117,6 +139,48 @@ RCT_REMAP_METHOD(getCurrentTime, tag:(nonnull NSNumber *)reactTag
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
         
         NSNumber *time = [player getPlayerCurrentTime];
+        if (!time) {
+            reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);
+        } else {
+            resolve(time);
+        }
+    }];
+}
+
+RCT_REMAP_METHOD(getVideoDuration, videoDurationTag:(nonnull NSNumber *)reactTag
+                 resolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+
+        NSNumber *videoDuration = [player getVideoDuration];
+        if (!videoDuration) {
+            reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);
+        } else {
+            resolve(videoDuration);
+        }
+    }];
+}
+
+RCT_REMAP_METHOD(getAdDuration, adDurationTag:(nonnull NSNumber *)reactTag
+                 resolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+
+        NSNumber *time = [player getAdDuration];
+        if (!time) {
+            reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);
+        } else {
+            resolve(time);
+        }
+    }];
+}
+
+RCT_REMAP_METHOD(getAdCurrentTime, adCurrentTimeTag:(nonnull NSNumber *)reactTag
+                 resolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+
+        NSNumber *time = [player getAdCurrentTime];
         if (!time) {
             reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);
         } else {

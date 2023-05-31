@@ -103,6 +103,21 @@
     return [NSNumber numberWithInt:[_player getCurrentTime]];
 }
 
+- (NSNumber*)getVideoDuration
+{
+    return [NSNumber numberWithInt:[_player getDuration]];
+}
+
+- (NSNumber*)getAdDuration
+{
+    return [NSNumber numberWithInt:[_player getAdDuration]];
+}
+
+- (NSNumber*)getAdCurrentTime
+{
+    return [NSNumber numberWithInt:[_player getAdCurrentTime]];
+}
+
 - (void)seekToTime:(float)time
 {
     [self.player seekToTime:time];

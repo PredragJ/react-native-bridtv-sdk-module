@@ -28,6 +28,9 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 - (void)setMute:(BOOL)mute;
 - (BOOL)isMuted;
 - (NSNumber *_Nonnull)getPlayerCurrentTime;
+- (NSNumber *_Nonnull)getVideoDuration;
+- (NSNumber *_Nonnull)getAdDuration;
+- (NSNumber *_Nonnull)getAdCurrentTime;
 - (void)seekToTime:(float)time;
 
 @end
