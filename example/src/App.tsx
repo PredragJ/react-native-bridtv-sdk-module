@@ -1,9 +1,7 @@
-/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {
   StyleSheet,
   View,
-  Text,
   Button,
   ScrollView,
   SafeAreaView,
@@ -16,14 +14,6 @@ const App = () => {
   const bridPlayerRef = React.useRef<BridPlayer>(null);
   // const bridPlayerRef2 = React.useRef<BridPlayer>(null);
   // const bridPlayerRef3 = React.useRef<BridPlayer>(null);
-
-  const [playerState, setPlayerState] = React.useState<{ message: string }[]>(
-    []
-  );
-
-  const updatePlayerState = (newValue: string) => {
-    setPlayerState((prevState) => [...prevState, { message: newValue }]);
-  };
 
   const handleVideoLoad = () => {
     console.log('VIDEO LOADED');
@@ -115,7 +105,6 @@ const App = () => {
         <View style={[styles.container]}>
           <BridPlayer
             ref={bridPlayerRef}
-            setPlayerState={updatePlayerState}
             style={styles.square}
             bridPlayerConfig={{
               playerID: 39159, // PlayerID from BridTV cms
@@ -155,29 +144,6 @@ const App = () => {
               mediaID: 1092011, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
-            //Video
-            handleVideoLoad={handleVideoLoad}
-            handleVideoStart={handleVideoStart}
-            handleVideoPlay={handleVideoPlay}
-            handleVideoBuffering={handleVideoBuffering}
-            handleVideoAdEnd={handleVideoAdEnd}
-            handleVideoProgress={handleVideoProgress}
-            handleVideoError={handleVideoError}
-            handleVideoSeek={handleVideoSeek}
-            handleVideoPaused={handeVideoPause2}
-            handleVideoEnd={handleVideoEnd}
-            handleFulscreenOpen={handleFulscreenOpen}
-            handleFulscreenClose={handleFulscreenClose}
-            //Ad
-            handlevideoAdLoaded={handlevideoAdLoaded}
-            handlevideoAdCompleted={handlevideoAdCompleted}
-            handlevideoAdResumed={handlevideoAdResumed}
-            handleVideoAdStart={handleVideoAdStart}
-            handlevideoAdPaused={handlevideoAdPaused}
-            // handleAdProgress={handleVideoAdProgress}
-            handleVideoAdTapped={handleVideoAdTapped}
-            handleVideoAdSkiped={handleVideoAdSkiped}
-
           />
 
         <BridPlayer
@@ -189,29 +155,6 @@ const App = () => {
               mediaID: 1092011, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
             }}
-            //Video
-            handleVideoLoad={handleVideoLoad}
-            handleVideoStart={handleVideoStart}
-            handleVideoPlay={handleVideoPlay}
-            handleVideoBuffering={handleVideoBuffering}
-            handleVideoAdEnd={handleVideoAdEnd}
-            handleVideoProgress={handleVideoProgress}
-            handleVideoError={handleVideoError}
-            handleVideoSeek={handleVideoSeek}
-            handleVideoPaused={handeVideoPause3}
-            handleVideoEnd={handleVideoEnd}
-            handleFulscreenOpen={handleFulscreenOpen}
-            handleFulscreenClose={handleFulscreenClose}
-            //Ad
-            handlevideoAdLoaded={handlevideoAdLoaded}
-            handlevideoAdCompleted={handlevideoAdCompleted}
-            handlevideoAdResumed={handlevideoAdResumed}
-            handleVideoAdStart={handleVideoAdStart}
-            handlevideoAdPaused={handlevideoAdPaused}
-            // handleAdProgress={handleVideoAdProgress}
-            handleVideoAdTapped={handleVideoAdTapped}
-            handleVideoAdSkiped={handleVideoAdSkiped}
-
           /> */}
           <View style={styles.buttonContainer}>
             <Button
@@ -257,14 +200,6 @@ const App = () => {
               onPress={() => bridPlayerRef.current?.isRepeated()}
             />
           </View>
-          <Text style={{ textAlign: 'center', margin: 20 }}>
-            {playerState.map((event, index) => (
-              <Text key={index}>
-                {event.message}
-                {'\n'}
-              </Text>
-            ))}
-          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>

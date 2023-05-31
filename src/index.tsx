@@ -7,7 +7,6 @@ import {
   Platform,
   NativeEventEmitter,
 } from 'react-native';
-import type { Float } from 'react-native/Libraries/Types/CodegenTypes';
 
 import { BridPlayerError } from './BridPlayerError';
 const ComponentName = 'BridtvSdkModuleView';
@@ -366,7 +365,7 @@ export default class BridPlayer extends React.Component {
     );
   }
 
-  seekToTime(time: Float) {
+  seekToTime(time: number) {
     UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'seekToTime', [
       time,
     ]);
@@ -481,21 +480,7 @@ export default class BridPlayer extends React.Component {
       }
     }
   }
-
-  async getAdDuration() {
-    if (BridtvSdkManager) {
-      try {
-        const adDuration = await BridtvSdkManager.getAdDuration(
-          findNodeHandle(this)
-        );
-        return adDuration;
-      } catch (e) {
-        console.error(e);
-        return null;
-      }
-    }
-  }
-
+   
   //BRID PLAYER NATIVE
   render() {
     return <RNBridPlayer key={this.ref_key} {...this.props} />;
