@@ -52,6 +52,11 @@ interface BridPlayerConfig {
 }
 const BridtvSdkManager =
   Platform.OS === 'ios'
+    ? NativeModules.BridtvSdkModuleView
+    : NativeModules.BridtvSdkModule;
+
+const BridtvSdkEmitter =
+  Platform.OS === 'ios'
     ? NativeModules.BridtvSdkModule
     : NativeModules.BridtvSdkModule;
 
@@ -150,7 +155,7 @@ const RN_BRID_PLAYER_KEY = 'RnBridPlayerKey';
 
 export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   eventListener: any;
-  eventEmitter = new NativeEventEmitter(BridtvSdkManager);
+  eventEmitter = new NativeEventEmitter(BridtvSdkEmitter);
 
   listeners: Map<string, () => void> = new Map();
 
