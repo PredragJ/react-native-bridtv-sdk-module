@@ -98,6 +98,21 @@
     return [self.player getMuted];
 }
 
+- (BOOL)isAdPlaying
+{
+    return [self.player isAdInProgress];
+}
+
+- (BOOL)isPaused
+{
+    return [self.player isPaused];
+}
+
+- (BOOL)isRepeated
+{
+    return [self.player isRepeated];
+}
+
 - (NSNumber*)getPlayerCurrentTime
 {
     return [NSNumber numberWithInt:[_player getCurrentTime]];

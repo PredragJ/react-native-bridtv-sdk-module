@@ -189,7 +189,7 @@ RCT_REMAP_METHOD(getAdCurrentTime, adCurrentTimeTag:(nonnull NSNumber *)reactTag
     }];
 }
 
-RCT_REMAP_METHOD(isMuted_resolver,
+RCT_REMAP_METHOD(isMuted, isMutedTag:(nonnull NSNumber *)reactTag
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
@@ -197,14 +197,74 @@ RCT_REMAP_METHOD(isMuted_resolver,
         NSNumber *isMuted;
         
         if ([player isMuted])
-            isMuted = [NSNumber numberWithInt:0];
-        else
             isMuted = [NSNumber numberWithInt:1];
+        else
+            isMuted = [NSNumber numberWithInt:0];
         
         if (!isMuted) {
             reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);
         } else {
             resolve(isMuted);
+        }
+    }];
+}
+
+RCT_REMAP_METHOD(isAdPlaying, isAdPlayingTag:(nonnull NSNumber *)reactTag
+                 resolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+        
+        NSNumber *isAdPlaying;
+        
+        if ([player isAdPlaying])
+            isAdPlaying = [NSNumber numberWithInt:1];
+        else
+            isAdPlaying = [NSNumber numberWithInt:0];
+        
+        if (!isAdPlaying) {
+            reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);
+        } else {
+            resolve(isAdPlaying);
+        }
+    }];
+}
+
+RCT_REMAP_METHOD(isPaused, isPausedTag:(nonnull NSNumber *)reactTag
+                 resolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+        
+        NSNumber *isPaused;
+        
+        if ([player isPaused])
+            isPaused = [NSNumber numberWithInt:1];
+        else
+            isPaused = [NSNumber numberWithInt:0];
+        
+        if (!isPaused) {
+            reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);
+        } else {
+            resolve(isPaused);
+        }
+    }];
+}
+
+RCT_REMAP_METHOD(isRepeated, isRepeatedTag:(nonnull NSNumber *)reactTag
+                 resolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+        
+        NSNumber *isRepeated;
+        
+        if ([player isRepeated])
+            isRepeated = [NSNumber numberWithInt:1];
+        else
+            isRepeated = [NSNumber numberWithInt:0];
+        
+        if (!isRepeated) {
+            reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);
+        } else {
+            resolve(isRepeated);
         }
     }];
 }
