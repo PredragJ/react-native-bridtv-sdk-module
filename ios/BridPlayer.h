@@ -23,6 +23,7 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 @property(nonatomic) NSString *_Nonnull typeOfPlayer;
 @property(nonatomic) BOOL useVPAIDSupport;
 @property(nonatomic) BOOL setFullscreen;
+@property(nonatomic) BOOL controlAutoplay;
 @property(nonatomic, strong) BVPlayer *_Nonnull player;
 
 - (void)setMute:(BOOL)mute;
@@ -30,6 +31,7 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 - (BOOL)isAdPlaying;
 - (BOOL)isPaused;
 - (BOOL)isRepeated;
+- (BOOL)isAutoplay;
 - (NSNumber *_Nonnull)getPlayerCurrentTime;
 - (NSNumber *_Nonnull)getVideoDuration;
 - (NSNumber *_Nonnull)getAdDuration;
