@@ -60,6 +60,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
     mActivity = (ReactActivity) context.getReactApplicationContext().getCurrentActivity();
     mRootView = mActivity.findViewById(android.R.id.content);
 
+    reactApplicationContext.addLifecycleEventListener(this);
     init(context.getReactApplicationContext().getCurrentActivity());
   }
 
@@ -113,10 +114,11 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
         return bridPlayer;
     }
 
-  public void loadVideo(int playerId, int videoId, boolean vpaidSupport, boolean isFullscreen) {
+  public void loadVideo(int playerId, int videoId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay) {
     if (bridPlayer != null) {
       bridPlayerBuilder.useVpaidSupport(vpaidSupport);
       bridPlayerBuilder.fullscreen(isFullscreen);
+      bridPlayerBuilder.enableAutoplay(!controlAutoplay);
       bridPlayerBuilder.mute();
       bridPlayer = bridPlayerBuilder.rebuild();
       bridPlayer.loadVideo(playerId, videoId);
@@ -130,11 +132,14 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
         bridPlayer.showControls();
       }
   }
-  public void loadPlaylist(int playerId, int playlistId) {
+  public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay) {
       if(bridPlayer != null){
+        bridPlayerBuilder.useVpaidSupport(vpaidSupport);
+        bridPlayerBuilder.fullscreen(isFullscreen);
+        bridPlayerBuilder.enableAutoplay(!controlAutoplay);
+        bridPlayerBuilder.mute();
+        bridPlayer = bridPlayerBuilder.rebuild();
         bridPlayer.loadPlaylist(playerId,playlistId);
-        bridPlayer.showControls();
-
       }
   }
 
