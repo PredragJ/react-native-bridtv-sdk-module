@@ -49,6 +49,8 @@ interface BridPlayerConfig {
   typeOfPlayer?: string;
   useVPAIDSupport?: boolean;
   setFullscreen?: boolean;
+  controlAutoplay?: boolean;
+  enableAdControls?: boolean;
 }
 const BridtvSdkManager =
   Platform.OS === 'ios'
@@ -502,6 +504,20 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
           findNodeHandle(this)
         );
         return isRepeated;
+      } catch (e) {
+        console.error(e);
+        return null;
+      }
+    }
+  }
+
+  async isAutoplay() {
+    if (BridtvSdkManager) {
+      try {
+        const isAutoplay = await BridtvSdkManager.isAutoplay(
+          findNodeHandle(this)
+        );
+        return isAutoplay;
       } catch (e) {
         console.error(e);
         return null;
