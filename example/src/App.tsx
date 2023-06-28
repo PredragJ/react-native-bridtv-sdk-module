@@ -109,7 +109,9 @@ const App = () => {
             bridPlayerConfig={{
               playerID: 39159, // PlayerID from BridTV cms
               mediaID: 1092011, //VideoID or PlaylistID from BridTv cms
-              typeOfPlayer: 'Single', // Single or Playlist
+              typeOfPlayer: 'Single', //Single or Playlist
+              controlAutoplay: true,
+              enableAdControls: true, //enables the client to take control over autoplay
             }}
             //Video
             handleVideoLoad={handleVideoLoad}
@@ -164,7 +166,7 @@ const App = () => {
 
             <Button
               title="Play"
-              onPress={() => bridPlayerRef.current?.play()}
+              onPress={() => bridPlayerRef.current?.isAutoplay()}
             />
 
             <Button

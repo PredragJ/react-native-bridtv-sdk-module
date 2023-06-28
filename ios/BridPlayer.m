@@ -63,6 +63,16 @@
     
     [_player useVPAIDSupport:useVPAIDSupport];
     
+    if (enableAdControls)
+        [_player enableAdControls:YES];
+    else
+        [_player enableAdControls:NO];
+    
+    if (controlAutoplay)
+        [_player controlAutoplay:YES];
+    else
+        [_player controlAutoplay:NO];
+    
     if (setFullscreen)
         [_player setFullscreenON];
     else
@@ -111,6 +121,11 @@
 - (BOOL)isRepeated
 {
     return [self.player isRepeated];
+}
+
+- (BOOL)isAutoplay
+{
+    return [self.player isAutoplay];
 }
 
 - (NSNumber*)getPlayerCurrentTime
