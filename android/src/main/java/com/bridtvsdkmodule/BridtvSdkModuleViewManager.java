@@ -86,7 +86,7 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
   @ReactProp(name = "bridPlayerConfig")
   public void setPlayerConfig(RNBridPlayerView bridPlayerView, ReadableMap prop) {
     int playerId = 0,mediaId = 0;
-    boolean useVpaid = false, playlist = false, isFullscreen = false, controlAutoplay = false;
+    boolean useVpaid = false, playlist = false, isFullscreen = false, controlAutoplay = false, enableAdControls = false;
     try {
       if(prop.hasKey("playerID"))
         playerId = (int) prop.getDouble("playerID");
@@ -103,10 +103,14 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
       if(prop.hasKey("controlAutoplay"))
          controlAutoplay = prop.getBoolean("controlAutoplay");
 
+      if(prop.hasKey("enableAdControls"))
+        enableAdControls = prop.getBoolean("enableAdControls");
+
+
       if(playlist)
-        bridPlayerView.loadPlaylist(playerId,mediaId, useVpaid,isFullscreen, controlAutoplay);
+        bridPlayerView.loadPlaylist(playerId,mediaId, useVpaid,isFullscreen, controlAutoplay, enableAdControls);
       else
-        bridPlayerView.loadVideo(playerId, mediaId, useVpaid, isFullscreen, controlAutoplay);
+        bridPlayerView.loadVideo(playerId, mediaId, useVpaid, isFullscreen, controlAutoplay, enableAdControls);
 
       if(bridPlayerListener != null)
         bridPlayer.setBridListener(bridPlayerListener);
