@@ -114,11 +114,12 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
         return bridPlayer;
     }
 
-  public void loadVideo(int playerId, int videoId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay) {
+  public void loadVideo(int playerId, int videoId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls) {
     if (bridPlayer != null) {
       bridPlayerBuilder.useVpaidSupport(vpaidSupport);
       bridPlayerBuilder.fullscreen(isFullscreen);
       bridPlayerBuilder.enableAutoplay(!controlAutoplay);
+      bridPlayerBuilder.enableAdControls(enableAdControls);
       bridPlayerBuilder.mute();
       bridPlayer = bridPlayerBuilder.rebuild();
       bridPlayer.loadVideo(playerId, videoId);
@@ -132,7 +133,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
         bridPlayer.showControls();
       }
   }
-  public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay) {
+  public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls) {
       if(bridPlayer != null){
         bridPlayerBuilder.useVpaidSupport(vpaidSupport);
         bridPlayerBuilder.fullscreen(isFullscreen);
