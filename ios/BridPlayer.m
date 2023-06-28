@@ -23,14 +23,20 @@
 @synthesize typeOfPlayer;
 @synthesize useVPAIDSupport;
 @synthesize setFullscreen;
+@synthesize controlAutoplay;
+@synthesize enableAdControls;
 
 -(void)layoutSubviews
 {
     [super layoutSubviews];
     
+    useVPAIDSupport = [bridPlayerConfig objectForKey:@"useVPAIDSupport"];
+    controlAutoplay = [bridPlayerConfig objectForKey:@"controlAutoplay"];
+    enableAdControls = [bridPlayerConfig objectForKey:@"enableAdControls"];
+    setFullscreen = [bridPlayerConfig objectForKey:@"setFullscreen"];
     [self setPlayerTypeByString:[bridPlayerConfig objectForKey:@"typeOfPlayer"]];
-    [self setupEventNetworking];
     
+    [self setupEventNetworking];
     [self addSubview:self.player.view];
     self.player.view.frame = self.bounds;
     
@@ -38,7 +44,6 @@
 
 - (void)setPlayerTypeByString:(NSString *)typeString
 {
-    NSLog(@"PECA TYPE: %@", typeString);
     if ([typeString  isEqual: @"Single"])
         type = SinglePlayer;
     else if ([typeString  isEqual: @"Playlist"])
@@ -62,16 +67,8 @@
     }
     
     [_player useVPAIDSupport:useVPAIDSupport];
-    
-    if (enableAdControls)
-        [_player enableAdControls:YES];
-    else
-        [_player enableAdControls:NO];
-    
-    if (controlAutoplay)
-        [_player controlAutoplay:YES];
-    else
-        [_player controlAutoplay:NO];
+    [_player enableAdControls:enableAdControls];
+    [_player controlAutoplay:controlAutoplay];
     
     if (setFullscreen)
         [_player setFullscreenON];

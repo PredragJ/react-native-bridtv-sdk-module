@@ -31,6 +31,7 @@ RCT_EXPORT_VIEW_PROPERTY(typeOfPlayer, NSString);
 RCT_EXPORT_VIEW_PROPERTY(useVPAIDSupport, BOOL);
 RCT_EXPORT_VIEW_PROPERTY(setFullscreen, BOOL);
 RCT_EXPORT_VIEW_PROPERTY(controlAutoplay, BOOL);
+RCT_EXPORT_VIEW_PROPERTY(enableAdControls, BOOL);
 
 RCT_EXPORT_METHOD(pause:(nonnull NSNumber *)reactTag) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
@@ -278,9 +279,9 @@ RCT_REMAP_METHOD(isAutoplay, isAutoplayTag:(nonnull NSNumber *)reactTag
         NSNumber *isAutoplay;
         
         if ([player isAutoplay])
-            isRepeated = [NSNumber numberWithInt:1];
+            isAutoplay = [NSNumber numberWithInt:1];
         else
-            isRepeated = [NSNumber numberWithInt:0];
+            isAutoplay = [NSNumber numberWithInt:0];
         
         if (!isAutoplay) {
             reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);
