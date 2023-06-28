@@ -63,6 +63,11 @@
     
     [_player useVPAIDSupport:useVPAIDSupport];
     
+    if (enableAdControls)
+        [_player enableAdControls:YES];
+    else
+        [_player enableAdControls:NO];
+    
     if (controlAutoplay)
         [_player controlAutoplay:YES];
     else
