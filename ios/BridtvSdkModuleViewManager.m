@@ -283,6 +283,8 @@ RCT_REMAP_METHOD(isAutoplay, isAutoplayTag:(nonnull NSNumber *)reactTag
         else
             isAutoplay = [NSNumber numberWithInt:0];
         
+        NSLog(@"PECA isAutoplay: %@", isAutoplay);
+        
         if (!isAutoplay) {
             reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);
         } else {
