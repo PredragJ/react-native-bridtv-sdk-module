@@ -31,9 +31,13 @@
     [super layoutSubviews];
     
     useVPAIDSupport = [bridPlayerConfig objectForKey:@"useVPAIDSupport"];
+    setFullscreen = [bridPlayerConfig objectForKey:@"setFullscreen"];
     controlAutoplay = [bridPlayerConfig objectForKey:@"controlAutoplay"];
     enableAdControls = [bridPlayerConfig objectForKey:@"enableAdControls"];
-    setFullscreen = [bridPlayerConfig objectForKey:@"setFullscreen"];
+   
+    if (setFullscreen)
+        setFullscreen = NO;
+    
     [self setPlayerTypeByString:[bridPlayerConfig objectForKey:@"typeOfPlayer"]];
     
     [self setupEventNetworking];
