@@ -27,6 +27,7 @@ type BridtvSdkModuleProps = {
   handleVideoSeek?: () => void;
   handleFulscreenOpen?: () => void;
   handleFulscreenClose?: () => void;
+  handleVideoAutoplay?: () => void;
 
   //Ad
   handlevideoAdLoaded?: () => void;
@@ -86,6 +87,7 @@ const BridPlayerEventsIos = {
   videoAdEnd: 'adComplete',
   videoAdTapped: 'adTapped',
   videoAdSkipped: 'adSkipped',
+  videoAutoplay: 'video_autoplay',
 };
 
 const BridPlayerEventsAndroid = {
@@ -101,6 +103,7 @@ const BridPlayerEventsAndroid = {
   videoError: 'video_error',
   fullscreenOpen: 'fullscreen_open',
   fullscreenClose: 'fullscreen_close',
+  videoAutoplay: 'video_autoplay',
 
   //Ad
   videoAdLoaded: 'ad_loaded',
@@ -220,6 +223,10 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     }
     if (props.handleVideoAdEnd) {
       this.onVideoAdEnd(props.handleVideoAdEnd);
+    }
+
+    if (props.handleVideoAutoplay) {
+      this.onVideoAutoplay(props.handleVideoAutoplay);
     }
 
     //VIDEO ERRORr
@@ -362,6 +369,10 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 
   onVideoAdEnd = (handler: () => void) => {
     this.registedListener(BridPlayerEvents.videoAdEnd, handler);
+  };
+
+  onVideoAutoplay = (handler: () => void) => {
+    this.registedListener(BridPlayerEvents.videoAutoplay, handler);
   };
 
   //ALL PLAYER ERRORS
