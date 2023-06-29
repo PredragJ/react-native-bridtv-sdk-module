@@ -514,7 +514,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   async isAutoplay() {
     if (BridtvSdkManager) {
       try {
-        const isAutoplay = await BridtvSdkManager.isAutoplay(
+        const isAutoplay = await BridtvSdkManager.Autoplay(
           findNodeHandle(this)
         );
         return isAutoplay;
