@@ -87,6 +87,10 @@ const App = () => {
     console.log('AD SKIPPED');
   };
 
+  const handleVideoAutoplay = () => {
+    console.log('VIDEO AUTOPLAY');
+  };
+
   //VIDEO ERROR EVENTS
   const handleVideoError = (errorEvent?: BridPlayerError) => {
     console.log(
@@ -107,10 +111,10 @@ const App = () => {
             ref={bridPlayerRef}
             style={styles.square}
             bridPlayerConfig={{
-              playerID: 123456, // PlayerID from BridTV cms
-              mediaID: 123456789, //VideoID or PlaylistID from BridTv cms
+              playerID: 40107, // PlayerID from BridTV cms
+              mediaID: 1340556, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', //Single or Playlist
-              controlAutoplay: true, //enables the client to take control over autoplay
+              controlAutoplay: false, //enables the client to take control over autoplay
               enableAdControls: true, //displays ad conrols
             }}
             //Video
@@ -125,6 +129,7 @@ const App = () => {
             handleVideoEnd={handleVideoEnd}
             handleFulscreenOpen={handleFulscreenOpen}
             handleFulscreenClose={handleFulscreenClose}
+            handleVideoAutoplay={handleVideoAutoplay}
             //Ad
             handlevideoAdLoaded={handlevideoAdLoaded}
             handlevideoAdCompleted={handlevideoAdCompleted}

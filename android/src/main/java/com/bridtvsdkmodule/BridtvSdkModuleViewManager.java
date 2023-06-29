@@ -306,6 +306,9 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
             event.putString("message", "protectedContent");
             sendEvent(mReactContext, "BridPlayerEvents", event);
             break;
+          case PlayerEvents.EVENT_VIDEO_AUTOPLAY:
+            event.putString("message","player_autoplay");
+            sendEvent(mReactContext,"BridPlayerEvents", event);
         }
 
       }
