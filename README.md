@@ -46,6 +46,8 @@ const App = () => {
               playerID: xxxxx, // PlayerID from BridTV cms
               mediaID: xxxxxxxx, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
+              controlAutoplay: true, //enables the client to take control over autoplay - optional
+              enableAdControls: true, //displays ad conrols - optional
             }}
             handleVideoLoad={handleVideoLoad} // Player event callbacks
             ...
@@ -131,13 +133,15 @@ These error types represent various issues that can occur during the playback of
 + **setFullscreen(fullscreen: boolean):** void: Sets the fullscreen mode of the player. Pass true to enter fullscreen mode or false to exit fullscreen mode.
 + **showControlls(): void:** Enable the video controls.
 + **hidecontrolls(): void:** Disable the video controls.
-+ **isAdPlaying():** void: Checks if an ad is currently playing.
++ **isAdPlaying(): bool**Checks if an ad is currently playing.
 + **getPlayerCurrentTime():** Promise<number | null>: Retrieves the current playback time of the player in miliseconds. Returns a promise that resolves with the current time or null if the player is not loaded.
 + **getAdDuration(): Promise<number | null>:** Retrieves the duration of the currently playing ad in miliseconds. Returns a promise that resolves with the ad duration or null if no ad is playing.
 + **getVideoDuration(): Promise<number | null>:** Retrieves the duration of the currently loaded video in smilisecondseconds. Returns a promise that resolves with the video duration or null if no video is loaded.
-+ **isPaused(): void:** Checks if the video is currently paused.
-+ **isRepeated(): void:** Checks if the video is alerady repeated.
++ **isPaused(): bool:** Checks if the video is currently paused.
++ **isRepeated(): bool:** Checks if the video is alerady repeated.
 + **destroyPlayer(): void:** Destroys the native player instance and cleans up any resources associated with it.
++ **isAutoplay(): bool:** Destroys the native player instance and cleans up any resources associated with it.
+
 
 *Please note that these methods should be called on an instance of the BridPlayer class.*
 
