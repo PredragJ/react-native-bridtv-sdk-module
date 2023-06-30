@@ -70,7 +70,6 @@ const BridPlayerEventsIos = {
   videoStart: 'playerVideoStarted',
   videoPlay: 'playerVideoPlay',
   videoPaused: 'playerVideoPause',
-  videoProgress: 'Nemam pojma',
   videoSeek: 'playerSliderValueChanged',
   videoEnd: 'playerStop',
   videoError: 'playerVideoError',
@@ -83,11 +82,11 @@ const BridPlayerEventsIos = {
   videoAdResumed: 'adResume',
   videoAdStart: 'adStarted',
   videoAdPaused: 'adPause',
-  videoAdProgress: 'Nemam pojma',
+  videoAdProgress: 'adProgress',
   videoAdEnd: 'adComplete',
   videoAdTapped: 'adTapped',
   videoAdSkipped: 'adSkipped',
-  videoAutoplay: 'video_autoplay',
+  videoAutoplay: 'playerAutoplay',
 };
 
 const BridPlayerEventsAndroid = {
@@ -96,7 +95,6 @@ const BridPlayerEventsAndroid = {
   videoLoad: 'video_loaded',
   videoStart: 'video_start',
   videoPlay: 'video_played',
-  videoProgress: 'video_progress',
   videoPaused: 'video_paused',
   videoSeek: 'video_seek',
   videoEnd: 'video_ended',
