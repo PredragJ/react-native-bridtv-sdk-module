@@ -16,6 +16,10 @@ After NPM, cd to IOS and run  pod install
 
 Android 
 
+To update dependencies and fetch the latest packages open Android Studio and perform Gradle sync, you ensure that your Android project is up to date with the latest packages and dependencies, which can help resolve compatibility issues and provide access to new features and bug fixes.
+
+
+
 Because Module currently using BridPlayer SDK SNAPSHOT 
 In Gradle (Module:app) need to be added
 
@@ -60,7 +64,7 @@ The BridPlayer component accepts the following props:
 
 + **style** (optional): Specifies the style for the player component.
 
-+ **bridPlayerConfig**: An object that contains configuration options for the player.  It includes properties playerID, mediaID, typeOfPlayer, useVPAIDSupport, and setFullscreen.
++ **bridPlayerConfig**: An object that contains configuration options for the player.  It includes properties playerID, mediaID, typeOfPlayer, useVPAIDSupport,controlAutoplay and enableAdControls.
 
 + **Video event callbacks**: These props allow you to specify callback functions for various video events like:
     - handleVideoLoad, 
@@ -68,10 +72,12 @@ The BridPlayer component accepts the following props:
     -  handleVideoPlay, 
     -  handleVideoBuffering, 
     -  handleVideoProgress, 
-    -  handleVideoPaused, handleVideoEnd, 
+    -  handleVideoPaused,
+    -  handleVideoEnd, 
     -  handleVideoSeek, 
     -  handleFulscreenOpen, 
-    -  handleFulscreenClose
+    -  handleFulscreenClose,
+    -  handleVideoAutoplay
 
 + **Ad event callbacks**: These props allow you to specify callback functions for various ad events like:
     -  handlevideoAdLoaded, 
@@ -138,6 +144,8 @@ These error types represent various issues that can occur during the playback of
 + **isPaused(): void:** Checks if the video is currently paused.
 + **isRepeated(): void:** Checks if the video is alerady repeated.
 + **destroyPlayer(): void:** Destroys the native player instance and cleans up any resources associated with it.
++ **isAutoplay(): bool:** Method is used to check if the current video is set to autoplay.
+
 
 *Please note that these methods should be called on an instance of the BridPlayer class.*
 
