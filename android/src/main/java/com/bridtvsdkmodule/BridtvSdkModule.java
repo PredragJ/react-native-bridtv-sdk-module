@@ -112,6 +112,28 @@ public class BridtvSdkModule extends ReactContextBaseJavaModule {
     }
   }
 
+
+  @ReactMethod
+  public void isAutoplay(final int reactTag, Promise promise){
+    Log.d("BridtvSdkModuleLog", "isAutoplay");
+    try {
+      UIManagerModule uiManager = mReactContext.getNativeModule(UIManagerModule.class);
+      uiManager.addUIBlock(new UIBlock() {
+        @Override
+        public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
+          RNBridPlayerView playerView = (RNBridPlayerView) nativeViewHierarchyManager.resolveView(reactTag);
+          if(playerView != null && playerView.getBridPlayer() != null){
+            promise.resolve(playerView.getBridPlayer().isAutoplay());
+          }else {
+            promise.reject("RNBridPlayerError", "Player is null");
+          }
+        }
+      });
+    } catch (Exception e){
+      promise.reject("Error happened", e);
+    }
+  }
+
   @ReactMethod
   public void isRepeated(final int reactTag, Promise promise){
     Log.d("BridtvSdkModuleLog", "isRepeated");

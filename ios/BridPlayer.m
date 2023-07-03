@@ -23,14 +23,21 @@
 @synthesize typeOfPlayer;
 @synthesize useVPAIDSupport;
 @synthesize setFullscreen;
+@synthesize controlAutoplay;
+@synthesize enableAdControls;
 
 -(void)layoutSubviews
 {
     [super layoutSubviews];
     
-    [self setPlayerTypeByString:[bridPlayerConfig objectForKey:@"typeOfPlayer"]];
-    [self setupEventNetworking];
+    useVPAIDSupport = [[bridPlayerConfig objectForKey:@"useVPAIDSupport"] boolValue];
+    setFullscreen = [[bridPlayerConfig objectForKey:@"setFullscreen"] boolValue];
+    controlAutoplay = [[bridPlayerConfig objectForKey:@"controlAutoplay"] boolValue];
+    enableAdControls = [[bridPlayerConfig objectForKey:@"enableAdControls"] boolValue];
     
+    [self setPlayerTypeByString:[bridPlayerConfig objectForKey:@"typeOfPlayer"]];
+    
+    [self setupEventNetworking];
     [self addSubview:self.player.view];
     self.player.view.frame = self.bounds;
     
@@ -38,7 +45,6 @@
 
 - (void)setPlayerTypeByString:(NSString *)typeString
 {
-    NSLog(@"PECA TYPE: %@", typeString);
     if ([typeString  isEqual: @"Single"])
         type = SinglePlayer;
     else if ([typeString  isEqual: @"Playlist"])
@@ -62,6 +68,8 @@
     }
     
     [_player useVPAIDSupport:useVPAIDSupport];
+    [_player enableAdControls:enableAdControls];
+    [_player controlAutoplay:controlAutoplay];
     
     if (setFullscreen)
         [_player setFullscreenON];
@@ -111,6 +119,11 @@
 - (BOOL)isRepeated
 {
     return [self.player isRepeated];
+}
+
+- (BOOL)isAutoplay
+{
+    return [self.player isAutoplay];
 }
 
 - (NSNumber*)getPlayerCurrentTime
