@@ -86,7 +86,7 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
   @ReactProp(name = "bridPlayerConfig")
   public void setPlayerConfig(RNBridPlayerView bridPlayerView, ReadableMap prop) {
     int playerId = 0,mediaId = 0;
-    boolean useVpaid = false, playlist = false, isFullscreen = false;
+    boolean useVpaid = false, playlist = false, isFullscreen = false, controlAutoplay = false, enableAdControls = false;
     try {
       if(prop.hasKey("playerID"))
         playerId = (int) prop.getDouble("playerID");
@@ -100,10 +100,17 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
       if(prop.hasKey("setFullscreen"))
         isFullscreen = prop.getBoolean("setFullscreen");
 
+      if(prop.hasKey("controlAutoplay"))
+         controlAutoplay = prop.getBoolean("controlAutoplay");
+
+      if(prop.hasKey("enableAdControls"))
+        enableAdControls = prop.getBoolean("enableAdControls");
+
+
       if(playlist)
-        bridPlayerView.loadPlaylist(playerId,mediaId);
+        bridPlayerView.loadPlaylist(playerId,mediaId, useVpaid,isFullscreen, controlAutoplay, enableAdControls);
       else
-        bridPlayerView.loadVideo(playerId, mediaId, useVpaid, isFullscreen);
+        bridPlayerView.loadVideo(playerId, mediaId, useVpaid, isFullscreen, controlAutoplay, enableAdControls);
 
       if(bridPlayerListener != null)
         bridPlayer.setBridListener(bridPlayerListener);
@@ -128,7 +135,7 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
       case LOAD_PLAYLIST:
          playerID = args.getInt(0);
          mediaID = args.getInt(1);
-          bridPlayerView.loadPlaylist(playerID, mediaID);
+//          bridPlayerView.loadPlaylist(playerID, mediaID);
       case PLAY:
           bridPlayerView.play();
         break;
@@ -299,6 +306,9 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
             event.putString("message", "protectedContent");
             sendEvent(mReactContext, "BridPlayerEvents", event);
             break;
+          case PlayerEvents.EVENT_VIDEO_AUTOPLAY:
+            event.putString("message","player_autoplay");
+            sendEvent(mReactContext,"BridPlayerEvents", event);
         }
 
       }
