@@ -27,6 +27,7 @@ type BridtvSdkModuleProps = {
   handleVideoSeek?: () => void;
   handleFulscreenOpen?: () => void;
   handleFulscreenClose?: () => void;
+  handleVideoAutoplay?: () => void;
 
   //Ad
   handlevideoAdLoaded?: () => void;
@@ -48,7 +49,6 @@ interface BridPlayerConfig {
   mediaID?: number;
   typeOfPlayer?: string;
   useVPAIDSupport?: boolean;
-  setFullscreen?: boolean;
   controlAutoplay?: boolean;
   enableAdControls?: boolean;
 }
@@ -69,7 +69,6 @@ const BridPlayerEventsIos = {
   videoStart: 'playerVideoStarted',
   videoPlay: 'playerVideoPlay',
   videoPaused: 'playerVideoPause',
-  videoProgress: 'Nemam pojma',
   videoSeek: 'playerSliderValueChanged',
   videoEnd: 'playerStop',
   videoError: 'playerVideoError',
@@ -82,10 +81,11 @@ const BridPlayerEventsIos = {
   videoAdResumed: 'adResume',
   videoAdStart: 'adStarted',
   videoAdPaused: 'adPause',
-  videoAdProgress: 'Nemam pojma',
+  videoAdProgress: 'adProgress',
   videoAdEnd: 'adComplete',
   videoAdTapped: 'adTapped',
   videoAdSkipped: 'adSkipped',
+  videoAutoplay: 'playerAutoplay',
 };
 
 const BridPlayerEventsAndroid = {
@@ -94,13 +94,13 @@ const BridPlayerEventsAndroid = {
   videoLoad: 'video_loaded',
   videoStart: 'video_start',
   videoPlay: 'video_played',
-  videoProgress: 'video_progress',
   videoPaused: 'video_paused',
   videoSeek: 'video_seek',
   videoEnd: 'video_ended',
   videoError: 'video_error',
   fullscreenOpen: 'fullscreen_open',
   fullscreenClose: 'fullscreen_close',
+  videoAutoplay: 'video_autoplay',
 
   //Ad
   videoAdLoaded: 'ad_loaded',
@@ -222,7 +222,11 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
       this.onVideoAdEnd(props.handleVideoAdEnd);
     }
 
-    //VIDEO ERRORr
+    if (props.handleVideoAutoplay) {
+      this.onVideoAutoplay(props.handleVideoAutoplay);
+    }
+
+    //VIDEO ERROR
     if (props.handleVideoError) {
       this.onVideoError(props.handleVideoError);
     }
@@ -303,10 +307,6 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     this.registedListener(BridPlayerEvents.videoStart, handler);
   };
 
-  onVideoProgress = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoProgress, handler);
-  };
-
   onVideoSeek = (handler: () => void) => {
     this.registedListener(BridPlayerEvents.videoSeek, handler);
   };
@@ -362,6 +362,10 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 
   onVideoAdEnd = (handler: () => void) => {
     this.registedListener(BridPlayerEvents.videoAdEnd, handler);
+  };
+
+  onVideoAutoplay = (handler: () => void) => {
+    this.registedListener(BridPlayerEvents.videoAutoplay, handler);
   };
 
   //ALL PLAYER ERRORS

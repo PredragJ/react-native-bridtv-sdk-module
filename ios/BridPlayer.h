@@ -15,7 +15,6 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 
 @interface BridPlayer : UIView
 
-
 @property(nonatomic) NSDictionary *_Nonnull bridPlayerConfig;
 @property(nonatomic) NSNumber *_Nonnull playerID;
 @property(nonatomic) NSNumber *_Nonnull mediaID;
