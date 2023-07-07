@@ -16,6 +16,8 @@ After NPM, cd to IOS and run  pod install
 
 Android 
 
+To update dependencies and fetch the latest packages open Android Studio and run Gradle Sync. By performing the Gradle sync, you ensure that your Android project is up to date with the latest packages and dependencies, which can help resolve compatibility issues and provide access to new features and bug fixes.
+
 Because Module currently using BridPlayer SDK SNAPSHOT 
 In Gradle (Module:app) need to be added
 
@@ -46,6 +48,8 @@ const App = () => {
               playerID: xxxxx, // PlayerID from BridTV cms
               mediaID: xxxxxxxx, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
+              controlAutoplay: true, //enables the client to take control over autoplay - optional
+              enableAdControls: true, //displays ad conrols - optional
             }}
             handleVideoLoad={handleVideoLoad} // Player event callbacks
             ...
@@ -60,7 +64,7 @@ The BridPlayer component accepts the following props:
 
 + **style** (optional): Specifies the style for the player component.
 
-+ **bridPlayerConfig**: An object that contains configuration options for the player.  It includes properties playerID, mediaID, typeOfPlayer, useVPAIDSupport, and setFullscreen.
++ **bridPlayerConfig**: An object that contains configuration options for the player.  It includes properties playerID, mediaID, typeOfPlayer, useVPAIDSupport, controlAutoplay and enableAdControls.
 
 + **Video event callbacks**: These props allow you to specify callback functions for various video events like:
     - handleVideoLoad, 
@@ -68,10 +72,12 @@ The BridPlayer component accepts the following props:
     -  handleVideoPlay, 
     -  handleVideoBuffering, 
     -  handleVideoProgress, 
-    -  handleVideoPaused, handleVideoEnd, 
+    -  handleVideoPaused,
+    -  handleVideoEnd, 
     -  handleVideoSeek, 
     -  handleFulscreenOpen, 
-    -  handleFulscreenClose
+    -  handleFulscreenClose,
+    -  handleVideoAutoplay
 
 + **Ad event callbacks**: These props allow you to specify callback functions for various ad events like:
     -  handlevideoAdLoaded, 
@@ -131,13 +137,15 @@ These error types represent various issues that can occur during the playback of
 + **setFullscreen(fullscreen: boolean):** void: Sets the fullscreen mode of the player. Pass true to enter fullscreen mode or false to exit fullscreen mode.
 + **showControlls(): void:** Enable the video controls.
 + **hidecontrolls(): void:** Disable the video controls.
-+ **isAdPlaying():** void: Checks if an ad is currently playing.
++ **isAdPlaying(): bool**Checks if an ad is currently playing.
 + **getPlayerCurrentTime():** Promise<number | null>: Retrieves the current playback time of the player in miliseconds. Returns a promise that resolves with the current time or null if the player is not loaded.
 + **getAdDuration(): Promise<number | null>:** Retrieves the duration of the currently playing ad in miliseconds. Returns a promise that resolves with the ad duration or null if no ad is playing.
 + **getVideoDuration(): Promise<number | null>:** Retrieves the duration of the currently loaded video in smilisecondseconds. Returns a promise that resolves with the video duration or null if no video is loaded.
-+ **isPaused(): void:** Checks if the video is currently paused.
-+ **isRepeated(): void:** Checks if the video is alerady repeated.
++ **isPaused(): bool:** Checks if the video is currently paused.
++ **isRepeated(): bool:** Checks if the video is alerady repeated.
 + **destroyPlayer(): void:** Destroys the native player instance and cleans up any resources associated with it.
++ **isAutoplay(): bool:** Method is used to check if the current video is set to autoplay..
+
 
 *Please note that these methods should be called on an instance of the BridPlayer class.*
 
