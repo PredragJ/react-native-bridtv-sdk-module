@@ -64,7 +64,7 @@ The BridPlayer component accepts the following props:
 
 + **style** (optional): Specifies the style for the player component.
 
-+ **bridPlayerConfig**: An object that contains configuration options for the player.  It includes properties playerID, mediaID, typeOfPlayer, useVPAIDSupport, controlAutoplay and enableAdControls.
++ **bridPlayerConfig**: An object that contains configuration options for the player.  It includes properties playerID, mediaID, typeOfPlayer, useVPAIDSupport, controlAutoplay.
 
 + **Video event callbacks**: These props allow you to specify callback functions for various video events like:
     - handleVideoLoad, 
@@ -72,7 +72,8 @@ The BridPlayer component accepts the following props:
     -  handleVideoPlay, 
     -  handleVideoBuffering, 
     -  handleVideoProgress, 
-    -  handleVideoPaused, handleVideoEnd, 
+    -  handleVideoPaused,
+    -  handleVideoEnd, 
     -  handleVideoSeek, 
     -  handleFulscreenOpen, 
     -  handleFulscreenClose,

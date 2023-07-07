@@ -22,18 +22,14 @@
 @synthesize mediaID;
 @synthesize typeOfPlayer;
 @synthesize useVPAIDSupport;
-@synthesize setFullscreen;
 @synthesize controlAutoplay;
-@synthesize enableAdControls;
 
 -(void)layoutSubviews
 {
     [super layoutSubviews];
     
     useVPAIDSupport = [[bridPlayerConfig objectForKey:@"useVPAIDSupport"] boolValue];
-    setFullscreen = [[bridPlayerConfig objectForKey:@"setFullscreen"] boolValue];
     controlAutoplay = [[bridPlayerConfig objectForKey:@"controlAutoplay"] boolValue];
-    enableAdControls = [[bridPlayerConfig objectForKey:@"enableAdControls"] boolValue];
     
     [self setPlayerTypeByString:[bridPlayerConfig objectForKey:@"typeOfPlayer"]];
     
@@ -68,13 +64,7 @@
     }
     
     [_player useVPAIDSupport:useVPAIDSupport];
-    [_player enableAdControls:enableAdControls];
     [_player controlAutoplay:controlAutoplay];
-    
-    if (setFullscreen)
-        [_player setFullscreenON];
-    else
-        [_player setFullscreenOFF];
         
     return _player;
 }
