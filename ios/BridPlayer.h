@@ -21,9 +21,7 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 @property(nonatomic) TypePlayer type;
 @property(nonatomic) NSString *_Nonnull typeOfPlayer;
 @property(nonatomic) BOOL useVPAIDSupport;
-@property(nonatomic) BOOL setFullscreen;
 @property(nonatomic) BOOL controlAutoplay;
-@property(nonatomic) BOOL enableAdControls;
 @property(nonatomic, strong) BVPlayer *_Nonnull player;
 
 - (void)setMute:(BOOL)mute;
