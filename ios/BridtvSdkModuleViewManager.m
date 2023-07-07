@@ -29,9 +29,7 @@ RCT_EXPORT_VIEW_PROPERTY(playerID, NSNumber);
 RCT_EXPORT_VIEW_PROPERTY(mediaID, NSNumber);
 RCT_EXPORT_VIEW_PROPERTY(typeOfPlayer, NSString);
 RCT_EXPORT_VIEW_PROPERTY(useVPAIDSupport, BOOL);
-RCT_EXPORT_VIEW_PROPERTY(setFullscreen, BOOL);
 RCT_EXPORT_VIEW_PROPERTY(controlAutoplay, BOOL);
-RCT_EXPORT_VIEW_PROPERTY(enableAdControls, BOOL);
 
 RCT_EXPORT_METHOD(pause:(nonnull NSNumber *)reactTag) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
