@@ -49,9 +49,7 @@ interface BridPlayerConfig {
   mediaID?: number;
   typeOfPlayer?: string;
   useVPAIDSupport?: boolean;
-  setFullscreen?: boolean;
   controlAutoplay?: boolean;
-  enableAdControls?: boolean;
 }
 const BridtvSdkManager =
   Platform.OS === 'ios'
@@ -227,7 +225,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
       this.onVideoAutoplay(props.handleVideoAutoplay);
     }
 
-    //VIDEO ERRORr
+    //VIDEO ERROR
     if (props.handleVideoError) {
       this.onVideoError(props.handleVideoError);
     }
@@ -306,10 +304,6 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
 
   onVideoStart = (handler: () => void) => {
     this.registedListener(BridPlayerEvents.videoStart, handler);
-  };
-
-  onVideoProgress = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoProgress, handler);
   };
 
   onVideoSeek = (handler: () => void) => {
@@ -523,7 +517,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   async isAutoplay() {
     if (BridtvSdkManager) {
       try {
-        const isAutoplay = await BridtvSdkManager.isAutoplay(
+        const isAutoplay = await BridtvSdkManager.Autoplay(
           findNodeHandle(this)
         );
         return isAutoplay;
