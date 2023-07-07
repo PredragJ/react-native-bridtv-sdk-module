@@ -50,7 +50,6 @@ interface BridPlayerConfig {
   typeOfPlayer?: string;
   useVPAIDSupport?: boolean;
   controlAutoplay?: boolean;
-  enableAdControls?: boolean;
 }
 const BridtvSdkManager =
   Platform.OS === 'ios'
