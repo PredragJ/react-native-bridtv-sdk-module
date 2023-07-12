@@ -92,7 +92,7 @@ RCT_EXPORT_METHOD(showControlls:(nonnull NSNumber *)reactTag) {
         if (![view isKindOfClass:[BridPlayer class]] || view.player == nil) {
             RCTLogError(@"Invalid view returned from registry, expecting BridPlayer, got: %@", view);
         } else {
-            [view.player autoHideControls:NO];
+            [view.player showControlls];
         }
     }];
 }
@@ -103,21 +103,29 @@ RCT_EXPORT_METHOD(hideControlls:(nonnull NSNumber *)reactTag) {
         if (![view isKindOfClass:[BridPlayer class]] || view.player == nil) {
             RCTLogError(@"Invalid view returned from registry, expecting BridPlayer, got: %@", view);
         } else {
-            [view.player autoHideControls:YES];
+            [view.player hideControlls];
         }
     }];
 }
 
-RCT_EXPORT_METHOD(mute:(nonnull NSNumber *)reactTag:(BOOL)mute) {
+RCT_EXPORT_METHOD(mute:(nonnull NSNumber *)reactTag) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
         BridPlayer *view = viewRegistry[reactTag];
         if (![view isKindOfClass:[BridPlayer class]] || view.player == nil) {
             RCTLogError(@"Invalid view returned from registry, expecting BridPlayer, got: %@", view);
         } else {
-            if (mute)
-                [view.player unmute];
-            else
-                [view.player mute];
+            [view.player mute];
+        }
+    }];
+}
+
+RCT_EXPORT_METHOD(unMute:(nonnull NSNumber *)reactTag) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+        BridPlayer *view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[BridPlayer class]] || view.player == nil) {
+            RCTLogError(@"Invalid view returned from registry, expecting BridPlayer, got: %@", view);
+        } else {
+            [view.player unmute];
         }
     }];
 }
