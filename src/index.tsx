@@ -534,6 +534,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
         const videoDuration = await BridtvSdkManager.getVideoDuration(
           findNodeHandle(this)
         );
+        console.log(videoDuration);
         return videoDuration;
       } catch (e) {
         console.error(e);

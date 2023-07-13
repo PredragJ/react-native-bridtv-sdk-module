@@ -135,7 +135,7 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
       case LOAD_PLAYLIST:
          playerID = args.getInt(0);
          mediaID = args.getInt(1);
-//          bridPlayerView.loadPlaylist(playerID, mediaID);
+          bridPlayerView.loadPlaylist(playerID, mediaID);
       case PLAY:
           bridPlayerView.play();
         break;

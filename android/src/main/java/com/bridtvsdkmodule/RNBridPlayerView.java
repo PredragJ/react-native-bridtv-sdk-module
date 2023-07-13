@@ -128,8 +128,13 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
     public void loadVideo(int playerId, int videoId) {
       if(bridPlayer != null){
         bridPlayer.loadVideo(playerId, videoId);
-        bridPlayer.showControls();
       }
+    }
+
+  public void loadPlaylist(int playerId, int playlistId) {
+    if(bridPlayer != null){
+      bridPlayer.loadVideo(playerId, playlistId);
+    }
   }
   public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls) {
       if(bridPlayer != null){
@@ -183,7 +188,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
 
   public void seekToTime(int seekToTime) {
     if(bridPlayer != null)
-      bridPlayer.seekToPosition((long) seekToTime);
+        bridPlayer.seekToPosition((long) (seekToTime* 1000));
   }
 
   public void showControls() {
