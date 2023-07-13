@@ -72,18 +72,14 @@ const App = () => {
   };
 
   const handleVideoAdProgress = () => {
-    console.log('AD PROGRESS');
-  };
-
-  const handleVideoAdEnd = () => {
-    console.log('AD END');
+    // console.log('AD PROGRESS');
   };
 
   const handleVideoAdTapped = () => {
     console.log('AD TAPPED');
   };
 
-  const handleVideoAdSkiped = () => {
+  const handleVideoAdSkipped = () => {
     console.log('AD SKIPPED');
   };
 
@@ -111,8 +107,8 @@ const App = () => {
             ref={bridPlayerRef}
             style={styles.square}
             bridPlayerConfig={{
-              playerID: 39568, // PlayerID from BridTV cms
-              mediaID: 1354087, //VideoID or PlaylistID from BridTv cms
+              playerID: 40417, // PlayerID from BridTV cms
+              mediaID: 1248134, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', //Single or Playlist
               controlAutoplay: false, //enables the client to take control over autoplay
             }}
@@ -121,7 +117,6 @@ const App = () => {
             handleVideoStart={handleVideoStart}
             handleVideoPlay={handleVideoPlay}
             handleVideoBuffering={handleVideoBuffering}
-            handleVideoAdEnd={handleVideoAdEnd}
             handleVideoProgress={handleVideoProgress}
             handleVideoSeek={handleVideoSeek}
             handleVideoPaused={handeVideoPause}
@@ -137,7 +132,7 @@ const App = () => {
             handlevideoAdPaused={handlevideoAdPaused}
             handleAdProgress={handleVideoAdProgress}
             handleVideoAdTapped={handleVideoAdTapped}
-            handleVideoAdSkiped={handleVideoAdSkiped}
+            handleVideoAdSkipped={handleVideoAdSkipped}
             handleVideoError={handleVideoError}
           />
           {/* 

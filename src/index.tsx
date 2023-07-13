@@ -37,7 +37,7 @@ type BridtvSdkModuleProps = {
   handlevideoAdPaused?: () => void;
   handleAdProgress?: () => void;
   handleVideoAdTapped?: () => void;
-  handleVideoAdSkiped?: () => void;
+  handleVideoAdSkipped?: () => void;
   handleVideoAdEnd?: () => void;
 
   //Video Error
@@ -81,7 +81,6 @@ const BridPlayerEventsIos = {
   videoAdStart: 'adStarted',
   videoAdPaused: 'adPause',
   videoAdProgress: 'adProgress',
-  videoAdEnd: 'adComplete',
   videoAdTapped: 'adTapped',
   videoAdSkipped: 'adSkipped',
   videoAutoplay: 'playerAutoplay',
@@ -90,7 +89,7 @@ const BridPlayerEventsIos = {
 const BridPlayerEventsAndroid = {
   //Video
   videoBuffering: 'video_buffering',
-  videoLoad: 'video_loaded',
+  videoLoad: 'video_load',
   videoStart: 'video_start',
   videoPlay: 'video_played',
   videoPaused: 'video_paused',
@@ -103,12 +102,11 @@ const BridPlayerEventsAndroid = {
 
   //Ad
   videoAdLoaded: 'ad_loaded',
-  videoAdCompleted: 'video_ad_end',
+  videoAdCompleted: 'video_ad_completed',
   videoAdResumed: 'ad_resumed',
   videoAdStart: 'ad_started',
   videoAdPaused: 'ad_paused',
   videoAdProgress: 'ad_progress',
-  videoAdEnd: 'video_ad_end',
   videoAdTapped: 'ad_tapped',
   videoAdSkipped: 'ad_skipped',
 };
@@ -214,13 +212,9 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     if (props.handleVideoAdTapped) {
       this.onVideoAdTapped(props.handleVideoAdTapped);
     }
-    if (props.handleVideoAdSkiped) {
-      this.onVideoAdSkiped(props.handleVideoAdSkiped);
+    if (props.handleVideoAdSkipped) {
+      this.onVideoAdSkipped(props.handleVideoAdSkipped);
     }
-    if (props.handleVideoAdEnd) {
-      this.onVideoAdEnd(props.handleVideoAdEnd);
-    }
-
     if (props.handleVideoAutoplay) {
       this.onVideoAutoplay(props.handleVideoAutoplay);
     }
@@ -355,12 +349,8 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     this.registedListener(BridPlayerEvents.videoAdTapped, handler);
   };
 
-  onVideoAdSkiped = (handler: () => void) => {
+  onVideoAdSkipped = (handler: () => void) => {
     this.registedListener(BridPlayerEvents.videoAdSkipped, handler);
-  };
-
-  onVideoAdEnd = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoAdEnd, handler);
   };
 
   onVideoAutoplay = (handler: () => void) => {
