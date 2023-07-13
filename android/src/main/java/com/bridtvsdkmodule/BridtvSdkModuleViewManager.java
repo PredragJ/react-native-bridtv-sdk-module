@@ -223,7 +223,7 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
 
             break;
           case PlayerEvents.EVENT_AD_COMPLETED:
-            event.putString("message", "video_ad_end");
+            event.putString("message", "video_ad_completed");
             sendEvent(mReactContext, "BridPlayerEvents", event);
 
             break;
