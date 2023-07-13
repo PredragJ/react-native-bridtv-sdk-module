@@ -112,7 +112,7 @@ const App = () => {
             style={styles.square}
             bridPlayerConfig={{
               playerID: 39568, // PlayerID from BridTV cms
-              mediaID: 1344299, //VideoID or PlaylistID from BridTv cms
+              mediaID: 1354087, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', //Single or Playlist
               controlAutoplay: false, //enables the client to take control over autoplay
             }}
