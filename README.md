@@ -137,6 +137,8 @@ These error types represent various issues that can occur during the playback of
 + **setFullscreen(fullscreen: boolean):** void: Sets the fullscreen mode of the player. Pass true to enter fullscreen mode or false to exit fullscreen mode.
 + **showControlls(): void:** Enable the video controls.
 + **hidecontrolls(): void:** Disable the video controls.
++ **showPoster(): void:** Show video thumbnail.
++ **hidePoster(): void:** Hide video thumbnail.
 + **isAdPlaying(): bool**Checks if an ad is currently playing.
 + **getPlayerCurrentTime():** Promise<number | null>: Retrieves the current playback time of the player in miliseconds. Returns a promise that resolves with the current time or null if the player is not loaded.
 + **getAdDuration(): Promise<number | null>:** Retrieves the duration of the currently playing ad in miliseconds. Returns a promise that resolves with the ad duration or null if no ad is playing.
