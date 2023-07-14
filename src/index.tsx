@@ -21,7 +21,7 @@ type BridtvSdkModuleProps = {
   handleVideoStart?: () => void;
   handleVideoPlay?: () => void;
   handleVideoBuffering?: () => void;
-  handleVideoProgress?: () => void;
+  handleVideoProgress?: () => void;  //not yet implemented
   handleVideoPaused?: () => void;
   handleVideoEnd?: () => void;
   handleVideoSeek?: () => void;
@@ -38,7 +38,6 @@ type BridtvSdkModuleProps = {
   handleAdProgress?: () => void;
   handleVideoAdTapped?: () => void;
   handleVideoAdSkipped?: () => void;
-  handleVideoAdEnd?: () => void;
 
   //Video Error
   handleVideoError?: (errorEvent?: BridPlayerError) => void;
@@ -223,8 +222,6 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     if (props.handleVideoError) {
       this.onVideoError(props.handleVideoError);
     }
-
-    // this.setPlayerState('Initial state');
 
     this.ref_key = `${RN_BRID_PLAYER_KEY}-${playerId++}`;
   }
