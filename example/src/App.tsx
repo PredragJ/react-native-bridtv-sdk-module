@@ -165,12 +165,12 @@ const App = () => {
 
             <Button
               title="Play"
-              onPress={() => bridPlayerRef.current?.play()}
+              onPress={() => bridPlayerRef.current?.showPoster()}
             />
 
             <Button
               title="Pause"
-              onPress={() => bridPlayerRef.current?.pause()}
+              onPress={() => bridPlayerRef.current?.hidePoster()}
             />
 
             <Button
@@ -181,13 +181,13 @@ const App = () => {
 
           <View style={styles.buttonContainer}>
             <Button
-              title="Hide Controlls"
-              onPress={() => bridPlayerRef.current?.hideControlls()}
+              title="Hide Controls"
+              onPress={() => bridPlayerRef.current?.hideControls()}
             />
 
             <Button
-              title="Show Controlls"
-              onPress={() => bridPlayerRef.current?.showControlls()}
+              title="Show Controls"
+              onPress={() => bridPlayerRef.current?.showControls()}
             />
           </View>
           <View style={styles.buttonContainer}>

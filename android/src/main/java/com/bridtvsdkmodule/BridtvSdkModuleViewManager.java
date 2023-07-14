@@ -171,7 +171,11 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
       case NEXT:
         bridPlayerView.next();
         break;
-
+      case SHOW_POSTER:
+        bridPlayerView.showPoster();
+        break;
+      case HIDE_POSTER:
+        bridPlayerView.hidePoster();
     }
   }
 
