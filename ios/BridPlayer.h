@@ -23,6 +23,8 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 @property(nonatomic) BOOL useVPAIDSupport;
 @property(nonatomic) BOOL controlAutoplay;
 @property(nonatomic, strong) BVPlayer *_Nonnull player;
+- (void)loadVideo:(NSNumber *_Nonnull)playerID mediaID:(NSNumber *_Nonnull)mediaID;
+- (void)loadPlaylist:(NSNumber *_Nonnull)playerID mediaID:(NSNumber *_Nonnull)mediaID;
 
 - (void)setMute:(BOOL)mute;
 - (BOOL)isMuted;

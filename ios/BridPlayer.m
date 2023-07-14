@@ -24,16 +24,18 @@
 @synthesize useVPAIDSupport;
 @synthesize controlAutoplay;
 
+BOOL isRelodaed;
+TypePlayer loadedType;
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    
+    [self setPlayerTypeByString:[bridPlayerConfig objectForKey:@"typeOfPlayer"]];
     useVPAIDSupport = [[bridPlayerConfig objectForKey:@"useVPAIDSupport"] boolValue];
     controlAutoplay = [[bridPlayerConfig objectForKey:@"controlAutoplay"] boolValue];
     
-    [self setPlayerTypeByString:[bridPlayerConfig objectForKey:@"typeOfPlayer"]];
     
     [self setupEventNetworking];
+    
     [self addSubview:self.player.view];
     self.player.view.frame = self.bounds;
     
@@ -41,32 +43,65 @@
 
 - (void)setPlayerTypeByString:(NSString *)typeString
 {
-    if ([typeString  isEqual: @"Single"])
+    if ([typeString  isEqual: @"Single"]) {
         type = SinglePlayer;
-    else if ([typeString  isEqual: @"Playlist"])
+    } else if ([typeString  isEqual: @"Playlist"]) {
         type = PlaylistPlayer;
+    }
 }
 
 - (BVPlayer *)player {
     if (!_player) {
-        
         switch (type) {
             case SinglePlayer:
                 _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[[bridPlayerConfig objectForKey:@"playerID"] integerValue] forVideoID:(int)[[bridPlayerConfig objectForKey:@"mediaID"] integerValue]]];
                 break;
             case PlaylistPlayer:
-                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[[bridPlayerConfig objectForKey:@"playerID"] integerValue] forVideoID:(int)[[bridPlayerConfig objectForKey:@"mediaID"] integerValue]]];
+                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[[bridPlayerConfig objectForKey:@"playerID"] integerValue] forPlaylistID:(int)[[bridPlayerConfig objectForKey:@"mediaID"] integerValue]]];
                 break;
-                
             default:
                 break;
+        }
+    } else {
+        if (isRelodaed) {
+            switch (loadedType) {
+                case SinglePlayer:
+                    NSLog(@"PECA USAO u SinglePlayer");
+                    _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forVideoID:(int)[mediaID integerValue]]];
+                    isRelodaed = NO;
+                    break;
+                case PlaylistPlayer:
+                    NSLog(@"PECA USAO u PlaylistPlayer");
+                    _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forPlaylistID:(int)[mediaID integerValue]]];
+                    isRelodaed = NO;
+                    break;
+                default:
+                    break;
+            }
         }
     }
     
     [_player useVPAIDSupport:useVPAIDSupport];
     [_player controlAutoplay:controlAutoplay];
-        
+    
     return _player;
+}
+
+- (void)loadVideo:(NSNumber *)playerID mediaID:(NSNumber *)mediaID {
+    NSLog(@"PECA USAO u _player playerID: %@, mediaID: %@",playerID, mediaID);
+    self->playerID = playerID;
+    self->mediaID = mediaID;
+    loadedType = SinglePlayer;
+    isRelodaed = YES;
+    [self setNeedsLayout];
+}
+
+- (void)loadPlaylist:(NSNumber *)playerID mediaID:(NSNumber *)mediaID {
+    self->playerID = playerID;
+    self->mediaID = mediaID;
+    loadedType = PlaylistPlayer;
+    isRelodaed = YES;
+    [self setNeedsLayout];
 }
 
 - (void)setupEventNetworking {
@@ -77,6 +112,11 @@
 - (void) eventWriter:(NSNotification *)notification {
     if ([notification.name isEqualToString:@"PlayerEvent"]) {
         RCTLogInfo(@"%@",(NSString *)notification.userInfo[@"event"]);
+        if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerSetFullscreenOn"]) {
+            [UIApplication sharedApplication].statusBarHidden = YES;
+        } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerSetFullscreenOff"]) {
+            [UIApplication sharedApplication].statusBarHidden = NO;
+        }
     }
     if ([notification.name isEqualToString:@"AdEvent"]) {
         RCTLogInfo(@"%@",(NSString *)notification.userInfo[@"ad"]);
@@ -118,22 +158,22 @@
 
 - (NSNumber*)getPlayerCurrentTime
 {
-    return [NSNumber numberWithInt:[_player getCurrentTime]];
+    return [NSNumber numberWithInt:[_player getCurrentTime] * 1000];
 }
 
 - (NSNumber*)getVideoDuration
 {
-    return [NSNumber numberWithInt:[_player getDuration]];
+    return [NSNumber numberWithInt:[_player getDuration] * 1000];
 }
 
 - (NSNumber*)getAdDuration
 {
-    return [NSNumber numberWithInt:[_player getAdDuration]];
+    return [NSNumber numberWithInt:[_player getAdDuration] * 1000];
 }
 
 - (NSNumber*)getAdCurrentTime
 {
-    return [NSNumber numberWithInt:[_player getAdCurrentTime]];
+    return [NSNumber numberWithInt:[_player getAdCurrentTime] * 1000];
 }
 
 - (void)seekToTime:(float)time
