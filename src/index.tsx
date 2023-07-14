@@ -64,12 +64,12 @@ const BridtvSdkEmitter =
 const BridPlayerEventsIos = {
   //Video
   videoBuffering: 'playerVideoBuffering',
-  videoLoad: 'playerVideoInitialized',
+  videoLoad: 'playerVideoLoad',
   videoStart: 'playerVideoStarted',
   videoPlay: 'playerVideoPlay',
   videoPaused: 'playerVideoPause',
   videoSeek: 'playerSliderValueChanged',
-  videoEnd: 'playerStop',
+  videoEnd: 'playerVideoStop',
   videoError: 'playerVideoError',
   fullscreenOpen: 'playerSetFullscreenOn',
   fullscreenClose: 'playerSetFullscreenOff',
@@ -124,7 +124,7 @@ const BridPlayerErrorEvents = {
     code: '101',
   },
   unsupportedFormat: {
-    name: 'playernsupportedFormat',
+    name: 'playerUnsupportedFormat',
     message: 'Video player error. Probably unsupported video format.',
     code: '102',
   },
@@ -442,7 +442,12 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     if (BridtvSdkManager) {
       try {
         const isMuted = await BridtvSdkManager.isMuted(findNodeHandle(this));
-        return isMuted;
+        if (Platform.OS === 'ios') {
+          if (isMuted === 1) return true;
+          else return false;
+        } else {
+          return isMuted;
+        }
       } catch (e) {
         console.error(e);
         return null;
@@ -467,10 +472,15 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   async isPlayingAd() {
     if (BridtvSdkManager) {
       try {
-        const isPlayingAd = await BridtvSdkManager.isAdPlaying(
+        const isPlayingAd = await BridtvSdkManager.isPlayingAd(
           findNodeHandle(this)
         );
-        return isPlayingAd;
+        if (Platform.OS === 'ios') {
+          if (isPlayingAd === 1) return true;
+          else return false;
+        } else {
+          return isPlayingAd;
+        }
       } catch (e) {
         console.error(e);
         return null;
@@ -482,7 +492,12 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     if (BridtvSdkManager) {
       try {
         const isPaused = await BridtvSdkManager.isPaused(findNodeHandle(this));
-        return isPaused;
+        if (Platform.OS === 'ios') {
+          if (isPaused === 1) return true;
+          else return false;
+        } else {
+          return isPaused;
+        }
       } catch (e) {
         console.error(e);
         return null;
@@ -496,7 +511,12 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
         const isRepeated = await BridtvSdkManager.isRepeated(
           findNodeHandle(this)
         );
-        return isRepeated;
+        if (Platform.OS === 'ios') {
+          if (isRepeated === 1) return true;
+          else return false;
+        } else {
+          return isRepeated;
+        }
       } catch (e) {
         console.error(e);
         return null;
@@ -510,7 +530,12 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
         const isAutoplay = await BridtvSdkManager.Autoplay(
           findNodeHandle(this)
         );
-        return isAutoplay;
+        if (Platform.OS === 'ios') {
+          if (isAutoplay === 1) return true;
+          else return false;
+        } else {
+          return isAutoplay;
+        }
       } catch (e) {
         console.error(e);
         return null;
