@@ -5,7 +5,6 @@ declare module 'react-native-bridtv-sdk-module' {
   import BridPlayerError from 'react-native-bridtv-sdk-module';
 
   export type BridtvSdkModuleProps = {
-    setPlayerState: (newValue: string) => void;
     style?: ViewStyle;
     bridPlayerConfig?: BridPlayerConfig;
     //Video
@@ -13,12 +12,13 @@ declare module 'react-native-bridtv-sdk-module' {
     handleVideoStart?: () => void;
     handleVideoPlay?: () => void;
     handleVideoBuffering?: () => void;
-    handleVideoProgress?: () => void;
+    handleVideoProgress?: () => void; //not yet implemented
     handleVideoPaused?: () => void;
     handleVideoEnd?: () => void;
     handleVideoSeek?: () => void;
     handleFulscreenOpen?: () => void;
     handleFulscreenClose?: () => void;
+    handleVideoAutoplay?: () => void;
 
     //Ad
     handlevideoAdLoaded?: () => void;
@@ -29,7 +29,6 @@ declare module 'react-native-bridtv-sdk-module' {
     handleAdProgress?: () => void;
     handleVideoAdTapped?: () => void;
     handleVideoAdSkiped?: () => void;
-    handleVideoAdEnd?: () => void;
 
     //Video Error
     handleVideoError?: (errorEvent: BridPlayerError) => void;
@@ -40,7 +39,7 @@ declare module 'react-native-bridtv-sdk-module' {
     mediaID?: number;
     typeOfPlayer?: string;
     useVPAIDSupport?: boolean;
-    setFullscreen?: boolean;
+    controlAutoplay?: boolean;
   }
 
   export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
@@ -50,17 +49,21 @@ declare module 'react-native-bridtv-sdk-module' {
     next(): void;
     mute(): void;
     unMute(): void;
+    destroyPlayer(): void;
+    setFullscreen(fullscreen: boolean): void;
+    seekToTime(time: number): void;
     loadVideo(playerID: number, mediaID: number): void;
     loadPlaylist(playerID: number, mediaID: number): void;
-    setFullscreen(fullscreen: boolean): void;
-    showControlls(): void;
-    hidecontrolls(): void;
-    isAdPlaying(): void;
-    seekToTime(time: number): void;
-    getPlayerCurrentTime(): Promise<number | null>;
-    getVideoDuration(): Promise<number | null>;
-    isPaused(): void;
-    isRepeated(): void;
-    destroyPlayer(): void;
+    showControls(): void;
+    hidecontrols(): void;
+    showPoster(): void;
+    hidePoster(): void;
+    isMuted(): boolean;
+    isPlayingAd(): boolean;
+    getPlayerCurrentTime(): Promise<number | null>; //time in miliseconds
+    getVideoDuration(): Promise<number | null>; //time in miliseconds
+    isPaused(): boolean;
+    isRepeated(): boolean;
+    isAutoplay(): boolean;
   }
 }
