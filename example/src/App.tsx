@@ -165,12 +165,12 @@ const App = () => {
 
             <Button
               title="Play"
-              onPress={() => bridPlayerRef.current?.showPoster()}
+              onPress={() => bridPlayerRef.current?.play()}
             />
 
             <Button
               title="Pause"
-              onPress={() => bridPlayerRef.current?.hidePoster()}
+              onPress={() => bridPlayerRef.current?.pause()}
             />
 
             <Button
@@ -181,6 +181,63 @@ const App = () => {
 
           <View style={styles.buttonContainer}>
             <Button
+              title="SHOW POSTER"
+              onPress={() => bridPlayerRef.current?.showPoster()}
+            />
+
+            <Button
+              title="HIDE POSTER"
+              onPress={() => bridPlayerRef.current?.hidePoster()}
+            />
+
+            <Button
+              title="MUTE"
+              onPress={() => bridPlayerRef.current?.mute()}
+            />
+
+            <Button
+              title="UNMUTE"
+              onPress={() => bridPlayerRef.current?.unMute()}
+            />
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <Button
+              title="set Fullscreen"
+              onPress={() => bridPlayerRef.current?.setFullscreen(true)}
+            />
+
+            <Button
+              title="seek To Time"
+              onPress={() => bridPlayerRef.current?.seekToTime(30)}
+            />
+
+            <Button
+              title="Current Time"
+              onPress={() => bridPlayerRef.current?.getPlayerCurrentTime()}
+            />
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <Button
+              title="destroy Player"
+              onPress={() => bridPlayerRef.current?.destroyPlayer()}
+            />
+
+            <Button
+              title="load Video"
+              onPress={() => bridPlayerRef.current?.loadVideo(40118, 1319855)}
+            />
+
+            <Button
+              title="load Playlist"
+              onPress={() => bridPlayerRef.current?.loadPlaylist(39910, 21751)}
+            />
+          </View>
+
+
+          <View style={styles.buttonContainer}>
+            <Button
               title="Hide Controls"
               onPress={() => bridPlayerRef.current?.hideControls()}
             />
@@ -188,6 +245,11 @@ const App = () => {
             <Button
               title="Show Controls"
               onPress={() => bridPlayerRef.current?.showControls()}
+            />
+
+            <Button
+              title="Video Duration"
+              onPress={() => bridPlayerRef.current?.getVideoDuration()}
             />
           </View>
           <View style={styles.buttonContainer}>
