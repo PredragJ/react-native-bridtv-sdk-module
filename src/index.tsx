@@ -422,17 +422,33 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     ]);
   }
 
-  showControlls() {
+  showControls() {
     UIManager.dispatchViewManagerCommand(
       findNodeHandle(this),
-      'showControlls',
+      'showControls',
       []
     );
   }
-  hideControlls() {
+  hideControls() {
     UIManager.dispatchViewManagerCommand(
       findNodeHandle(this),
-      'hideControlls',
+      'hideControls',
+      []
+    );
+  }
+
+  showPoster() {
+    UIManager.dispatchViewManagerCommand(
+      findNodeHandle(this),
+      'showPoster',
+      []
+    );
+  }
+
+  hidePoster() {
+    UIManager.dispatchViewManagerCommand(
+      findNodeHandle(this),
+      'hidePoster',
       []
     );
   }
