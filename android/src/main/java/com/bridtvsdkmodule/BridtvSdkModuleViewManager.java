@@ -135,7 +135,7 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
       case LOAD_PLAYLIST:
          playerID = args.getInt(0);
          mediaID = args.getInt(1);
-//          bridPlayerView.loadPlaylist(playerID, mediaID);
+          bridPlayerView.loadPlaylist(playerID, mediaID);
       case PLAY:
           bridPlayerView.play();
         break;
@@ -171,7 +171,11 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
       case NEXT:
         bridPlayerView.next();
         break;
-
+      case SHOW_POSTER:
+        bridPlayerView.showPoster();
+        break;
+      case HIDE_POSTER:
+        bridPlayerView.hidePoster();
     }
   }
 
@@ -223,7 +227,7 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
 
             break;
           case PlayerEvents.EVENT_AD_COMPLETED:
-            event.putString("message", "video_ad_end");
+            event.putString("message", "video_ad_completed");
             sendEvent(mReactContext, "BridPlayerEvents", event);
 
             break;

@@ -70,6 +70,30 @@ public class BridtvSdkModule extends ReactContextBaseJavaModule {
     }
 
   @ReactMethod
+  public void getVideoDuration(final int reactTag, Promise promise){
+    Log.d("BridtvSdkModuleLog", "getCurrentTime");
+
+    try {
+      UIManagerModule uiManager = mReactContext.getNativeModule(UIManagerModule.class);
+      uiManager.addUIBlock(new UIBlock() {
+        @Override
+        public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
+          RNBridPlayerView playerView = (RNBridPlayerView) nativeViewHierarchyManager.resolveView(reactTag);
+          if(playerView != null && playerView.getBridPlayer() != null){
+            promise.resolve(Double.valueOf(playerView.getBridPlayer().getDuration()));
+          }else {
+            promise.reject("RNBridPlayerError", "Player is null");
+          }
+        }
+      });
+
+    } catch (Exception e){
+      promise.reject("Error happened", e);
+    }
+  }
+
+
+  @ReactMethod
   public void isAdPlaying(final int reactTag, Promise promise){
     Log.d("BridtvSdkModuleLog", "isAdPlaying");
     try {

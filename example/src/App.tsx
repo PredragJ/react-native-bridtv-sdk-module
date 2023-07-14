@@ -72,18 +72,14 @@ const App = () => {
   };
 
   const handleVideoAdProgress = () => {
-    console.log('AD PROGRESS');
-  };
-
-  const handleVideoAdEnd = () => {
-    console.log('AD END');
+    // console.log('AD PROGRESS');
   };
 
   const handleVideoAdTapped = () => {
     console.log('AD TAPPED');
   };
 
-  const handleVideoAdSkiped = () => {
+  const handleVideoAdSkipped = () => {
     console.log('AD SKIPPED');
   };
 
@@ -111,9 +107,9 @@ const App = () => {
             ref={bridPlayerRef}
             style={styles.square}
             bridPlayerConfig={{
-              playerID: 39568, // PlayerID from BridTV cms
-              mediaID: 1344299, //VideoID or PlaylistID from BridTv cms
-              typeOfPlayer: 'Single', //Single or Playlist
+              playerID: 39910, // PlayerID from BridTV cms
+              mediaID: 21751, //VideoID or PlaylistID from BridTv cms
+              typeOfPlayer: 'Playlist', //Single or Playlist
               controlAutoplay: false, //enables the client to take control over autoplay
             }}
             //Video
@@ -121,7 +117,6 @@ const App = () => {
             handleVideoStart={handleVideoStart}
             handleVideoPlay={handleVideoPlay}
             handleVideoBuffering={handleVideoBuffering}
-            handleVideoAdEnd={handleVideoAdEnd}
             handleVideoProgress={handleVideoProgress}
             handleVideoSeek={handleVideoSeek}
             handleVideoPaused={handeVideoPause}
@@ -137,7 +132,7 @@ const App = () => {
             handlevideoAdPaused={handlevideoAdPaused}
             handleAdProgress={handleVideoAdProgress}
             handleVideoAdTapped={handleVideoAdTapped}
-            handleVideoAdSkiped={handleVideoAdSkiped}
+            handleVideoAdSkipped={handleVideoAdSkipped}
             handleVideoError={handleVideoError}
           />
           {/* 
@@ -186,13 +181,75 @@ const App = () => {
 
           <View style={styles.buttonContainer}>
             <Button
-              title="Hide Controlls"
-              onPress={() => bridPlayerRef.current?.hideControlls()}
+              title="SHOW POSTER"
+              onPress={() => bridPlayerRef.current?.showPoster()}
             />
 
             <Button
-              title="Show Controlls"
-              onPress={() => bridPlayerRef.current?.showControlls()}
+              title="HIDE POSTER"
+              onPress={() => bridPlayerRef.current?.hidePoster()}
+            />
+
+            <Button
+              title="MUTE"
+              onPress={() => bridPlayerRef.current?.mute()}
+            />
+
+            <Button
+              title="UNMUTE"
+              onPress={() => bridPlayerRef.current?.unMute()}
+            />
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <Button
+              title="set Fullscreen"
+              onPress={() => bridPlayerRef.current?.setFullscreen(true)}
+            />
+
+            <Button
+              title="seek To Time"
+              onPress={() => bridPlayerRef.current?.seekToTime(30)}
+            />
+
+            <Button
+              title="Current Time"
+              onPress={() => bridPlayerRef.current?.getPlayerCurrentTime()}
+            />
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <Button
+              title="destroy Player"
+              onPress={() => bridPlayerRef.current?.destroyPlayer()}
+            />
+
+            <Button
+              title="load Video"
+              onPress={() => bridPlayerRef.current?.loadVideo(40118, 1319855)}
+            />
+
+            <Button
+              title="load Playlist"
+              onPress={() => bridPlayerRef.current?.loadPlaylist(39910, 21751)}
+            />
+          </View>
+
+
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Hide Controls"
+              onPress={() => bridPlayerRef.current?.hideControls()}
+            />
+
+            <Button
+              title="Show Controls"
+              onPress={() => bridPlayerRef.current?.showControls()}
+            />
+
+            <Button
+              title="Video Duration"
+              onPress={() => bridPlayerRef.current?.getVideoDuration()}
             />
           </View>
           <View style={styles.buttonContainer}>
