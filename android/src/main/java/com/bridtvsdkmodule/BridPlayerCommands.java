@@ -14,8 +14,10 @@ public class BridPlayerCommands {
   public static final String SEEK_TO_TIME = "seekToTime";
   public static final String USE_VPAID_SUPPORT = "useVpaidSupport";
   public static final String IS_VPAID_ENABLED = "isVpaidEnabled";
-  public static final String SHOW_CONTROLS = "showControlls";
-  public static final String HIDE_CONTROLS = "hideControlls";
+  public static final String SHOW_CONTROLS = "showControls";
+  public static final String HIDE_CONTROLS = "hideControls";
+  public static final String SHOW_POSTER = "showPoster";
+  public static final String HIDE_POSTER = "hidePoster";
   public static final String PREVIOUS = "previous";
   public static final String NEXT = "next";
 
