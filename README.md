@@ -75,19 +75,19 @@ The BridPlayer component accepts the following props:
     -  handleVideoPaused,
     -  handleVideoEnd, 
     -  handleVideoSeek, 
-    -  handleFulscreenOpen, 
-    -  handleFulscreenClose,
+    -  handleFullscreenOpen, 
+    -  handleFullscreenClose,
     -  handleVideoAutoplay
 
 + **Ad event callbacks**: These props allow you to specify callback functions for various ad events like:
-    -  handlevideoAdLoaded, 
-    -  handlevideoAdCompleted, 
-     - handlevideoAdResumed, 
+    -  handleVideoAdLoaded, 
+    -  handleVideoAdCompleted, 
+     - handleVideoAdResumed, 
      - handleVideoAdStart, 
-     - handlevideoAdPaused, 
+     - handleVideoAdPaused, 
      - handleAdProgress, 
     -  handleVideoAdTapped, 
-    -  handleVideoAdSkiped, 
+    -  handleVideoAdSkipped, 
     -  handleVideoAdEnd
 
 + **handleVideoError**: A callback function that handles video errors. It receives an errorEvent object. These are the error event types that can occur with the BridPlayer:
@@ -103,7 +103,7 @@ The BridPlayer component accepts the following props:
         - Code: 101
 
     - **unsupportedFormat**:
-        - Name: playernsupportedFormat
+        - Name: playerUnsupportedFormat
         - Message: Video player error. Probably unsupported video format.
         - Code: 102
 
@@ -113,7 +113,7 @@ The BridPlayer component accepts the following props:
         - Code: 103
 
     - **lostIntenetConnection**:
-        - Name: playerLostIntenetConnection
+        - Name: playerLostInternetConnection
         - Message: Lost internet connection.
         - Code: 100
 
@@ -135,14 +135,16 @@ These error types represent various issues that can occur during the playback of
 + **loadVideo(playerID: number, mediaID: number): void:** Loads a video with the specified playerID and mediaID from BridTv CMS.
 + **loadPlaylist(playerID: number, mediaID: number): void**: Loads a playlist with the specified playerID and mediaID from BridTv CMS.
 + **setFullscreen(fullscreen: boolean):** void: Sets the fullscreen mode of the player. Pass true to enter fullscreen mode or false to exit fullscreen mode.
-+ **showControlls(): void:** Enable the video controls.
-+ **hidecontrolls(): void:** Disable the video controls.
++ **showControls(): void:** Enable the video controls.
++ **hideControls(): void:** Disable the video controls.
++ **showPoster(): void:** Show video thumbnail.
++ **hidePoster(): void:** Hide video thumbnail.
 + **isAdPlaying(): bool**Checks if an ad is currently playing.
-+ **getPlayerCurrentTime():** Promise<number | null>: Retrieves the current playback time of the player in miliseconds. Returns a promise that resolves with the current time or null if the player is not loaded.
-+ **getAdDuration(): Promise<number | null>:** Retrieves the duration of the currently playing ad in miliseconds. Returns a promise that resolves with the ad duration or null if no ad is playing.
-+ **getVideoDuration(): Promise<number | null>:** Retrieves the duration of the currently loaded video in smilisecondseconds. Returns a promise that resolves with the video duration or null if no video is loaded.
++ **getPlayerCurrentTime():** Promise<number | null>: Retrieves the current playback time of the player in milliseconds. Returns a promise that resolves with the current time or null if the player is not loaded.
++ **getAdDuration(): Promise<number | null>:** Retrieves the duration of the currently playing ad in milliseconds. Returns a promise that resolves with the ad duration or null if no ad is playing.
++ **getVideoDuration(): Promise<number | null>:** Retrieves the duration of the currently loaded video in milliseconds. Returns a promise that resolves with the video duration or null if no video is loaded.
 + **isPaused(): bool:** Checks if the video is currently paused.
-+ **isRepeated(): bool:** Checks if the video is alerady repeated.
++ **isRepeated(): bool:** Checks if the video is already repeated.
 + **destroyPlayer(): void:** Destroys the native player instance and cleans up any resources associated with it.
 + **isAutoplay(): bool:** Method is used to check if the current video is set to autoplay..
 

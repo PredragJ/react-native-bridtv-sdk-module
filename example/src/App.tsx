@@ -31,7 +31,7 @@ const App = () => {
     console.log('VIDEO STARTED');
   };
 
-  const handeVideoPause = () => {
+  const handleVideoPause = () => {
     console.log('VIDEO PAUSED');
   };
   const handleVideoProgress = () => {
@@ -46,33 +46,33 @@ const App = () => {
     console.log('VIDEO END');
   };
 
-  const handleFulscreenOpen = () => {
+  const handleFullscreenOpen = () => {
     console.log('FULL SCREEN OPEN');
   };
 
-  const handleFulscreenClose = () => {
+  const handleFullscreenClose = () => {
     console.log('FULL SCREEN CLOSE');
   };
 
   // Ad Events
-  const handlevideoAdLoaded = () => {
+  const handleVideoAdLoaded = () => {
     console.log('AD LOADED');
   };
-  const handlevideoAdCompleted = () => {
+  const handleVideoAdCompleted = () => {
     console.log('AD COMPLETED');
   };
-  const handlevideoAdResumed = () => {
+  const handleVideoAdResumed = () => {
     console.log('AD RESUMED');
   };
   const handleVideoAdStart = () => {
     console.log('AD STARTED');
   };
-  const handlevideoAdPaused = () => {
+  const handleVideoAdPaused = () => {
     console.log('AD PAUSED');
   };
 
   const handleVideoAdProgress = () => {
-    // console.log('AD PROGRESS');
+    console.log('AD PROGRESS');
   };
 
   const handleVideoAdTapped = () => {
@@ -107,9 +107,9 @@ const App = () => {
             ref={bridPlayerRef}
             style={styles.square}
             bridPlayerConfig={{
-              playerID: 39910, // PlayerID from BridTV cms
-              mediaID: 21751, //VideoID or PlaylistID from BridTv cms
-              typeOfPlayer: 'Playlist', //Single or Playlist
+              playerID: 40417, // PlayerID from BridTV cms
+              mediaID: 1248134, //VideoID or PlaylistID from BridTv cms
+              typeOfPlayer: 'Single', //Single or Playlist
               controlAutoplay: false, //enables the client to take control over autoplay
             }}
             //Video
@@ -119,17 +119,17 @@ const App = () => {
             handleVideoBuffering={handleVideoBuffering}
             handleVideoProgress={handleVideoProgress}
             handleVideoSeek={handleVideoSeek}
-            handleVideoPaused={handeVideoPause}
+            handleVideoPaused={handleVideoPause}
             handleVideoEnd={handleVideoEnd}
-            handleFulscreenOpen={handleFulscreenOpen}
-            handleFulscreenClose={handleFulscreenClose}
+            handleFullscreenOpen={handleFullscreenOpen}
+            handleFullscreenClose={handleFullscreenClose}
             handleVideoAutoplay={handleVideoAutoplay}
             //Ad
-            handlevideoAdLoaded={handlevideoAdLoaded}
-            handlevideoAdCompleted={handlevideoAdCompleted}
-            handlevideoAdResumed={handlevideoAdResumed}
+            handleVideoAdLoaded={handleVideoAdLoaded}
+            handleVideoAdCompleted={handleVideoAdCompleted}
+            handleVideoAdResumed={handleVideoAdResumed}
             handleVideoAdStart={handleVideoAdStart}
-            handlevideoAdPaused={handlevideoAdPaused}
+            handleVideoAdPaused={handleVideoAdPaused}
             handleAdProgress={handleVideoAdProgress}
             handleVideoAdTapped={handleVideoAdTapped}
             handleVideoAdSkipped={handleVideoAdSkipped}

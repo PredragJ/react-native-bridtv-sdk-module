@@ -16,19 +16,19 @@ declare module 'react-native-bridtv-sdk-module' {
     handleVideoPaused?: () => void;
     handleVideoEnd?: () => void;
     handleVideoSeek?: () => void;
-    handleFulscreenOpen?: () => void;
-    handleFulscreenClose?: () => void;
+    handleFullscreenOpen?: () => void;
+    handleFullscreenClose?: () => void;
     handleVideoAutoplay?: () => void;
 
     //Ad
-    handlevideoAdLoaded?: () => void;
-    handlevideoAdCompleted?: () => void;
-    handlevideoAdResumed?: () => void;
+    handleVideoAdLoaded?: () => void;
+    handleVideoAdCompleted?: () => void;
+    handleVideoAdResumed?: () => void;
     handleVideoAdStart?: () => void;
-    handlevideoAdPaused?: () => void;
+    handleVideoAdPaused?: () => void;
     handleAdProgress?: () => void;
     handleVideoAdTapped?: () => void;
-    handleVideoAdSkiped?: () => void;
+    handleVideoAdSkipped?: () => void;
 
     //Video Error
     handleVideoError?: (errorEvent: BridPlayerError) => void;
@@ -55,13 +55,13 @@ declare module 'react-native-bridtv-sdk-module' {
     loadVideo(playerID: number, mediaID: number): void;
     loadPlaylist(playerID: number, mediaID: number): void;
     showControls(): void;
-    hidecontrols(): void;
+    hideControls(): void;
     showPoster(): void;
     hidePoster(): void;
     isMuted(): boolean;
     isPlayingAd(): boolean;
-    getPlayerCurrentTime(): Promise<number | null>; //time in miliseconds
-    getVideoDuration(): Promise<number | null>; //time in miliseconds
+    getPlayerCurrentTime(): Promise<number | null>; //time in milliseconds
+    getVideoDuration(): Promise<number | null>; //time in milliseconds
     isPaused(): boolean;
     isRepeated(): boolean;
     isAutoplay(): boolean;
