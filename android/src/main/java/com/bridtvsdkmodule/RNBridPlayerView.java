@@ -133,7 +133,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
 
   public void loadPlaylist(int playerId, int playlistId) {
     if(bridPlayer != null){
-      bridPlayer.loadVideo(playerId, playlistId);
+      bridPlayer.loadPlaylist(playerId, playlistId);
     }
   }
   public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls) {

@@ -21,20 +21,20 @@ type BridtvSdkModuleProps = {
   handleVideoStart?: () => void;
   handleVideoPlay?: () => void;
   handleVideoBuffering?: () => void;
-  handleVideoProgress?: () => void;  //not yet implemented
+  handleVideoProgress?: () => void;
   handleVideoPaused?: () => void;
   handleVideoEnd?: () => void;
   handleVideoSeek?: () => void;
-  handleFulscreenOpen?: () => void;
-  handleFulscreenClose?: () => void;
+  handleFullscreenOpen?: () => void;
+  handleFullscreenClose?: () => void;
   handleVideoAutoplay?: () => void;
 
   //Ad
-  handlevideoAdLoaded?: () => void;
-  handlevideoAdCompleted?: () => void;
-  handlevideoAdResumed?: () => void;
+  handleVideoAdLoaded?: () => void;
+  handleVideoAdCompleted?: () => void;
+  handleVideoAdResumed?: () => void;
   handleVideoAdStart?: () => void;
-  handlevideoAdPaused?: () => void;
+  handleVideoAdPaused?: () => void;
   handleAdProgress?: () => void;
   handleVideoAdTapped?: () => void;
   handleVideoAdSkipped?: () => void;
@@ -132,13 +132,13 @@ const BridPlayerErrorEvents = {
     message: 'Cannot play protected content.',
     code: '103',
   },
-  lostIntenetConnection: {
-    name: 'playerLostIntenetConnection',
+  lostInternetConnection: {
+    name: 'playerLostInternetConnection',
     message: 'Lost internet connection.',
     code: '100',
   },
   liveStreamError: {
-    name: 'playerLivestreamError',
+    name: 'playerLiveStreamError',
     message: 'An error occurred during live stream playback.',
     code: '200',
   },
@@ -183,27 +183,27 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     if (props.handleVideoSeek) {
       this.onVideoSeek(props.handleVideoSeek);
     }
-    if (props.handleFulscreenOpen) {
-      this.onFullscreenOpen(props.handleFulscreenOpen);
+    if (props.handleFullscreenOpen) {
+      this.onFullscreenOpen(props.handleFullscreenOpen);
     }
-    if (props.handleFulscreenClose) {
-      this.onFullscreenClose(props.handleFulscreenClose);
+    if (props.handleFullscreenClose) {
+      this.onFullscreenClose(props.handleFullscreenClose);
     }
     //AD EVENTS
-    if (props.handlevideoAdLoaded) {
-      this.onVideoAdLoaded(props.handlevideoAdLoaded);
+    if (props.handleVideoAdLoaded) {
+      this.onVideoAdLoaded(props.handleVideoAdLoaded);
     }
-    if (props.handlevideoAdCompleted) {
-      this.onVideoAdCompleted(props.handlevideoAdCompleted);
+    if (props.handleVideoAdCompleted) {
+      this.onVideoAdCompleted(props.handleVideoAdCompleted);
     }
-    if (props.handlevideoAdResumed) {
-      this.onVideoAdResumed(props.handlevideoAdResumed);
+    if (props.handleVideoAdResumed) {
+      this.onVideoAdResumed(props.handleVideoAdResumed);
     }
     if (props.handleVideoAdStart) {
       this.onVideoAdStart(props.handleVideoAdStart);
     }
-    if (props.handlevideoAdPaused) {
-      this.onVideoAdPaused(props.handlevideoAdPaused);
+    if (props.handleVideoAdPaused) {
+      this.onVideoAdPaused(props.handleVideoAdPaused);
     }
     if (props.handleAdProgress) {
       this.onVideoAdProgress(props.handleAdProgress);
@@ -277,86 +277,86 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
     return;
   };
 
-  registedListener = (eventType: string, handler: () => void) => {
+  registeredListener = (eventType: string, handler: () => void) => {
     this.listeners.set(eventType, handler);
   };
 
   //VideoEvents
   onVideoPlay = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoPlay, handler);
+    this.registeredListener(BridPlayerEvents.videoPlay, handler);
   };
   onVideoLoad = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoLoad, handler);
+    this.registeredListener(BridPlayerEvents.videoLoad, handler);
   };
 
   onVideoBuffering = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoBuffering, handler);
+    this.registeredListener(BridPlayerEvents.videoBuffering, handler);
   };
 
   onVideoStart = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoStart, handler);
+    this.registeredListener(BridPlayerEvents.videoStart, handler);
   };
 
   onVideoSeek = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoSeek, handler);
+    this.registeredListener(BridPlayerEvents.videoSeek, handler);
   };
 
   onVideoPaused = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoPaused, handler);
+    this.registeredListener(BridPlayerEvents.videoPaused, handler);
   };
 
   onVideoEnd = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoEnd, handler);
+    this.registeredListener(BridPlayerEvents.videoEnd, handler);
   };
 
   onFullscreenOpen = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.fullscreenOpen, handler);
+    this.registeredListener(BridPlayerEvents.fullscreenOpen, handler);
   };
 
   onFullscreenClose = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.fullscreenClose, handler);
+    this.registeredListener(BridPlayerEvents.fullscreenClose, handler);
   };
 
   //VideoAdEvents
 
   onVideoAdLoaded = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoAdLoaded, handler);
+    this.registeredListener(BridPlayerEvents.videoAdLoaded, handler);
   };
 
   onVideoAdCompleted = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoAdCompleted, handler);
+    this.registeredListener(BridPlayerEvents.videoAdCompleted, handler);
   };
 
   onVideoAdResumed = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoAdResumed, handler);
+    this.registeredListener(BridPlayerEvents.videoAdResumed, handler);
   };
 
   onVideoAdStart = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoAdStart, handler);
+    this.registeredListener(BridPlayerEvents.videoAdStart, handler);
   };
   onVideoAdPaused = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoAdPaused, handler);
+    this.registeredListener(BridPlayerEvents.videoAdPaused, handler);
   };
 
   onVideoAdProgress = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoAdProgress, handler);
+    this.registeredListener(BridPlayerEvents.videoAdProgress, handler);
   };
 
   onVideoAdTapped = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoAdTapped, handler);
+    this.registeredListener(BridPlayerEvents.videoAdTapped, handler);
   };
 
   onVideoAdSkipped = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoAdSkipped, handler);
+    this.registeredListener(BridPlayerEvents.videoAdSkipped, handler);
   };
 
   onVideoAutoplay = (handler: () => void) => {
-    this.registedListener(BridPlayerEvents.videoAutoplay, handler);
+    this.registeredListener(BridPlayerEvents.videoAutoplay, handler);
   };
 
   //ALL PLAYER ERRORS
   onVideoError = (handler: (errorEvent?: BridPlayerError) => void) => {
-    this.registedListener('errorEvent', handler);
+    this.registeredListener('errorEvent', handler);
   };
 
   //PLAYER COMMANDS
