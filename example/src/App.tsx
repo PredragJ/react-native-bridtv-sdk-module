@@ -111,6 +111,7 @@ const App = () => {
               mediaID: 1352517, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', //Single or Playlist
               controlAutoplay: false, //enables the client to take control over autoplay
+              scrollOnAd: true, //This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
             }}
             //Video
             handleVideoLoad={handleVideoLoad}
