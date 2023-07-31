@@ -23,6 +23,7 @@
 @synthesize typeOfPlayer;
 @synthesize useVPAIDSupport;
 @synthesize controlAutoplay;
+@synthesize scrollOnAd;
 
 BOOL isRelodaed;
 TypePlayer loadedType;
@@ -32,7 +33,7 @@ TypePlayer loadedType;
     [self setPlayerTypeByString:[bridPlayerConfig objectForKey:@"typeOfPlayer"]];
     useVPAIDSupport = [[bridPlayerConfig objectForKey:@"useVPAIDSupport"] boolValue];
     controlAutoplay = [[bridPlayerConfig objectForKey:@"controlAutoplay"] boolValue];
-    
+    scrollOnAd = [[bridPlayerConfig objectForKey:@"scrollOnAd"] boolValue];
     
     [self setupEventNetworking];
     
@@ -83,6 +84,7 @@ TypePlayer loadedType;
     
     [_player useVPAIDSupport:useVPAIDSupport];
     [_player controlAutoplay:controlAutoplay];
+    [_player scrollOnAd:scrollOnAd];
     
     return _player;
 }
