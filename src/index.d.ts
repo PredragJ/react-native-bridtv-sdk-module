@@ -40,6 +40,7 @@ declare module 'react-native-bridtv-sdk-module' {
     typeOfPlayer?: string;
     useVPAIDSupport?: boolean;
     controlAutoplay?: boolean;
+    scrollOnAd?: boolean;
   }
 
   export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
