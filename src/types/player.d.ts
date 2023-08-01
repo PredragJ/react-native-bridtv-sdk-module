@@ -55,11 +55,11 @@ export interface BridPlayerInterface {
   hideControls(): void;
   showPoster(): void;
   hidePoster(): void;
-  isMuted(): boolean;
-  isPlayingAd(): boolean;
+  isMuted(): Promise<any>;
+  isPlayingAd(): Promise<any>;
   getPlayerCurrentTime(): Promise<number | null>; //time in milliseconds
   getVideoDuration(): Promise<number | null>; //time in milliseconds
-  isPaused(): boolean;
-  isRepeated(): boolean;
-  isAutoplay(): boolean;
+  isPaused(): Promise<any>;
+  isRepeated(): Promise<any>;
+  isAutoplay(): Promise<any>;
 }
