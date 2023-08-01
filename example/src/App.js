@@ -8,10 +8,9 @@ import {
 } from 'react-native';
 
 import BridPlayer from 'react-native-bridtv-sdk-module';
-import { BridPlayerError } from 'src/BridPlayerError';
 
 const App = () => {
-  const bridPlayerRef = React.useRef<BridPlayer>(null);
+  const bridPlayerRef = React.useRef(null);
   // const bridPlayerRef2 = React.useRef<BridPlayer>(null);
   // const bridPlayerRef3 = React.useRef<BridPlayer>(null);
 
@@ -88,14 +87,14 @@ const App = () => {
   };
 
   //VIDEO ERROR EVENTS
-  const handleVideoError = (errorEvent?: BridPlayerError) => {
+  const handleVideoError = (errorEvent) => {
     console.log(
       'Error Code => ' +
-        errorEvent?.code +
+        errorEvent.code +
         ' | Error Name => ' +
-        errorEvent?.name +
+        errorEvent.name +
         ' | Error Message => ' +
-        errorEvent?.message
+        errorEvent.message
     );
   };
 

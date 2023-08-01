@@ -5,52 +5,19 @@ import {
   findNodeHandle,
   NativeModules,
   Platform,
-  ViewStyle,
   NativeEventEmitter,
 } from 'react-native';
 
-import { BridPlayerError } from './BridPlayerError';
+import BridPlayerErrorEvents from './constants/brid_player_error_events';
+import {
+  BridPlayerEventsAndroid,
+  BridPlayerEventsIos,
+} from './constants/brid_player_events';
+import { BridPlayerEventErrorType } from 'src/types/error';
+import { BridPlayerInterface, BridtvSdkModuleProps } from 'src/types/player';
 
 const ComponentName = 'BridtvSdkModuleView';
 
-type BridtvSdkModuleProps = {
-  style?: ViewStyle;
-  bridPlayerConfig?: BridPlayerConfig;
-  //Video
-  handleVideoLoad?: () => void;
-  handleVideoStart?: () => void;
-  handleVideoPlay?: () => void;
-  handleVideoBuffering?: () => void;
-  handleVideoProgress?: () => void;
-  handleVideoPaused?: () => void;
-  handleVideoEnd?: () => void;
-  handleVideoSeek?: () => void;
-  handleFullscreenOpen?: () => void;
-  handleFullscreenClose?: () => void;
-  handleVideoAutoplay?: () => void;
-
-  //Ad
-  handleVideoAdLoaded?: () => void;
-  handleVideoAdCompleted?: () => void;
-  handleVideoAdResumed?: () => void;
-  handleVideoAdStart?: () => void;
-  handleVideoAdPaused?: () => void;
-  handleAdProgress?: () => void;
-  handleVideoAdTapped?: () => void;
-  handleVideoAdSkipped?: () => void;
-
-  //Video Error
-  handleVideoError?: (errorEvent?: BridPlayerError) => void;
-};
-
-interface BridPlayerConfig {
-  playerID?: number;
-  mediaID?: number;
-  typeOfPlayer?: string;
-  useVPAIDSupport?: boolean;
-  controlAutoplay?: boolean;
-  scrollOnAd?: boolean;
-}
 const BridtvSdkManager =
   Platform.OS === 'ios'
     ? NativeModules.BridtvSdkModuleView
@@ -61,90 +28,6 @@ const BridtvSdkEmitter =
     ? NativeModules.BridtvSdkModule
     : NativeModules.BridtvSdkModule;
 
-const BridPlayerEventsIos = {
-  //Video
-  videoBuffering: 'playerVideoBuffering',
-  videoLoad: 'playerVideoLoad',
-  videoStart: 'playerVideoStarted',
-  videoPlay: 'playerVideoPlay',
-  videoPaused: 'playerVideoPause',
-  videoSeek: 'playerSliderValueChanged',
-  videoEnd: 'playerVideoStop',
-  videoError: 'playerVideoError',
-  fullscreenOpen: 'playerSetFullscreenOn',
-  fullscreenClose: 'playerSetFullscreenOff',
-
-  //Ad
-  videoAdLoaded: 'adLoaded',
-  videoAdCompleted: 'adComplete',
-  videoAdResumed: 'adResume',
-  videoAdStart: 'adStarted',
-  videoAdPaused: 'adPause',
-  videoAdProgress: 'adProgress',
-  videoAdTapped: 'adTapped',
-  videoAdSkipped: 'adSkipped',
-  videoAutoplay: 'playerAutoplay',
-};
-
-const BridPlayerEventsAndroid = {
-  //Video
-  videoBuffering: 'video_buffering',
-  videoLoad: 'video_load',
-  videoStart: 'video_start',
-  videoPlay: 'video_played',
-  videoPaused: 'video_paused',
-  videoSeek: 'video_seek',
-  videoEnd: 'video_ended',
-  videoError: 'video_error',
-  fullscreenOpen: 'fullscreen_open',
-  fullscreenClose: 'fullscreen_close',
-  videoAutoplay: 'video_autoplay',
-
-  //Ad
-  videoAdLoaded: 'ad_loaded',
-  videoAdCompleted: 'video_ad_completed',
-  videoAdResumed: 'ad_resumed',
-  videoAdStart: 'ad_started',
-  videoAdPaused: 'ad_paused',
-  videoAdProgress: 'ad_progress',
-  videoAdTapped: 'ad_tapped',
-  videoAdSkipped: 'ad_skipped',
-};
-
-const BridPlayerErrorEvents = {
-  //Video
-  adError: {
-    name: 'adError',
-    message: 'Error occurred during ad playback.',
-    code: '300',
-  },
-  videoBadUrl: {
-    name: 'playerVideoBadUrl',
-    message: 'Invalid video from BridTv CMS/Invalid video URL.',
-    code: '101',
-  },
-  unsupportedFormat: {
-    name: 'playerUnsupportedFormat',
-    message: 'Video player error. Probably unsupported video format.',
-    code: '102',
-  },
-  protectedContent: {
-    name: 'playerProtectedContent',
-    message: 'Cannot play protected content.',
-    code: '103',
-  },
-  lostInternetConnection: {
-    name: 'playerLostInternetConnection',
-    message: 'Lost internet connection.',
-    code: '100',
-  },
-  liveStreamError: {
-    name: 'playerLiveStreamError',
-    message: 'An error occurred during live stream playback.',
-    code: '200',
-  },
-};
-
 var RNBridPlayer = requireNativeComponent(ComponentName);
 export const BridPlayerEvents =
   Platform.OS === 'ios' ? BridPlayerEventsIos : BridPlayerEventsAndroid;
@@ -152,7 +35,10 @@ export const BridPlayerEvents =
 let playerId = 0;
 const RN_BRID_PLAYER_KEY = 'RnBridPlayerKey';
 
-export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
+export default class BridPlayer
+  extends React.Component<BridtvSdkModuleProps>
+  implements BridPlayerInterface
+{
   eventListener: any;
   eventEmitter = new NativeEventEmitter(BridtvSdkEmitter);
 
@@ -250,16 +136,11 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   }
 
   handleBridPlayerEvent = (eventData: any) => {
-    const key = Object.keys(BridPlayerErrorEvents).find(
-      (key: string) =>
-        BridPlayerErrorEvents[key as keyof typeof BridPlayerErrorEvents]
-          .name === eventData
-    );
-    if (key) {
-      const errorEvent =
-        BridPlayerErrorEvents[key as keyof typeof BridPlayerErrorEvents];
+    const errorEvent = BridPlayerErrorEvents.get(eventData);
+
+    if (errorEvent) {
       const callBack = this.listeners.get('errorEvent') as
-        | ((errorEvent: BridPlayerError) => void)
+        | ((errorEvent: BridPlayerEventErrorType) => void)
         | undefined;
 
       if (callBack) {
@@ -356,7 +237,7 @@ export default class BridPlayer extends React.Component<BridtvSdkModuleProps> {
   };
 
   //ALL PLAYER ERRORS
-  onVideoError = (handler: (errorEvent?: BridPlayerError) => void) => {
+  onVideoError = (handler: (errorEvent?: BridPlayerEventErrorType) => void) => {
     this.registeredListener('errorEvent', handler);
   };
 
