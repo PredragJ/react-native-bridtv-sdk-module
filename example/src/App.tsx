@@ -107,7 +107,7 @@ const App = () => {
             ref={bridPlayerRef}
             style={styles.square}
             bridPlayerConfig={{
-              playerID: 40606, // PlayerID from BridTV cms
+              playerID: 40605, // PlayerID from BridTV cms
               mediaID: 1352517, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', //Single or Playlist
               controlAutoplay: false, //enables the client to take control over autoplay
