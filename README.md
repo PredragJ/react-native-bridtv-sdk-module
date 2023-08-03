@@ -49,7 +49,7 @@ const App = () => {
               mediaID: xxxxxxxx, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
               controlAutoplay: true, //enables the client to take control over autoplay - optional
-              enableAdControls: true, //displays ad conrols - optional
+              enableAdControls: true, //displays ad controls - optional
             }}
             handleVideoLoad={handleVideoLoad} // Player event callbacks
             ...
