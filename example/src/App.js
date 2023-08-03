@@ -1,19 +1,23 @@
 import * as React from 'react';
+import { Text } from 'react-native';
 import {
   StyleSheet,
   View,
   Button,
   ScrollView,
   SafeAreaView,
+  TextInput,
 } from 'react-native';
 
 import BridPlayer from 'react-native-bridtv-sdk-module';
-import { BridPlayerError } from 'src/BridPlayerError';
 
 const App = () => {
-  const bridPlayerRef = React.useRef<BridPlayer>(null);
+  const bridPlayerRef = React.useRef(null);
   // const bridPlayerRef2 = React.useRef<BridPlayer>(null);
   // const bridPlayerRef3 = React.useRef<BridPlayer>(null);
+  const [playerId, setPlayerId] = React.useState('40606');
+  const [videoId, setVideoId] = React.useState('1319855');
+  const [playlistId, setPlaylistId] = React.useState('21751');
 
   const handleVideoLoad = () => {
     console.log('VIDEO LOADED');
@@ -88,14 +92,14 @@ const App = () => {
   };
 
   //VIDEO ERROR EVENTS
-  const handleVideoError = (errorEvent?: BridPlayerError) => {
+  const handleVideoError = (errorEvent) => {
     console.log(
       'Error Code => ' +
-        errorEvent?.code +
+        errorEvent.code +
         ' | Error Name => ' +
-        errorEvent?.name +
+        errorEvent.name +
         ' | Error Message => ' +
-        errorEvent?.message
+        errorEvent.message
     );
   };
 
@@ -227,12 +231,22 @@ const App = () => {
 
             <Button
               title="load Video"
-              onPress={() => bridPlayerRef.current?.loadVideo(40118, 1319855)}
+              onPress={() =>
+                bridPlayerRef.current?.loadVideo(
+                  parseInt(playerId, 10),
+                  parseInt(videoId, 10)
+                )
+              }
             />
 
             <Button
               title="load Playlist"
-              onPress={() => bridPlayerRef.current?.loadPlaylist(39910, 21751)}
+              onPress={() =>
+                bridPlayerRef.current?.loadPlaylist(
+                  parseInt(playerId, 10),
+                  parseInt(playlistId, 10)
+                )
+              }
             />
           </View>
 
@@ -263,6 +277,32 @@ const App = () => {
               onPress={() => bridPlayerRef.current?.isRepeated()}
             />
           </View>
+        </View>
+        <View>
+          <Text>Player ID:</Text>
+          <TextInput
+            label="Player ID"
+            placeholder="Enter a number"
+            keyboardType="numeric"
+            value={playerId}
+            onChangeText={(text) => setPlayerId(text)}
+          />
+          <Text>Video ID:</Text>
+          <TextInput
+            label="Video ID"
+            placeholder="Enter a number"
+            keyboardType="numeric"
+            value={videoId}
+            onChangeText={(text) => setVideoId(text)}
+          />
+          <Text>Playlist ID:</Text>
+          <TextInput
+            label="Playlist ID"
+            placeholder="Enter a number"
+            keyboardType="numeric"
+            value={playlistId}
+            onChangeText={(text) => setPlaylistId(text)}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
