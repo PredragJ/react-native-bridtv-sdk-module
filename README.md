@@ -49,7 +49,7 @@ const App = () => {
               mediaID: xxxxxxxx, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
               controlAutoplay: true, //enables the client to take control over autoplay - optional
-              enableAdControls: true, //displays ad conrols - optional
+              enableAdControls: true, //displays ad controls - optional
             }}
             handleVideoLoad={handleVideoLoad} // Player event callbacks
             ...
@@ -65,6 +65,7 @@ The BridPlayer component accepts the following props:
 + **style** (optional): Specifies the style for the player component.
 
 + **bridPlayerConfig**: An object that contains configuration options for the player.  It includes properties playerID, mediaID, typeOfPlayer, useVPAIDSupport, controlAutoplay.
++   scrollOnAd: true This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
 
 + **Video event callbacks**: These props allow you to specify callback functions for various video events like:
     - handleVideoLoad, 
