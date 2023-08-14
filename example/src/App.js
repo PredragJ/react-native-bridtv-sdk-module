@@ -13,8 +13,8 @@ import BridPlayer from 'react-native-bridtv-sdk-module';
 
 const App = () => {
   const bridPlayerRef = React.useRef(null);
-  // const bridPlayerRef2 = React.useRef<BridPlayer>(null);
-  // const bridPlayerRef3 = React.useRef<BridPlayer>(null);
+  const bridPlayerRef2 = React.useRef(null);
+  const bridPlayerRef3 = React.useRef(null);
   const [playerId, setPlayerId] = React.useState('40606');
   const [videoId, setVideoId] = React.useState('1319855');
   const [playlistId, setPlaylistId] = React.useState('21751');
@@ -23,7 +23,8 @@ const App = () => {
     console.log('VIDEO LOADED');
   };
 
-  const handleVideoPlay = () => {
+  const handleVideoPlay = (player) => {
+    console.log(player);
     console.log('VIDEO PLAYED');
   };
 
@@ -111,57 +112,18 @@ const App = () => {
             ref={bridPlayerRef}
             style={styles.square}
             bridPlayerConfig={{
-              playerID: 40605, // PlayerID from BridTV cms
-              mediaID: 1352517, //VideoID or PlaylistID from BridTv cms
+              playerID: 40107, // PlayerID from BridTV cms
+              mediaID: 1364356, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', //Single or Playlist
               controlAutoplay: false, //enables the client to take control over autoplay
               scrollOnAd: true, //This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
+              creditsLabelColor: '614BC3', // To achieve color modification for credits label, it is necessary to provide a sequence of six hexadecimal characters, excluding the '#' symbol.
             }}
             //Video
-            handleVideoLoad={handleVideoLoad}
-            handleVideoStart={handleVideoStart}
-            handleVideoPlay={handleVideoPlay}
-            handleVideoBuffering={handleVideoBuffering}
-            handleVideoProgress={handleVideoProgress}
-            handleVideoSeek={handleVideoSeek}
-            handleVideoPaused={handleVideoPause}
-            handleVideoEnd={handleVideoEnd}
-            handleFullscreenOpen={handleFullscreenOpen}
-            handleFullscreenClose={handleFullscreenClose}
-            handleVideoAutoplay={handleVideoAutoplay}
-            //Ad
-            handleVideoAdLoaded={handleVideoAdLoaded}
-            handleVideoAdCompleted={handleVideoAdCompleted}
-            handleVideoAdResumed={handleVideoAdResumed}
-            handleVideoAdStart={handleVideoAdStart}
-            handleVideoAdPaused={handleVideoAdPaused}
-            handleAdProgress={handleVideoAdProgress}
-            handleVideoAdTapped={handleVideoAdTapped}
-            handleVideoAdSkipped={handleVideoAdSkipped}
-            handleVideoError={handleVideoError}
-          />
-          {/* 
-            <BridPlayer
-            ref={bridPlayerRef2}
-            setPlayerState={updatePlayerState}
-            style={styles.square}
-            bridPlayerConfig={{
-              playerID: 39437, // PlayerID from BridTV cms
-              mediaID: 1092011, //VideoID or PlaylistID from BridTv cms
-              typeOfPlayer: 'Single', // Single or Playlist
-            }}
+            handleVideoPlay={() => handleVideoPlay('player')}
           />
 
-        <BridPlayer
-            ref={bridPlayerRef3}
-            setPlayerState={updatePlayerState}
-            style={styles.square}
-            bridPlayerConfig={{
-              playerID: 39437, // PlayerID from BridTV cms
-              mediaID: 1092011, //VideoID or PlaylistID from BridTv cms
-              typeOfPlayer: 'Single', // Single or Playlist
-            }}
-          /> */}
+
           <View style={styles.buttonContainer}>
             <Button
               title="Prev"
