@@ -114,11 +114,12 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
         return bridPlayer;
     }
 
-  public void loadVideo(int playerId, int videoId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls) {
+  public void loadVideo(int playerId, int videoId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor) {
     if (bridPlayer != null) {
       bridPlayerBuilder.useVpaidSupport(vpaidSupport);
       bridPlayerBuilder.fullscreen(isFullscreen);
       bridPlayerBuilder.enableAutoplay(!controlAutoplay);
+      bridPlayerBuilder.setCreditsLabelColor(creditsLabelColor);
       bridPlayer = bridPlayerBuilder.rebuild();
       bridPlayer.loadVideo(playerId, videoId);
 
@@ -136,11 +137,12 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
       bridPlayer.loadPlaylist(playerId, playlistId);
     }
   }
-  public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls) {
+  public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor) {
       if(bridPlayer != null){
         bridPlayerBuilder.useVpaidSupport(vpaidSupport);
         bridPlayerBuilder.fullscreen(isFullscreen);
         bridPlayerBuilder.enableAutoplay(!controlAutoplay);
+        bridPlayerBuilder.setCreditsLabelColor(creditsLabelColor);
         bridPlayer = bridPlayerBuilder.rebuild();
         bridPlayer.loadPlaylist(playerId,playlistId);
       }

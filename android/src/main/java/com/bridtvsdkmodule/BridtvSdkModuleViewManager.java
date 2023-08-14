@@ -87,6 +87,8 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
   public void setPlayerConfig(RNBridPlayerView bridPlayerView, ReadableMap prop) {
     int playerId = 0,mediaId = 0;
     boolean useVpaid = false, playlist = false, isFullscreen = false, controlAutoplay = false, enableAdControls = false;
+    String creditsLabelColor = null;
+
     try {
       if(prop.hasKey("playerID"))
         playerId = (int) prop.getDouble("playerID");
@@ -101,16 +103,22 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
         isFullscreen = prop.getBoolean("setFullscreen");
 
       if(prop.hasKey("controlAutoplay"))
-         controlAutoplay = prop.getBoolean("controlAutoplay");
+        controlAutoplay = prop.getBoolean("controlAutoplay");
 
       if(prop.hasKey("enableAdControls"))
         enableAdControls = prop.getBoolean("enableAdControls");
 
+      if(prop.hasKey("creditsLabelColor"))
+        creditsLabelColor = prop.getString("creditsLabelColor");
+
+//      if(prop.hasKey("playerRefKey"))
+//        playerRefKey = prop.getString("playerRefKey");
+
 
       if(playlist)
-        bridPlayerView.loadPlaylist(playerId,mediaId, useVpaid,isFullscreen, controlAutoplay, enableAdControls);
+        bridPlayerView.loadPlaylist(playerId,mediaId, useVpaid,isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor);
       else
-        bridPlayerView.loadVideo(playerId, mediaId, useVpaid, isFullscreen, controlAutoplay, enableAdControls);
+        bridPlayerView.loadVideo(playerId, mediaId, useVpaid, isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor);
 
       if(bridPlayerListener != null)
         bridPlayer.setBridListener(bridPlayerListener);

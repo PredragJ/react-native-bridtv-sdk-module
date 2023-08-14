@@ -7,6 +7,7 @@ interface BridPlayerConfig {
   useVPAIDSupport?: boolean;
   controlAutoplay?: boolean;
   scrollOnAd?: boolean;
+  creditsLabelColor?: string; // 6 characters HEX
 }
 
 export type BridtvSdkModuleProps = {

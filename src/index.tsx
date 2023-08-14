@@ -110,7 +110,8 @@ export default class BridPlayer
       this.onVideoError(props.handleVideoError);
     }
 
-    this.ref_key = `${RN_BRID_PLAYER_KEY}-${playerId++}`;
+    this.ref_key = `${RN_BRID_PLAYER_KEY}-${++playerId}`;
+
   }
 
   componentDidMount() {
@@ -263,6 +264,12 @@ export default class BridPlayer
 
   next() {
     UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'next', []);
+  }
+
+  setPlayerRefKey(playerRefKey: string) {
+    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'playerRefKey', [
+      playerRefKey,
+    ]);
   }
 
   destroyPlayer() {
