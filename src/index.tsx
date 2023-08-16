@@ -42,7 +42,7 @@ export default class BridPlayer
   eventListener: any;
   eventEmitter = new NativeEventEmitter(BridtvSdkEmitter);
 
-  listeners: Map<string, () => void> = new Map();
+  listeners: Map<string, (eventData: any) => void> = new Map();
 
   ref_key: string;
 
@@ -111,18 +111,13 @@ export default class BridPlayer
     }
 
     this.ref_key = `${RN_BRID_PLAYER_KEY}-${++playerId}`;
-
   }
 
   componentDidMount() {
     this.eventListener = this.eventEmitter.addListener(
-      'BridPlayerEvents',
+      'BridPlayerEvents' + findNodeHandle(this),
       (event) => {
-        if (event.message !== undefined || event.name !== undefined) {
-          this.handleBridPlayerEvent(
-            Platform.OS === 'ios' ? event.name : event.message
-          );
-        } else console.log('UNDEFINED EVENT');
+        this.handleBridPlayerEvent(event);
       }
     );
   }
@@ -137,7 +132,9 @@ export default class BridPlayer
   }
 
   handleBridPlayerEvent = (eventData: any) => {
-    const errorEvent = BridPlayerErrorEvents.get(eventData);
+    const eventName =
+      Platform.OS === 'ios' ? eventData.name : eventData.message;
+    const errorEvent = BridPlayerErrorEvents.get(eventName);
 
     if (errorEvent) {
       const callBack = this.listeners.get('errorEvent') as
@@ -149,18 +146,20 @@ export default class BridPlayer
       }
     }
 
-    if (Object.values(BridPlayerEvents).includes(eventData)) {
-      const callBack = this.listeners.get(eventData);
-
+    if (Object.values(BridPlayerEvents).includes(eventName)) {
+      const callBack = this.listeners.get(eventName);
       if (callBack) {
-        callBack();
+        callBack(eventData);
       }
     }
 
     return;
   };
 
-  registeredListener = (eventType: string, handler: () => void) => {
+  registeredListener = (
+    eventType: string,
+    handler: (eventData: any) => void
+  ) => {
     this.listeners.set(eventType, handler);
   };
 
