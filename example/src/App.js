@@ -20,12 +20,14 @@ const App = () => {
   const [videoId, setVideoId] = React.useState('1319855');
   const [playlistId, setPlaylistId] = React.useState('21751');
 
-  const handleVideoLoad = () => {
+  const handleVideoLoad = (eventData) => {
     console.log('VIDEO LOADED');
+    console.log(eventData);
+
   };
 
   const handleVideoPlay = (eventData) => {
-    console.log(eventData.playerRef);
+    console.log(eventData);
     console.log('VIDEO PLAYED');
   };
 
@@ -35,8 +37,6 @@ const App = () => {
 
   const handleVideoStart = (eventData) => {
     console.log('VIDEO STARTED');
-    console.log(eventData);
-
   };
 
   const handleVideoPause = () => {
@@ -124,7 +124,7 @@ const App = () => {
               creditsLabelColor: '614BC3', // To achieve color modification for credits label, it is necessary to provide a sequence of six hexadecimal characters, excluding the '#' symbol.
             }}
             //Video
-            handleVideoStart={(eventData) => handleVideoStart(eventData)}
+            handleVideoLoad={(eventData) => handleVideoLoad(eventData)}
           />
 
           <BridPlayer
@@ -140,9 +140,7 @@ const App = () => {
               creditsLabelColor: '614BC3', // To achieve color modification for credits label, it is necessary to provide a sequence of six hexadecimal characters, excluding the '#' symbol.
             }}
             //Video
-            handleVideoStart={(eventData) => {
-              console.log('player2');
-            }}
+            handleVideoLoad={(eventData) => handleVideoLoad(eventData)}
           />
           {/* <BridPlayer
             ref={bridPlayerRef2}
@@ -157,18 +155,6 @@ const App = () => {
             }}
             handleVideoPlay={() => handleVideoPlay()}
           />  */}
-
-          {/* <Video
-            source={{
-              uri: 'https://storage.googleapis.com/gvabox/media/samples/stock.mp4',
-            }} // Can be a URL or a local file.
-            ref={(ref) => {
-              this.player = ref;
-            }} // Store reference
-            onBuffer={this.onBuffer} // Callback when remote video is buffering
-            onError={this.videoError} // Callback when video cannot be loaded
-            style={styles.square}
-          /> */}
 
           <View style={styles.buttonContainer}>
             <Button
