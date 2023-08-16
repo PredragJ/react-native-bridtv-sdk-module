@@ -39,6 +39,9 @@ export type BridtvSdkModuleProps = {
 
   //Video Error
   handleVideoError?: (errorEvent?: BridPlayerEventErrorType) => void;
+
+  //Handle all player events
+  handleAllPlayerEvents?: () => void;
 };
 
 export interface BridPlayerInterface {
