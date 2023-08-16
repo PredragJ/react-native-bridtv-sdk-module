@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Text } from 'react-native';
+1
 import {
   StyleSheet,
   View,
@@ -23,8 +24,8 @@ const App = () => {
     console.log('VIDEO LOADED');
   };
 
-  const handleVideoPlay = (player) => {
-    console.log(player);
+  const handleVideoPlay = (eventData) => {
+    console.log(eventData.playerRef);
     console.log('VIDEO PLAYED');
   };
 
@@ -32,8 +33,10 @@ const App = () => {
     console.log('VIDEO BUFFERING');
   };
 
-  const handleVideoStart = () => {
+  const handleVideoStart = (eventData) => {
     console.log('VIDEO STARTED');
+    console.log(eventData);
+
   };
 
   const handleVideoPause = () => {
@@ -64,7 +67,7 @@ const App = () => {
     console.log('AD LOADED');
   };
   const handleVideoAdCompleted = () => {
-    console.log('AD COMPLETED');
+    console.log('AD COMLETED');
   };
   const handleVideoAdResumed = () => {
     console.log('AD RESUMED');
@@ -112,17 +115,60 @@ const App = () => {
             ref={bridPlayerRef}
             style={styles.square}
             bridPlayerConfig={{
-              playerID: 40107, // PlayerID from BridTV cms
-              mediaID: 1364356, //VideoID or PlaylistID from BridTv cms
+              playerReference: 'player_1',
+              playerID: 39104, // PlayerID from BridTV cms
+              mediaID: 1080419, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', //Single or Playlist
               controlAutoplay: false, //enables the client to take control over autoplay
               scrollOnAd: true, //This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
               creditsLabelColor: '614BC3', // To achieve color modification for credits label, it is necessary to provide a sequence of six hexadecimal characters, excluding the '#' symbol.
             }}
             //Video
-            handleVideoPlay={() => handleVideoPlay('player')}
+            handleVideoStart={(eventData) => handleVideoStart(eventData)}
           />
 
+          <BridPlayer
+            ref={bridPlayerRef2}
+            style={styles.square}
+            bridPlayerConfig={{
+              playerReference: 'player_2',
+              playerID: 39104, // PlayerID from BridTV cms
+              mediaID: 1080419, //VideoID or PlaylistID from BridTv cms
+              typeOfPlayer: 'Single', //Single or Playlist
+              controlAutoplay: false, //enables the client to take control over autoplay
+              scrollOnAd: true, //This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
+              creditsLabelColor: '614BC3', // To achieve color modification for credits label, it is necessary to provide a sequence of six hexadecimal characters, excluding the '#' symbol.
+            }}
+            //Video
+            handleVideoStart={(eventData) => {
+              console.log('player2');
+            }}
+          />
+          {/* <BridPlayer
+            ref={bridPlayerRef2}
+            style={styles.square}
+            bridPlayerConfig={{
+              playerReference: 'player_2',
+              playerID: 39104, // PlayerID from BridTV cms
+              mediaID: 1080419, //VideoID or PlaylistID from BridTv cms
+              typeOfPlayer: 'Single', // Single or Playlist
+              // playerRefKey: 'player2',
+
+            }}
+            handleVideoPlay={() => handleVideoPlay()}
+          />  */}
+
+          {/* <Video
+            source={{
+              uri: 'https://storage.googleapis.com/gvabox/media/samples/stock.mp4',
+            }} // Can be a URL or a local file.
+            ref={(ref) => {
+              this.player = ref;
+            }} // Store reference
+            onBuffer={this.onBuffer} // Callback when remote video is buffering
+            onError={this.videoError} // Callback when video cannot be loaded
+            style={styles.square}
+          /> */}
 
           <View style={styles.buttonContainer}>
             <Button
@@ -136,8 +182,8 @@ const App = () => {
             />
 
             <Button
-              title="Pause"
-              onPress={() => bridPlayerRef.current?.pause()}
+              title=" Player 2Pause"
+              onPress={() => bridPlayerRef2.current?.pause()}
             />
 
             <Button
@@ -275,6 +321,15 @@ const styles = StyleSheet.create({
   scrollViewContainer: {
     justifyContent: 'center',
   },
+
+  backgroundVideo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
+
   container: {
     flex: 1,
     alignItems: 'center',

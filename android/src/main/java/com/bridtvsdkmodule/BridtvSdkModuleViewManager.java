@@ -31,6 +31,7 @@ import com.facebook.react.uimanager.ReactOverflowViewWithInset;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 import javax.annotation.Nonnull;
 
@@ -53,6 +54,7 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
 
   public BridPlayerListener bridPlayerListener;
 
+
   @Override
   @NonNull
   public String getName() {
@@ -72,60 +74,21 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
 //    rnBridPlayerView = new RNBridPlayerView(reactContext.getReactApplicationContext().getCurrentActivity());
 
     //TEST VIEW - biranje izmedju boljeg konteksta
-    rnBridPlayerView = new RNBridPlayerView(reactContext, mAppContext);
+//    rnBridPlayerView = new RNBridPlayerView(reactContext, mAppContext);
 
-    bridPlayer = rnBridPlayerView.getBridPlayer();
+//    setupPlayerListener();
 
-    setupPlayerListener();
-
-    return  rnBridPlayerView;
+    return  new RNBridPlayerView(reactContext, mAppContext);
   }
 
 
 
   @ReactProp(name = "bridPlayerConfig")
   public void setPlayerConfig(RNBridPlayerView bridPlayerView, ReadableMap prop) {
-    int playerId = 0,mediaId = 0;
-    boolean useVpaid = false, playlist = false, isFullscreen = false, controlAutoplay = false, enableAdControls = false;
-    String creditsLabelColor = null;
 
-    try {
-      if(prop.hasKey("playerID"))
-        playerId = (int) prop.getDouble("playerID");
-      if(prop.hasKey("mediaID"))
-        mediaId = (int) prop.getDouble("mediaID");
-      if(prop.hasKey("typeOfPlayer"))
-        playlist = prop.getString("typeOfPlayer").equals("Playlist");
-
-      if(prop.hasKey("useVPAIDSupport"))
-        useVpaid = prop.getBoolean("useVPAIDSupport");
-      if(prop.hasKey("setFullscreen"))
-        isFullscreen = prop.getBoolean("setFullscreen");
-
-      if(prop.hasKey("controlAutoplay"))
-        controlAutoplay = prop.getBoolean("controlAutoplay");
-
-      if(prop.hasKey("enableAdControls"))
-        enableAdControls = prop.getBoolean("enableAdControls");
-
-      if(prop.hasKey("creditsLabelColor"))
-        creditsLabelColor = prop.getString("creditsLabelColor");
-
-//      if(prop.hasKey("playerRefKey"))
-//        playerRefKey = prop.getString("playerRefKey");
+    bridPlayerView.setConfig(prop);
 
 
-      if(playlist)
-        bridPlayerView.loadPlaylist(playerId,mediaId, useVpaid,isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor);
-      else
-        bridPlayerView.loadVideo(playerId, mediaId, useVpaid, isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor);
-
-      if(bridPlayerListener != null)
-        bridPlayer.setBridListener(bridPlayerListener);
-
-    } catch (NumberFormatException e){
-      bridPlayerView.toastMessage(e.getMessage());
-    }
   }
 
   @Override
@@ -185,158 +148,6 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
       case HIDE_POSTER:
         bridPlayerView.hidePoster();
     }
-  }
-
-
-  private void setupPlayerListener() {
-    bridPlayerListener = new BridPlayerListener() {
-      @Override
-      public void onEvent(String status) {
-        Log.d("BridPlayerEvent", status);
-        WritableMap event = Arguments.createMap();
-
-        switch (status) {
-          case PlayerEvents.EVENT_VIDEO_BUFFERING:
-            event.putString("message", "video_buffering");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-            break;
-
-          case PlayerEvents.EVENT_PLAYER_LOADED:
-            event.putString("message", "video_load");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-            break;
-          case "STARTED":
-            event.putString("message", "video_start");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-            break;
-          case PlayerEvents.EVENT_VIDEO_PLAY:
-            event.putString("message", "video_played");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-
-            break;
-          case PlayerEvents.EVENT_VIDEO_PAUSE:
-            event.putString("message", "video_paused");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-
-            break;
-          case PlayerEvents.EVENT_VIDEO_END:
-            event.putString("message", "video_ended");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-
-            break;
-          case PlayerEvents.EVENT_VIDEO_SEEK:
-            event.putString("message", "video_seek");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-
-            break;
-          case PlayerEvents.EVENT_AD_LOADED:
-            event.putString("message", "ad_loaded");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-
-            break;
-          case PlayerEvents.EVENT_AD_COMPLETED:
-            event.putString("message", "video_ad_completed");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-
-            break;
-          case PlayerEvents.EVENT_AD_RESUMED:
-            event.putString("message", "ad_resumed");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-
-            break;
-          case PlayerEvents.EVENT_AD_SKIPPED:
-            event.putString("message", "ad_skipped");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-
-            break;
-          case PlayerEvents.EVENT_AD_STARTED:
-            event.putString("message", "ad_started");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-
-            break;
-          case PlayerEvents.EVENT_AD_PAUSED:
-            event.putString("message", "ad_paused");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-
-            break;
-          case PlayerEvents.EVENT_AD_TAPPED:
-            event.putString("message", "ad_tapped");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-
-            break;
-          case PlayerEvents.EVENT_ALL_ADS_COMPLETED:
-            event.putString("message", "all_ads_completed");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-
-            break;
-          case PlayerEvents.EVENT_AD_PROGRESS:
-            event.putString("message", "ad_progress");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-
-            break;
-          case PlayerEvents.EVENT_AD_CLICKED:
-            event.putString("message", "ad_clicked");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-
-            break;
-
-          case PlayerEvents.EVENT_FULLSCREEN_OPEN_REQUESTED:
-            event.putString("message", "fullscreen_open");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-
-            break;
-
-          case PlayerEvents.EVENT_FULLSCREEN_CLOSE_REQUESTED:
-            event.putString("message", "fullscreen_close");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-//            onFullscreenCloseRequested();
-            break;
-
-          //PLAYER ERROR EVENTS
-          case PlayerEvents.EVENT_AD_ERROR:
-          case PlayerEvents.EVENT_AD_BREAK_FETCH_ERROR:
-            event.putString("message", "adError");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-            break;
-          case PlayerEvents.EVENT_VIDEO_ERROR:
-            event.putString("message", "unsupportedFormat");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-            break;
-          case PlayerEvents.EVENT_VIDEO_NETWORK_ERROR:
-            event.putString("message", "lostIntenetConnection");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-            break;
-          case PlayerEvents.EVENT_VIDEO_CMS_ERROR:
-            event.putString("message", "videoBadUrl");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-            break;
-          case PlayerEvents.EVENT_VIDEO_LIVESTREAM_ERROR:
-            event.putString("message", "livestreamError");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-            break;
-          case PlayerEvents.EVENT_VIDEO_PROTECTED_ERROR:
-            event.putString("message", "protectedContent");
-            sendEvent(mReactContext, "BridPlayerEvents", event);
-            break;
-          case PlayerEvents.EVENT_VIDEO_AUTOPLAY:
-            event.putString("message","player_autoplay");
-            sendEvent(mReactContext,"BridPlayerEvents", event);
-        }
-
-      }
-    };
-  }
-
-  private void onFullscreenCloseRequested() {
-    rnBridPlayerView.onFullscreenCloseRequested();
-  }
-
-  private void sendEvent(ReactContext reactContext,
-                         String eventName,
-                         @Nullable WritableMap params) {
-    reactContext
-      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-      .emit(eventName, params);
   }
   @Override
   public void onDropViewInstance(@Nonnull RNBridPlayerView view) {
