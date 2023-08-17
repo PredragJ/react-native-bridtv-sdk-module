@@ -116,14 +116,16 @@ const App = () => {
             style={styles.square}
             bridPlayerConfig={{
               playerReference: 'player_1',
-              playerID: 40107, // PlayerID from BridTV cms
-              mediaID: 1382998, //VideoID or PlaylistID from BridTv cms
+              playerID: 40512, // PlayerID from BridTV cms
+              mediaID: 1262083, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', //Single or Playlist
               controlAutoplay: false, //enables the client to take control over autoplay
               scrollOnAd: true, //This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
               creditsLabelColor: '614BC3', // To achieve color modification for credits label, it is necessary to provide a sequence of six hexadecimal characters, excluding the '#' symbol.
             }}
           />
+
+          <View style={styles.buttonContainer} />
 
           <BridPlayer
             ref={bridPlayerRef2}
@@ -176,14 +178,16 @@ const App = () => {
             }
             handleVideoError={(eventData) => handleVideoError(eventData)}
           />
+          <View style={styles.buttonContainer} />
+
           <BridPlayer
             ref={bridPlayerRef3}
             style={styles.square}
             bridPlayerConfig={{
               playerReference: 'player_3',
-              playerID: 39104, // PlayerID from BridTV cms
-              mediaID: 1080419, //VideoID or PlaylistID from BridTv cms
-              typeOfPlayer: 'Single', // Single or Playlist
+              playerID: 39910, // PlayerID from BridTV cms
+              mediaID: 21544, //VideoID or PlaylistID from BridTv cms
+              typeOfPlayer: 'Playlist', // Single or Playlist
             }}
             //Callback for Events from all players in one Activity {"message": "video/ad event", "playerReference": "reverence to player from props"}
             handleAllPlayerEvents={(eventData) =>
