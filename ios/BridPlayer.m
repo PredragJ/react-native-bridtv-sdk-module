@@ -23,10 +23,12 @@
 @synthesize typeOfPlayer;
 @synthesize useVPAIDSupport;
 @synthesize controlAutoplay;
+@synthesize playerReference;
 @synthesize scrollOnAd;
 
 BOOL isRelodaed;
 TypePlayer loadedType;
+
 -(void)layoutSubviews
 {
     [super layoutSubviews];
@@ -34,10 +36,11 @@ TypePlayer loadedType;
     useVPAIDSupport = [[bridPlayerConfig objectForKey:@"useVPAIDSupport"] boolValue];
     controlAutoplay = [[bridPlayerConfig objectForKey:@"controlAutoplay"] boolValue];
     scrollOnAd = [[bridPlayerConfig objectForKey:@"scrollOnAd"] boolValue];
+    playerReference = [bridPlayerConfig objectForKey:@"playerReference"];
     
     [self setupEventNetworking];
-    
     [self addSubview:self.player.view];
+    
     self.player.view.frame = self.bounds;
     
 }
@@ -67,12 +70,10 @@ TypePlayer loadedType;
         if (isRelodaed) {
             switch (loadedType) {
                 case SinglePlayer:
-                    NSLog(@"PECA USAO u SinglePlayer");
                     _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forVideoID:(int)[mediaID integerValue]]];
                     isRelodaed = NO;
                     break;
                 case PlaylistPlayer:
-                    NSLog(@"PECA USAO u PlaylistPlayer");
                     _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forPlaylistID:(int)[mediaID integerValue]]];
                     isRelodaed = NO;
                     break;
@@ -84,13 +85,17 @@ TypePlayer loadedType;
     
     [_player useVPAIDSupport:useVPAIDSupport];
     [_player controlAutoplay:controlAutoplay];
+    [_player setPlayerReferenceName:playerReference];
     [_player scrollOnAd:scrollOnAd];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"dataFromUIView" object:nil userInfo:@{@"reactTag": [self.reactTag stringValue]}];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"dataFromUIView" object:nil userInfo:@{@"playerReference": playerReference}];
     
     return _player;
 }
 
 - (void)loadVideo:(NSNumber *)playerID mediaID:(NSNumber *)mediaID {
-    NSLog(@"PECA USAO u _player playerID: %@, mediaID: %@",playerID, mediaID);
     self->playerID = playerID;
     self->mediaID = mediaID;
     loadedType = SinglePlayer;
