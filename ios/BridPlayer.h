@@ -6,6 +6,7 @@
 #import "React/RCTViewManager.h"
 #import "React/RCTComponent.h"
 
+
 @class RCTEventDispatcher;
 
 typedef NS_ENUM(NSUInteger, TypePlayer) {
@@ -20,12 +21,16 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 @property(nonatomic) NSNumber *_Nonnull mediaID;
 @property(nonatomic) TypePlayer type;
 @property(nonatomic) NSString *_Nonnull typeOfPlayer;
+@property(nonatomic) NSString *_Nonnull playerReference;
 @property(nonatomic) BOOL useVPAIDSupport;
 @property(nonatomic) BOOL controlAutoplay;
 @property(nonatomic) BOOL scrollOnAd;
 @property(nonatomic, strong) BVPlayer *_Nonnull player;
 - (void)loadVideo:(NSNumber *_Nonnull)playerID mediaID:(NSNumber *_Nonnull)mediaID;
 - (void)loadPlaylist:(NSNumber *_Nonnull)playerID mediaID:(NSNumber *_Nonnull)mediaID;
+
+- (instancetype)initWithEventDispatcher:(RCTEventDispatcher *_Nonnull)eventDispatcher;
+- (void)sendDataToReactNative:(NSString *_Nonnull)data;
 
 - (void)setMute:(BOOL)mute;
 - (BOOL)isMuted;

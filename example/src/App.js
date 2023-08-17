@@ -140,43 +140,6 @@ const App = () => {
               creditsLabelColor: '614BC3', // To achieve color modification for credits label, it is necessary to provide a sequence of six hexadecimal characters, excluding the '#' symbol.
             }}
             //Callback for Events from all players in one Activity {"message": "video/ad event", "playerReference": "reverence to player from props"}
-            handleAllPlayerEvents={(eventData) =>
-              handleAllPlayerEvents(eventData)
-            }
-            //Video
-            handleVideoLoad={(eventData) => handleVideoLoad(eventData)}
-            handleVideoStart={(eventData) => handleVideoStart(eventData)}
-            handleVideoPlay={(eventData) => handleVideoPlay(eventData)}
-            handleVideoBuffering={(eventData) =>
-              handleVideoBuffering(eventData)
-            }
-            handleVideoProgress={(eventData) => handleVideoProgress(eventData)}
-            handleVideoSeek={(eventData) => handleVideoSeek(eventData)}
-            handleVideoPaused={(eventData) => handleVideoPause(eventData)}
-            handleVideoEnd={(eventData) => handleVideoEnd(eventData)}
-            handleFullscreenOpen={(eventData) =>
-              handleFullscreenOpen(eventData)
-            }
-            handleFullscreenClose={(eventData) =>
-              handleFullscreenClose(eventData)
-            }
-            handleVideoAutoplay={(eventData) => handleVideoAutoplay(eventData)}
-            //Ad
-            handleVideoAdLoaded={(eventData) => handleVideoAdLoaded(eventData)}
-            handleVideoAdCompleted={(eventData) =>
-              handleVideoAdCompleted(eventData)
-            }
-            handleVideoAdResumed={(eventData) =>
-              handleVideoAdResumed(eventData)
-            }
-            handleVideoAdStart={(eventData) => handleVideoAdStart(eventData)}
-            handleVideoAdPaused={(eventData) => handleVideoAdPaused(eventData)}
-            handleAdProgress={(eventData) => handleVideoAdProgress(eventData)}
-            handleVideoAdTapped={(eventData) => handleVideoAdTapped(eventData)}
-            handleVideoAdSkipped={(eventData) =>
-              handleVideoAdSkipped(eventData)
-            }
-            handleVideoError={(eventData) => handleVideoError(eventData)}
           />
           <View style={styles.buttonContainer} />
 
