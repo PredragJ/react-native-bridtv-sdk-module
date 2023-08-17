@@ -70,13 +70,6 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
   public RNBridPlayerView createViewInstance(ThemedReactContext reactContext) {
 
     mReactContext = reactContext;
-    //VIEW - klasicno kreiranje
-//    rnBridPlayerView = new RNBridPlayerView(reactContext.getReactApplicationContext().getCurrentActivity());
-
-    //TEST VIEW - biranje izmedju boljeg konteksta
-//    rnBridPlayerView = new RNBridPlayerView(reactContext, mAppContext);
-
-//    setupPlayerListener();
 
     return  new RNBridPlayerView(reactContext, mAppContext);
   }
@@ -85,10 +78,7 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
 
   @ReactProp(name = "bridPlayerConfig")
   public void setPlayerConfig(RNBridPlayerView bridPlayerView, ReadableMap prop) {
-
     bridPlayerView.setConfig(prop);
-
-
   }
 
   @Override
