@@ -118,9 +118,14 @@ export default class BridPlayer
   }
 
   componentDidMount() {
+    const bridPlayerEvents =
+      Platform.OS === 'ios'
+        ? 'BridPlayerEvents'
+        : 'BridPlayerEvents' + findNodeHandle(this);
+
     this.eventListener = this.eventEmitter.addListener(
       //get native view event
-      'BridPlayerEvents' + findNodeHandle(this),
+      bridPlayerEvents,
       (event) => {
         this.handleBridPlayerEvent(event);
       }

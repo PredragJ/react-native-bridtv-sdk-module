@@ -88,9 +88,7 @@ TypePlayer loadedType;
     [_player setPlayerReferenceName:playerReference];
     [_player scrollOnAd:scrollOnAd];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"dataFromUIView" object:nil userInfo:@{@"reactTag": [self.reactTag stringValue]}];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"dataFromUIView" object:nil userInfo:@{@"playerReference": playerReference}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"referenceReactTag" object:nil userInfo:@{@"reactTag": [self.reactTag stringValue]}];
     
     return _player;
 }
