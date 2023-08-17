@@ -21,4 +21,6 @@ public class BridPlayerCommands {
   public static final String PREVIOUS = "previous";
   public static final String NEXT = "next";
 
+  public static final String SET_PLAYER_REF_KEY = "playerRefKey";
+
 }
