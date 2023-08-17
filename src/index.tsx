@@ -115,7 +115,7 @@ export default class BridPlayer
 
   componentDidMount() {
     this.eventListener = this.eventEmitter.addListener(
-      'BridPlayerEvents' + findNodeHandle(this),
+      'BridPlayerEvents',
       (event) => {
         this.handleBridPlayerEvent(event);
       }
