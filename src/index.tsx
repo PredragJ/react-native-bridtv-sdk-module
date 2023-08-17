@@ -105,6 +105,10 @@ export default class BridPlayer
       this.onVideoAutoplay(props.handleVideoAutoplay);
     }
 
+    if (props.handleAllPlayerEvents) {
+      this.onPlayerAllEvents(props.handleAllPlayerEvents);
+    }
+
     //VIDEO ERROR
     if (props.handleVideoError) {
       this.onVideoError(props.handleVideoError);
@@ -153,6 +157,11 @@ export default class BridPlayer
       }
     }
 
+    const callBack = this.listeners.get('playerAllEvents');
+    if (callBack) {
+      callBack(eventData);
+    }
+
     return;
   };
 
@@ -161,6 +170,10 @@ export default class BridPlayer
     handler: (eventData: any) => void
   ) => {
     this.listeners.set(eventType, handler);
+  };
+
+  onPlayerAllEvents = (handler: () => void) => {
+    this.registeredListener('playerAllEvents', handler);
   };
 
   //VideoEvents
