@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Text } from 'react-native';
+1;
 import {
   StyleSheet,
   View,
@@ -13,82 +14,85 @@ import BridPlayer from 'react-native-bridtv-sdk-module';
 
 const App = () => {
   const bridPlayerRef = React.useRef(null);
-  // const bridPlayerRef2 = React.useRef<BridPlayer>(null);
-  // const bridPlayerRef3 = React.useRef<BridPlayer>(null);
+  const bridPlayerRef2 = React.useRef(null);
+  const bridPlayerRef3 = React.useRef(null);
   const [playerId, setPlayerId] = React.useState('40606');
   const [videoId, setVideoId] = React.useState('1319855');
   const [playlistId, setPlaylistId] = React.useState('21751');
 
-  const handleVideoLoad = () => {
-    console.log('VIDEO LOADED');
+  const handleAllPlayerEvents = (eventData) => {
+    // console.log(eventData);
   };
 
-  const handleVideoPlay = () => {
-    console.log('VIDEO PLAYED');
+  const handleVideoLoad = (eventData) => {
+    console.log('VIDEO LOADED' + '-' + eventData.playerReference);
+  };
+  const handleVideoPlay = (eventData) => {
+    console.log('VIDEO PLAYED' + '-' + eventData.playerReference);
   };
 
-  const handleVideoBuffering = () => {
-    console.log('VIDEO BUFFERING');
+  const handleVideoBuffering = (eventData) => {
+    console.log('VIDEO BUFFERING' + '-' + eventData.playerReference);
   };
 
-  const handleVideoStart = () => {
-    console.log('VIDEO STARTED');
+  const handleVideoStart = (eventData) => {
+    console.log('VIDEO STARTED' + '-' + eventData.playerReference);
   };
 
-  const handleVideoPause = () => {
-    console.log('VIDEO PAUSED');
+  const handleVideoPause = (eventData) => {
+    console.log('VIDEO PAUSED' + '-' + eventData.playerReference);
   };
-  const handleVideoProgress = () => {
-    console.log('VIDEO PROGRESS');
-  };
-
-  const handleVideoSeek = () => {
-    console.log('VIDEO SEEK');
+  const handleVideoProgress = (eventData) => {
+    console.log('VIDEO PROGRESS' + '-' + eventData.playerReference);
   };
 
-  const handleVideoEnd = () => {
-    console.log('VIDEO END');
+  const handleVideoSeek = (eventData) => {
+    console.log('VIDEO SEEK' + '-' + eventData.playerReference);
   };
 
-  const handleFullscreenOpen = () => {
-    console.log('FULL SCREEN OPEN');
+  const handleVideoEnd = (eventData) => {
+    console.log('VIDEO END' + '-' + eventData.playerReference);
   };
 
-  const handleFullscreenClose = () => {
-    console.log('FULL SCREEN CLOSE');
+  const handleFullscreenOpen = (eventData) => {
+    console.log('FULL SCREEN OPEN' + '-' + eventData.playerReference);
+  };
+
+  const handleFullscreenClose = (eventData) => {
+    console.log('FULL SCREEN CLOSE' + '-' + eventData.playerReference);
   };
 
   // Ad Events
-  const handleVideoAdLoaded = () => {
-    console.log('AD LOADED');
+  const handleVideoAdLoaded = (eventData) => {
+    console.log('AD LOADED' + '-' + eventData.playerReference);
   };
-  const handleVideoAdCompleted = () => {
-    console.log('AD COMPLETED');
+  const handleVideoAdCompleted = (eventData) => {
+    console.log('AD COMPLETED' + '-' + eventData.playerReference);
   };
-  const handleVideoAdResumed = () => {
-    console.log('AD RESUMED');
+  const handleVideoAdResumed = (eventData) => {
+    console.log('AD RESUMED' + '-' + eventData.playerReference);
   };
-  const handleVideoAdStart = () => {
-    console.log('AD STARTED');
+  const handleVideoAdStart = (eventData) => {
+    console.log('AD STARTED' + '-' + eventData.playerReference);
   };
-  const handleVideoAdPaused = () => {
-    console.log('AD PAUSED');
-  };
-
-  const handleVideoAdProgress = () => {
-    console.log('AD PROGRESS');
+  const handleVideoAdPaused = (eventData) => {
+    console.log('AD PAUSED' + '-' + eventData.playerReference);
   };
 
-  const handleVideoAdTapped = () => {
-    console.log('AD TAPPED');
+  const handleVideoAdProgress = (eventData) => {
+    console.log('AD PROGRESS' + '-' + eventData.playerReference);
   };
 
-  const handleVideoAdSkipped = () => {
-    console.log('AD SKIPPED');
+  const handleVideoAdTapped = (eventData) => {
+    console.log('AD TAPPED' + '-' + eventData.playerReference);
   };
 
-  const handleVideoAutoplay = () => {
-    console.log('VIDEO AUTOPLAY');
+  const handleVideoAdSkipped = (eventData) => {
+    console.log('AD SKIPPED' + '-' + eventData.playerReference);
+  };
+
+  const handleVideoAutoplay = (eventData) => {
+    console.log('VIDEO AUTOPLAY' + '-' + eventData.playerReference);
   };
 
   //VIDEO ERROR EVENTS
@@ -111,57 +115,83 @@ const App = () => {
             ref={bridPlayerRef}
             style={styles.square}
             bridPlayerConfig={{
-              playerID: 40605, // PlayerID from BridTV cms
-              mediaID: 1352517, //VideoID or PlaylistID from BridTv cms
+              playerReference: 'player_1',
+              playerID: 40512, // PlayerID from BridTV cms
+              mediaID: 1262083, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', //Single or Playlist
               controlAutoplay: false, //enables the client to take control over autoplay
               scrollOnAd: true, //This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
-            }}
-            //Video
-            handleVideoLoad={handleVideoLoad}
-            handleVideoStart={handleVideoStart}
-            handleVideoPlay={handleVideoPlay}
-            handleVideoBuffering={handleVideoBuffering}
-            handleVideoProgress={handleVideoProgress}
-            handleVideoSeek={handleVideoSeek}
-            handleVideoPaused={handleVideoPause}
-            handleVideoEnd={handleVideoEnd}
-            handleFullscreenOpen={handleFullscreenOpen}
-            handleFullscreenClose={handleFullscreenClose}
-            handleVideoAutoplay={handleVideoAutoplay}
-            //Ad
-            handleVideoAdLoaded={handleVideoAdLoaded}
-            handleVideoAdCompleted={handleVideoAdCompleted}
-            handleVideoAdResumed={handleVideoAdResumed}
-            handleVideoAdStart={handleVideoAdStart}
-            handleVideoAdPaused={handleVideoAdPaused}
-            handleAdProgress={handleVideoAdProgress}
-            handleVideoAdTapped={handleVideoAdTapped}
-            handleVideoAdSkipped={handleVideoAdSkipped}
-            handleVideoError={handleVideoError}
-          />
-          {/* 
-            <BridPlayer
-            ref={bridPlayerRef2}
-            setPlayerState={updatePlayerState}
-            style={styles.square}
-            bridPlayerConfig={{
-              playerID: 39437, // PlayerID from BridTV cms
-              mediaID: 1092011, //VideoID or PlaylistID from BridTv cms
-              typeOfPlayer: 'Single', // Single or Playlist
+              creditsLabelColor: '614BC3', // To achieve color modification for credits label, it is necessary to provide a sequence of six hexadecimal characters, excluding the '#' symbol.
             }}
           />
 
-        <BridPlayer
-            ref={bridPlayerRef3}
-            setPlayerState={updatePlayerState}
+          <View style={styles.buttonContainer} />
+
+          <BridPlayer
+            ref={bridPlayerRef2}
             style={styles.square}
             bridPlayerConfig={{
-              playerID: 39437, // PlayerID from BridTV cms
-              mediaID: 1092011, //VideoID or PlaylistID from BridTv cms
-              typeOfPlayer: 'Single', // Single or Playlist
+              playerReference: 'player_2',
+              playerID: 39104, // PlayerID from BridTV cms
+              mediaID: 1080419, //VideoID or PlaylistID from BridTv cms
+              typeOfPlayer: 'Single', //Single or Playlist
+              controlAutoplay: false, //enables the client to take control over autoplay
+              scrollOnAd: true, //This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
+              creditsLabelColor: '614BC3', // To achieve color modification for credits label, it is necessary to provide a sequence of six hexadecimal characters, excluding the '#' symbol.
             }}
-          /> */}
+            //Callback for Events from all players in one Activity {"message": "video/ad event", "playerReference": "reverence to player from props"}
+          />
+          <View style={styles.buttonContainer} />
+
+          <BridPlayer
+            ref={bridPlayerRef3}
+            style={styles.square}
+            bridPlayerConfig={{
+              playerReference: 'player_3',
+              playerID: 39910, // PlayerID from BridTV cms
+              mediaID: 21544, //VideoID or PlaylistID from BridTv cms
+              typeOfPlayer: 'Playlist', // Single or Playlist
+            }}
+            //Callback for Events from all players in one Activity {"message": "video/ad event", "playerReference": "reverence to player from props"}
+            handleAllPlayerEvents={(eventData) =>
+              handleAllPlayerEvents(eventData)
+            }
+            //Video
+            handleVideoLoad={(eventData) => handleVideoLoad(eventData)}
+            handleVideoStart={(eventData) => handleVideoStart(eventData)}
+            handleVideoPlay={(eventData) => handleVideoPlay(eventData)}
+            handleVideoBuffering={(eventData) =>
+              handleVideoBuffering(eventData)
+            }
+            handleVideoProgress={(eventData) => handleVideoProgress(eventData)}
+            handleVideoSeek={(eventData) => handleVideoSeek(eventData)}
+            handleVideoPaused={(eventData) => handleVideoPause(eventData)}
+            handleVideoEnd={(eventData) => handleVideoEnd(eventData)}
+            handleFullscreenOpen={(eventData) =>
+              handleFullscreenOpen(eventData)
+            }
+            handleFullscreenClose={(eventData) =>
+              handleFullscreenClose(eventData)
+            }
+            handleVideoAutoplay={(eventData) => handleVideoAutoplay(eventData)}
+            //Ad
+            handleVideoAdLoaded={(eventData) => handleVideoAdLoaded(eventData)}
+            handleVideoAdCompleted={(eventData) =>
+              handleVideoAdCompleted(eventData)
+            }
+            handleVideoAdResumed={(eventData) =>
+              handleVideoAdResumed(eventData)
+            }
+            handleVideoAdStart={(eventData) => handleVideoAdStart(eventData)}
+            handleVideoAdPaused={(eventData) => handleVideoAdPaused(eventData)}
+            handleAdProgress={(eventData) => handleVideoAdProgress(eventData)}
+            handleVideoAdTapped={(eventData) => handleVideoAdTapped(eventData)}
+            handleVideoAdSkipped={(eventData) =>
+              handleVideoAdSkipped(eventData)
+            }
+            handleVideoError={(eventData) => handleVideoError(eventData)}
+          />
+
           <View style={styles.buttonContainer}>
             <Button
               title="Prev"
@@ -174,8 +204,8 @@ const App = () => {
             />
 
             <Button
-              title="Pause"
-              onPress={() => bridPlayerRef.current?.pause()}
+              title=" Player 2Pause"
+              onPress={() => bridPlayerRef2.current?.pause()}
             />
 
             <Button
@@ -313,6 +343,15 @@ const styles = StyleSheet.create({
   scrollViewContainer: {
     justifyContent: 'center',
   },
+
+  backgroundVideo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
+
   container: {
     flex: 1,
     alignItems: 'center',
