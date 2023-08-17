@@ -37,25 +37,32 @@ import { BridPlayer } from "react-native-bridtv-sdk-module";
 const App = () => {
   const bridPlayerRef = React.useRef<BridPlayer>(null);
 
-  const handleVideoLoad = () => {
-    console.log('VIDEO LOADED');
+  const handleAllPlayerEvents = (eventData) => {
+     console.log(eventData);
+  };
+
+  const handleVideoLoad = (eventData) => {
+    console.log('VIDEO LOADED' + '-' + eventData.playerReference);
   };
 
           <BridPlayer
-            ref={bridPlayerRef}
-            style={...} // Player width and height
+            ref={bridPlayerRef3}
+            style={styles.square}
             bridPlayerConfig={{
-              playerID: xxxxx, // PlayerID from BridTV cms
+              playerReference: 'player_3', // Player reference important for Events
+              playerID: xxxx, // PlayerID from BridTV cms
               mediaID: xxxxxxxx, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
-              controlAutoplay: true, //enables the client to take control over autoplay - optional
-              enableAdControls: true, //displays ad controls - optional
             }}
-            handleVideoLoad={handleVideoLoad} // Player event callbacks
-            ...
-            handleVideoError={...}
-
+            //Callback for Events from all players in one Activity {"message": "video/ad event", "playerReference": "reverence to player from props"}
+            handleAllPlayerEvents={(eventData) =>handleAllPlayerEvents(eventData)}
+            //Video
+            handleVideoLoad={(eventData) => handleVideoLoad(eventData)}
+            handleVideoStart={(eventData) => handleVideoStart(eventData)}
+            //Error
+            handleVideoError={(eventData) => handleVideoError(eventData)}
           />
+
 ```
 
 ##  Props
@@ -64,7 +71,7 @@ The BridPlayer component accepts the following props:
 
 + **style** (optional): Specifies the style for the player component.
 
-+ **bridPlayerConfig**: An object that contains configuration options for the player.  It includes properties playerID, mediaID, typeOfPlayer, useVPAIDSupport, controlAutoplay.
++ **bridPlayerConfig**: An object that contains configuration options for the player.  It includes properties playerID, mediaID, typeOfPlayer, useVPAIDSupport,controlAutoplay, playerReference.
 +   scrollOnAd: true This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
 
 + **Video event callbacks**: These props allow you to specify callback functions for various video events like:
