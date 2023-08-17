@@ -60,12 +60,9 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
 
   public RNBridPlayerView(@NonNull ThemedReactContext context, ReactApplicationContext reactApplicationContext) {
     super(getNonBuggyContext(context, reactApplicationContext));
-    mRootView = this;
     mAppContext = reactApplicationContext;
     mThemedReactContext = context;
     mActivity = (ReactActivity) context.getReactApplicationContext().getCurrentActivity();
-    mRootView = mActivity.findViewById(android.R.id.content);
-
     reactApplicationContext.addLifecycleEventListener(this);
     init(context.getReactApplicationContext().getCurrentActivity());
   }
@@ -97,15 +94,6 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
 
         this.setFocusable(true);
         this.setFocusableInTouchMode(true);
-
-        setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        this.setLayoutParams(new LinearLayout.LayoutParams(
-          LinearLayout.LayoutParams.MATCH_PARENT,
-          LinearLayout.LayoutParams.MATCH_PARENT));
-
-
-        bridPlayerBuilder =  new BridPlayerBuilder(context, RNBridPlayerView.this);
-        bridPlayer = bridPlayerBuilder.build();
     }
 
     public void setPlayerId(int playerId, int videoId){
@@ -121,11 +109,8 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
     }
 
   public void loadVideo(int playerId, int videoId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference) {
-    if (bridPlayer != null) {
-
       bridPlayerBuilder =  new BridPlayerBuilder(getContext(), RNBridPlayerView.this);
       bridPlayerBuilder.useVpaidSupport(vpaidSupport);
-//      bridPlayerBuilder.fullscreen(isFullscreen);
       bridPlayerBuilder.enableAutoplay(!controlAutoplay);
       bridPlayerBuilder.setCreditsLabelColor(creditsLabelColor);
       if(playerReference != null)
@@ -134,7 +119,6 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
       bridPlayer.setBridListener(this);
       bridPlayer.loadVideo(playerId, videoId);
 
-    }
   }
 
     public void loadVideo(int playerId, int videoId) {
@@ -149,7 +133,6 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
     }
   }
   public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference) {
-      if(bridPlayer != null){
         bridPlayerBuilder =  new BridPlayerBuilder(getContext(), RNBridPlayerView.this);
         bridPlayerBuilder.useVpaidSupport(vpaidSupport);
         bridPlayerBuilder.fullscreen(isFullscreen);
@@ -160,7 +143,6 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
         bridPlayer = bridPlayerBuilder.build();
         bridPlayer.setBridListener(this);
         bridPlayer.loadPlaylist(playerId,playlistId);
-      }
   }
 
   public void play(){
@@ -171,8 +153,6 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
   public void pause() {
     if (bridPlayer != null)
       bridPlayer.pause();
-
-
   }
   public void destroyPlayer(){
     if(bridPlayer != null)
@@ -222,21 +202,17 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
       bridPlayer.hidePoster();
   }
 
-
-
   public void hideControls() {
     if(bridPlayer != null)
       bridPlayer.hideControls();
   }
 
   public void previous(){
-    Log.d("MODUL PREV", bridPlayer.toString());
     if (bridPlayer != null)
       bridPlayer.previous();
   }
 
   public void next(){
-    Log.d("MODUL NEXT", bridPlayer.toString());
     if (bridPlayer != null)
       bridPlayer.next();
   }
@@ -313,7 +289,6 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
   public void onEvent(String status, String playerReference) {
     Log.d("BridPlayerEvent", status);
     WritableMap event = Arguments.createMap();
-
 
     switch (status) {
       case PlayerEvents.EVENT_VIDEO_BUFFERING:
