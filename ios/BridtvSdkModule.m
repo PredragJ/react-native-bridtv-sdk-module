@@ -16,7 +16,6 @@ bool hasListeners;
 RCT_EXPORT_MODULE(BridtvSdkModule);
 
 NSString *reactTag;
-NSString *playerReference;
 
 - (instancetype)init
 {
@@ -25,7 +24,7 @@ NSString *playerReference;
         emitter = self;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerEventReceived:) name:@"PlayerEvent" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerEventReceived:) name:@"AdEvent" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setReactTag:) name:@"dataFromUIView" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setReactTag:) name:@"referenceReactTag" object:nil];
     }
     return self;
 }
@@ -45,33 +44,35 @@ NSString *playerReference;
 
 - (void)setReactTag:(NSNotification *)notification
 {
-   
-    
     if (notification.userInfo[@"reactTag"] != nil)
         reactTag = notification.userInfo[@"reactTag"];
     
-    if (notification.userInfo[@"playerReference"] != nil)
-        playerReference = notification.userInfo[@"playerReference"];
-    
-    NSLog(@"PECA reactTag: %@", reactTag);
-    NSLog(@"PECA playerReference: %@", playerReference);
+//    NSLog(@"PECA reactTag: %@", reactTag);
+   
 }
 
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[@"BridPlayerEvents", @"RNBridPlayerEvent"];
+    return @[@"BridPlayerEvents"];
+//    if (reactTag != nil) {
+//        NSString *eventName = [NSString stringWithFormat:  @"BridPlayerEvents%@", reactTag];
+////        NSLog(@"PECA eventName: %@", eventName);
+//        return @[eventName];
+//    } else {
+//        return @[@"BridPlayerEvents"];
+//    }
 }
 
 - (void)playerEventReceived:(NSNotification *)notification
 {
-    if (!reactTag) {
+    if (reactTag != nil) {
         NSString *eventName = [NSString stringWithFormat:  @"BridPlayerEvents%@", reactTag];
         if ([notification.name isEqualToString:@"PlayerEvent"]) {
-            [self sendEventWithName:eventName body:@{@"name": notification.userInfo[@"event"], @"playerReference": playerReference}];
+            [self sendEventWithName:@"BridPlayerEvents" body:@{@"name": notification.userInfo[@"event"], @"playerReference": notification.userInfo[@"reference"]}];
         }
         
         if ([notification.name isEqualToString:@"AdEvent"]) {
-            [self sendEventWithName:eventName body:@{@"name": notification.userInfo[@"ad"], @"playerReference": playerReference}];
+            [self sendEventWithName:@"BridPlayerEvents" body:@{@"name": notification.userInfo[@"ad"], @"playerReference": notification.userInfo[@"reference"]}];
         }
     }
 
