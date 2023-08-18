@@ -41,7 +41,7 @@ const App = () => {
      console.log(eventData);
   };
 
-  const handleVideoLoad = (eventData) => {
+  const handleVideoLoad = (eventData) => {cd
     console.log('VIDEO LOADED' + '-' + eventData.playerReference);
   };
 
