@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -48,6 +49,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
     private ViewGroup mRootView;
     private RNBridPlayerView mPlayerView;
   public String playerReferenceString = null;
+  private FrameLayout playerHolder;
 
 
 
@@ -94,6 +96,11 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
 
         this.setFocusable(true);
         this.setFocusableInTouchMode(true);
+
+        playerHolder =  (FrameLayout) LayoutInflater.from(context).inflate(R.layout.brid_player_view_holder, null);
+
+        this.addView(playerHolder);
+
     }
 
     public void setPlayerId(int playerId, int videoId){
@@ -109,7 +116,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
     }
 
   public void loadVideo(int playerId, int videoId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference) {
-      bridPlayerBuilder =  new BridPlayerBuilder(getContext(), RNBridPlayerView.this);
+      bridPlayerBuilder =  new BridPlayerBuilder(getContext(), this);
       bridPlayerBuilder.useVpaidSupport(vpaidSupport);
       bridPlayerBuilder.enableAutoplay(!controlAutoplay);
       bridPlayerBuilder.setCreditsLabelColor(creditsLabelColor);
@@ -133,7 +140,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
     }
   }
   public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference) {
-        bridPlayerBuilder =  new BridPlayerBuilder(getContext(), RNBridPlayerView.this);
+        bridPlayerBuilder =  new BridPlayerBuilder(getContext(), playerHolder);
         bridPlayerBuilder.useVpaidSupport(vpaidSupport);
         bridPlayerBuilder.fullscreen(isFullscreen);
         bridPlayerBuilder.enableAutoplay(!controlAutoplay);
