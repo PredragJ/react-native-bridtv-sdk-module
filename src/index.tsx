@@ -453,7 +453,6 @@ export default class BridPlayer
           if (isAutoplay === 1) return true;
           else return false;
         } else {
-          console.log(isAutoplay);
           return isAutoplay;
         }
       } catch (e) {

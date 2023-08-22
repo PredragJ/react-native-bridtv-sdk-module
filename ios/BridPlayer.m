@@ -143,11 +143,15 @@ TypePlayer loadedType;
             event = [NSDictionary dictionaryWithObject:@"VIDEO_STOPPED" forKey:@"event"];
         } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerNext"]) {
             event = [NSDictionary dictionaryWithObject:@"NEXT_VIDEO" forKey:@"event"];
-        } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"videoAutoplay"]) {
+        } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerAutoplay"]) {
             event = [NSDictionary dictionaryWithObject:@"VIDEO_AUTOPLAY" forKey:@"event"];
         } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerSliderValueChanged"]) {
             return;
         } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerSliderTouched"]) {
+            return;
+        } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerSliderReleased"]) {
+            return;
+        } else if (([(NSString *)notification.userInfo[@"event"] hasPrefix:@"player "]) || ([(NSString *)notification.userInfo[@"event"] hasSuffix:@"sec"])){
             return;
         } else {
             event = [NSDictionary dictionaryWithObject:notification.userInfo[@"event"] forKey:@"event"];
@@ -178,9 +182,9 @@ TypePlayer loadedType;
             event = [NSDictionary dictionaryWithObject:@"AD_ERROR" forKey:@"ad"];
         } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adCompleted"]) {
             event = [NSDictionary dictionaryWithObject:@"AD_COMPLETED" forKey:@"ad"];
-        }  else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"videoAdTapped"]) {
+        }  else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adTapped"]) {
             event = [NSDictionary dictionaryWithObject:@"AD_TAPPED" forKey:@"ad"];
-        } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"videoAdSkipped"]) {
+        } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adSkipped"]) {
             event = [NSDictionary dictionaryWithObject:@"AD_SKIPPED" forKey:@"ad"];
         } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adFirstQuartile"]) {
             return;
