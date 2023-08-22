@@ -41,6 +41,7 @@ TypePlayer loadedType;
     
     [self setupEventNetworking];
     [self addSubview:self.player.view];
+    
     self.player.view.frame = self.bounds;
     
 }
@@ -87,6 +88,8 @@ TypePlayer loadedType;
     [_player controlAutoplay:controlAutoplay];
     [_player setPlayerReferenceName:playerReference];
     [_player scrollOnAd:scrollOnAd];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"referenceReactTag" object:nil userInfo:@{@"reactTag": [self.reactTag stringValue]}];
     
     return _player;
 }

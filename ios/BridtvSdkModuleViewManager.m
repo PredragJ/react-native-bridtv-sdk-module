@@ -28,6 +28,7 @@ RCT_EXPORT_VIEW_PROPERTY(bridPlayerConfig, NSDictionary);
 RCT_EXPORT_VIEW_PROPERTY(playerID, NSNumber);
 RCT_EXPORT_VIEW_PROPERTY(mediaID, NSNumber);
 RCT_EXPORT_VIEW_PROPERTY(typeOfPlayer, NSString);
+RCT_EXPORT_VIEW_PROPERTY(playerReference, NSString);
 RCT_EXPORT_VIEW_PROPERTY(useVPAIDSupport, BOOL);
 RCT_EXPORT_VIEW_PROPERTY(controlAutoplay, BOOL);
 RCT_EXPORT_VIEW_PROPERTY(scrollOnAd, BOOL);
@@ -90,7 +91,6 @@ RCT_EXPORT_METHOD(destroyPlayer:(nonnull NSNumber *)reactTag) {
 
 RCT_EXPORT_METHOD(loadVideo:(nonnull NSNumber *)reactTag:(nonnull NSNumber *)playerID:(nonnull NSNumber *)mediaID) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-        NSLog(@"PECA USAO u  loadVideo SinglePlayer");
         BridPlayer *view = viewRegistry[reactTag];
         if (![view isKindOfClass:[BridPlayer class]] || view.player == nil) {
             RCTLogError(@"Invalid view returned from registry, expecting BridPlayer, got: %@", view);
@@ -102,7 +102,6 @@ RCT_EXPORT_METHOD(loadVideo:(nonnull NSNumber *)reactTag:(nonnull NSNumber *)pla
 
 RCT_EXPORT_METHOD(loadPlaylist:(nonnull NSNumber *)reactTag:(nonnull NSNumber *)playerID:(nonnull NSNumber *)mediaID) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-        NSLog(@"PECA USAO u  loadPlaylist SinglePlayer");
         BridPlayer *view = viewRegistry[reactTag];
         if (![view isKindOfClass:[BridPlayer class]] || view.player == nil) {
             RCTLogError(@"Invalid view returned from registry, expecting BridPlayer, got: %@", view);
@@ -207,8 +206,6 @@ RCT_REMAP_METHOD(getCurrentTime, timeTag:(nonnull NSNumber *)reactTag
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-        
-        NSLog(@"PECA getCurrentTime: %@",[player getPlayerCurrentTime]);
         NSNumber *time = [player getPlayerCurrentTime];
         if (!time) {
             reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);

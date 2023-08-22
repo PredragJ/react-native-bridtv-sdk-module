@@ -15,7 +15,6 @@ bool hasListeners;
 
 RCT_EXPORT_MODULE(BridtvSdkModule);
 
-NSString *reactTag;
 NSString *lastEvent;
 NSString *lastEventAd;
 NSString *lastReference;
@@ -28,6 +27,7 @@ NSString *lastReferenceAd;
         emitter = self;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerEventReceived:) name:@"BridPlayer" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerEventReceived:) name:@"BridPlayerAd" object:nil];
+
     }
     return self;
 }
@@ -52,7 +52,6 @@ NSString *lastReferenceAd;
 
 - (void)playerEventReceived:(NSNotification *)notification
 {
-    
     if ([notification.name isEqualToString:@"BridPlayer"]) {
         if ((lastEvent != notification.userInfo[@"event"]) || (lastReference != notification.userInfo[@"reference"])) {
             [self sendEventWithName:@"BridPlayerEvents" body:@{@"name": notification.userInfo[@"event"], @"playerReference": notification.userInfo[@"reference"]}];
@@ -67,8 +66,7 @@ NSString *lastReferenceAd;
             [self sendEventWithName:@"BridPlayerEvents" body:@{@"name": notification.userInfo[@"ad"], @"playerReference": notification.userInfo[@"reference"]}];
             lastEventAd = notification.userInfo[@"ad"];
             lastReferenceAd = notification.userInfo[@"reference"];
-            
-        }
+            }
     }
     
 }
