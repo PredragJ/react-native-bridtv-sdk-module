@@ -161,7 +161,7 @@ const App = () => {
           <View style={styles.buttonContainer}>
             <Button
               title="Prev"
-              onPress={() => bridPlayerRef3.current?.isAutoplay()}
+              onPress={() => bridPlayerRef2.current?.isAutoplay()}
             />
 
             <Button
