@@ -7,6 +7,8 @@ interface BridPlayerConfig {
   useVPAIDSupport?: boolean;
   controlAutoplay?: boolean;
   scrollOnAd?: boolean;
+  creditsLabelColor?: string; // 6 characters HEX
+  playerReference?: string;
 }
 
 export type BridtvSdkModuleProps = {
@@ -37,6 +39,9 @@ export type BridtvSdkModuleProps = {
 
   //Video Error
   handleVideoError?: (errorEvent?: BridPlayerEventErrorType) => void;
+
+  //Handle all player events
+  handleAllPlayerEvents?: () => void;
 };
 
 export interface BridPlayerInterface {

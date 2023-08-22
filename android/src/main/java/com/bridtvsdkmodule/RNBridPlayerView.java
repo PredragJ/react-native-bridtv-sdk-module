@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -21,7 +22,10 @@ import com.facebook.react.ReactActivity;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.facebook.react.views.scroll.ReactScrollView;
@@ -31,8 +35,9 @@ import com.facebook.react.views.view.ReactViewGroup;
 import tv.brid.sdk.api.BridPlayer;
 import tv.brid.sdk.api.BridPlayerBuilder;
 import tv.brid.sdk.player.BridPlayerListener;
+import tv.brid.sdk.player.PlayerEvents;
 
-class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
+class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, BridPlayerListener{
 
     private BridPlayer bridPlayer;
     private Context mContext;
@@ -43,6 +48,9 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
     private ReactActivity mActivity;
     private ViewGroup mRootView;
     private RNBridPlayerView mPlayerView;
+  public String playerReferenceString = null;
+  private FrameLayout playerHolder;
+
 
 
   public RNBridPlayerView(@NonNull Context context) {
@@ -54,12 +62,9 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
 
   public RNBridPlayerView(@NonNull ThemedReactContext context, ReactApplicationContext reactApplicationContext) {
     super(getNonBuggyContext(context, reactApplicationContext));
-    mRootView = this;
     mAppContext = reactApplicationContext;
     mThemedReactContext = context;
     mActivity = (ReactActivity) context.getReactApplicationContext().getCurrentActivity();
-    mRootView = mActivity.findViewById(android.R.id.content);
-
     reactApplicationContext.addLifecycleEventListener(this);
     init(context.getReactApplicationContext().getCurrentActivity());
   }
@@ -92,14 +97,10 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
         this.setFocusable(true);
         this.setFocusableInTouchMode(true);
 
-        setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        this.setLayoutParams(new LinearLayout.LayoutParams(
-          LinearLayout.LayoutParams.MATCH_PARENT,
-          LinearLayout.LayoutParams.MATCH_PARENT));
+        playerHolder =  (FrameLayout) LayoutInflater.from(context).inflate(R.layout.brid_player_view_holder, null);
 
+        this.addView(playerHolder);
 
-        bridPlayerBuilder =  new BridPlayerBuilder(context, RNBridPlayerView.this);
-        bridPlayer = bridPlayerBuilder.build();
     }
 
     public void setPlayerId(int playerId, int videoId){
@@ -114,15 +115,17 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
         return bridPlayer;
     }
 
-  public void loadVideo(int playerId, int videoId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls) {
-    if (bridPlayer != null) {
+  public void loadVideo(int playerId, int videoId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference) {
+      bridPlayerBuilder =  new BridPlayerBuilder(getContext(), this);
       bridPlayerBuilder.useVpaidSupport(vpaidSupport);
-      bridPlayerBuilder.fullscreen(isFullscreen);
       bridPlayerBuilder.enableAutoplay(!controlAutoplay);
-      bridPlayer = bridPlayerBuilder.rebuild();
+      bridPlayerBuilder.setCreditsLabelColor(creditsLabelColor);
+      if(playerReference != null)
+        bridPlayerBuilder.setPlayerReference(playerReference);
+      bridPlayer = bridPlayerBuilder.build();
+      bridPlayer.setBridListener(this);
       bridPlayer.loadVideo(playerId, videoId);
 
-    }
   }
 
     public void loadVideo(int playerId, int videoId) {
@@ -136,14 +139,17 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
       bridPlayer.loadPlaylist(playerId, playlistId);
     }
   }
-  public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls) {
-      if(bridPlayer != null){
+  public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference) {
+        bridPlayerBuilder =  new BridPlayerBuilder(getContext(), playerHolder);
         bridPlayerBuilder.useVpaidSupport(vpaidSupport);
         bridPlayerBuilder.fullscreen(isFullscreen);
         bridPlayerBuilder.enableAutoplay(!controlAutoplay);
-        bridPlayer = bridPlayerBuilder.rebuild();
+        bridPlayerBuilder.setCreditsLabelColor(creditsLabelColor);
+        if(playerReference != null)
+          bridPlayerBuilder.setPlayerReference(playerReference);
+        bridPlayer = bridPlayerBuilder.build();
+        bridPlayer.setBridListener(this);
         bridPlayer.loadPlaylist(playerId,playlistId);
-      }
   }
 
   public void play(){
@@ -154,8 +160,6 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
   public void pause() {
     if (bridPlayer != null)
       bridPlayer.pause();
-
-
   }
   public void destroyPlayer(){
     if(bridPlayer != null)
@@ -205,21 +209,17 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
       bridPlayer.hidePoster();
   }
 
-
-
   public void hideControls() {
     if(bridPlayer != null)
       bridPlayer.hideControls();
   }
 
   public void previous(){
-    Log.d("MODUL PREV", bridPlayer.toString());
     if (bridPlayer != null)
       bridPlayer.previous();
   }
 
   public void next(){
-    Log.d("MODUL NEXT", bridPlayer.toString());
     if (bridPlayer != null)
       bridPlayer.next();
   }
@@ -291,4 +291,199 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener {
     Log.d("Lifecycle react", "onHostDestroy");
     destroyPlayer();
   }
-}
+
+  @Override
+  public void onEvent(String status, String playerReference) {
+    Log.d("BridPlayerEvent", status);
+    WritableMap event = Arguments.createMap();
+
+    switch (status) {
+      case PlayerEvents.EVENT_VIDEO_BUFFERING:
+        event.putString("message", "video_buffering");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents" + getId(), event);
+        break;
+
+      case PlayerEvents.EVENT_PLAYER_LOADED:
+        event.putString("message", "video_load");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents" + getId(), event);
+        break;
+      case "STARTED":
+        event.putString("message", "video_start");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+      case PlayerEvents.EVENT_VIDEO_PLAY:
+        event.putString("message", "video_played");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+      case PlayerEvents.EVENT_VIDEO_PAUSE:
+        event.putString("message", "video_paused");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+      case PlayerEvents.EVENT_VIDEO_END:
+        event.putString("message", "video_ended");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId() , event);
+        break;
+      case PlayerEvents.EVENT_VIDEO_SEEK:
+        event.putString("message", "video_seek");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+      case PlayerEvents.EVENT_AD_LOADED:
+        event.putString("message", "ad_loaded");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+      case PlayerEvents.EVENT_AD_COMPLETED:
+        event.putString("message", "video_ad_completed");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+      case PlayerEvents.EVENT_AD_RESUMED:
+        event.putString("message", "ad_resumed");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+      case PlayerEvents.EVENT_AD_SKIPPED:
+        event.putString("message", "ad_skipped");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+      case PlayerEvents.EVENT_AD_STARTED:
+        event.putString("message", "ad_started");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+      case PlayerEvents.EVENT_AD_PAUSED:
+        event.putString("message", "ad_paused");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+      case PlayerEvents.EVENT_AD_TAPPED:
+        event.putString("message", "ad_tapped");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+      case PlayerEvents.EVENT_ALL_ADS_COMPLETED:
+        event.putString("message", "all_ads_completed");
+        event.putString("playerRef", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+      case PlayerEvents.EVENT_AD_PROGRESS:
+        event.putString("message", "ad_progress");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+      case PlayerEvents.EVENT_AD_CLICKED:
+        event.putString("message", "ad_clicked");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+
+      case PlayerEvents.EVENT_FULLSCREEN_OPEN_REQUESTED:
+        event.putString("message", "fullscreen_open");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+
+      case PlayerEvents.EVENT_FULLSCREEN_CLOSE_REQUESTED:
+        event.putString("message", "fullscreen_close");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+
+      //PLAYER ERROR EVENTS
+      case PlayerEvents.EVENT_AD_ERROR:
+      case PlayerEvents.EVENT_AD_BREAK_FETCH_ERROR:
+        event.putString("message", "adError");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+      case PlayerEvents.EVENT_VIDEO_ERROR:
+        event.putString("message", "unsupportedFormat");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+      case PlayerEvents.EVENT_VIDEO_NETWORK_ERROR:
+        event.putString("message", "lostIntenetConnection");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+      case PlayerEvents.EVENT_VIDEO_CMS_ERROR:
+        event.putString("message", "videoBadUrl");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+      case PlayerEvents.EVENT_VIDEO_LIVESTREAM_ERROR:
+        event.putString("message", "livestreamError");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+      case PlayerEvents.EVENT_VIDEO_PROTECTED_ERROR:
+        event.putString("message", "protectedContent");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
+        break;
+      case PlayerEvents.EVENT_VIDEO_AUTOPLAY:
+        event.putString("message","player_autoplay");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext,"BridPlayerEvents"+ getId(), event);
+    }
+  }
+
+  private void sendEvent(ReactContext reactContext,
+                         String eventName,
+                         @Nullable WritableMap params) {
+    reactContext
+      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+      .emit(eventName, params);
+  }
+
+  public void setConfig(ReadableMap prop) {
+
+    int playerId = 0,mediaId = 0;
+    boolean useVpaid = false, playlist = false, isFullscreen = false, controlAutoplay = false, enableAdControls = false;
+    String creditsLabelColor = null;
+
+
+    try {
+      if(prop.hasKey("playerID"))
+        playerId = (int) prop.getDouble("playerID");
+      if(prop.hasKey("mediaID"))
+        mediaId = (int) prop.getDouble("mediaID");
+      if(prop.hasKey("typeOfPlayer"))
+        playlist = prop.getString("typeOfPlayer").equals("Playlist");
+
+      if(prop.hasKey("useVPAIDSupport"))
+        useVpaid = prop.getBoolean("useVPAIDSupport");
+      if(prop.hasKey("setFullscreen"))
+        isFullscreen = prop.getBoolean("setFullscreen");
+
+      if(prop.hasKey("controlAutoplay"))
+        controlAutoplay = prop.getBoolean("controlAutoplay");
+
+      if(prop.hasKey("enableAdControls"))
+        enableAdControls = prop.getBoolean("enableAdControls");
+
+      if(prop.hasKey("creditsLabelColor"))
+        creditsLabelColor = prop.getString("creditsLabelColor");
+
+      if(prop.hasKey("playerReference"))
+        playerReferenceString = prop.getString("playerReference");
+
+
+      if(playlist)
+        loadPlaylist(playerId,mediaId, useVpaid,isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor, playerReferenceString);
+      else
+        loadVideo(playerId, mediaId, useVpaid, isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor, playerReferenceString);
+
+    } catch (NumberFormatException e){
+      toastMessage(e.getMessage());
+    }
+  }
+};
