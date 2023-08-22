@@ -120,6 +120,7 @@ TypePlayer loadedType;
     NSDictionary *userInfoAd;
     NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *mutableUserInfoAd = [[NSMutableDictionary alloc] init];
+    
     if ([notification.name isEqualToString:@"PlayerEvent"]) {
         if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerSetFullscreenOn"]) {
             [UIApplication sharedApplication].statusBarHidden = YES;
@@ -127,7 +128,31 @@ TypePlayer loadedType;
             [UIApplication sharedApplication].statusBarHidden = NO;
         }
         
-        NSDictionary *event = [NSDictionary dictionaryWithObject:notification.userInfo[@"event"] forKey:@"event"];
+        NSDictionary *event;
+        if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerVideoBuffering"]) {
+            event = [NSDictionary dictionaryWithObject:@"VIDEO_BUFFERING" forKey:@"event"];
+        } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerVideoLoad"]) {
+            event = [NSDictionary dictionaryWithObject:@"VIDEO_LOADING" forKey:@"event"];
+        } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerVideoPause"]) {
+            event = [NSDictionary dictionaryWithObject:@"VIDEO_PAUSED" forKey:@"event"];
+        } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerVideoStarted"]) {
+            event = [NSDictionary dictionaryWithObject:@"VIDEO_STARTED" forKey:@"event"];
+        } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerVideoPlay"]) {
+            event = [NSDictionary dictionaryWithObject:@"VIDEO_PLAYING" forKey:@"event"];
+        } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerVideoStop"]) {
+            event = [NSDictionary dictionaryWithObject:@"VIDEO_STOPPED" forKey:@"event"];
+        } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerNext"]) {
+            event = [NSDictionary dictionaryWithObject:@"NEXT_VIDEO" forKey:@"event"];
+        } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"videoAutoplay"]) {
+            event = [NSDictionary dictionaryWithObject:@"VIDEO_AUTOPLAY" forKey:@"event"];
+        } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerSliderValueChanged"]) {
+            return;
+        } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerSliderTouched"]) {
+            return;
+        } else {
+            event = [NSDictionary dictionaryWithObject:notification.userInfo[@"event"] forKey:@"event"];
+        }
+        
         NSDictionary *reference = [NSDictionary dictionaryWithObject:notification.userInfo[@"reference"] forKey:@"reference"];
         [mutableUserInfo addEntriesFromDictionary:reference];
         [mutableUserInfo addEntriesFromDictionary:event];
@@ -136,8 +161,37 @@ TypePlayer loadedType;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"BridPlayer" object:nil userInfo:userInfo];
          
     }
+    
     if ([notification.name isEqualToString:@"AdEvent"]) {
-        NSDictionary *event = [NSDictionary dictionaryWithObject:notification.userInfo[@"ad"] forKey:@"ad"];
+        NSDictionary *event;
+        if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"playerVideoBuffering"]) {
+            event = [NSDictionary dictionaryWithObject:@"AD_LOADED" forKey:@"ad"];
+        } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adProgress"]) {
+            event = [NSDictionary dictionaryWithObject:@"AD_INPROGRESS" forKey:@"ad"];
+        } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adStarted"]) {
+            event = [NSDictionary dictionaryWithObject:@"AD_STARTED" forKey:@"ad"];
+        } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adPause"]) {
+            event = [NSDictionary dictionaryWithObject:@"AD_PAUSED" forKey:@"ad"];
+        } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adResume"]) {
+            event = [NSDictionary dictionaryWithObject:@"AD_RESUMED" forKey:@"ad"];
+        } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adError"]) {
+            event = [NSDictionary dictionaryWithObject:@"AD_ERROR" forKey:@"ad"];
+        } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adCompleted"]) {
+            event = [NSDictionary dictionaryWithObject:@"AD_COMPLETED" forKey:@"ad"];
+        }  else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"videoAdTapped"]) {
+            event = [NSDictionary dictionaryWithObject:@"AD_TAPPED" forKey:@"ad"];
+        } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"videoAdSkipped"]) {
+            event = [NSDictionary dictionaryWithObject:@"AD_SKIPPED" forKey:@"ad"];
+        } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adFirstQuartile"]) {
+            return;
+        } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adMidpoint"]) {
+            return;
+        } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"Quartile"]) {
+            return;
+        } else {
+            event = [NSDictionary dictionaryWithObject:notification.userInfo[@"ad"] forKey:@"ad"];
+        }
+       
         NSDictionary *reference = [NSDictionary dictionaryWithObject:notification.userInfo[@"reference"] forKey:@"reference"];
         [mutableUserInfoAd addEntriesFromDictionary:reference];
         [mutableUserInfoAd addEntriesFromDictionary:event];

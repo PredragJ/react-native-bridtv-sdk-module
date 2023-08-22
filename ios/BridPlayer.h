@@ -26,7 +26,6 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 @property(nonatomic) BOOL controlAutoplay;
 @property(nonatomic) BOOL scrollOnAd;
 @property(nonatomic, strong) BVPlayer *_Nonnull player;
-@property(nonatomic) NSString *_Nonnull playerReference;
 - (void)loadVideo:(NSNumber *_Nonnull)playerID mediaID:(NSNumber *_Nonnull)mediaID;
 - (void)loadPlaylist:(NSNumber *_Nonnull)playerID mediaID:(NSNumber *_Nonnull)mediaID;
 
