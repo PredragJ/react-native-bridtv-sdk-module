@@ -330,7 +330,7 @@ PODS:
   - React-jsinspector (0.71.7)
   - React-logger (0.71.7):
     - glog
-  - react-native-bridtv-sdk-module (0.2.1):
+  - react-native-bridtv-sdk-module (0.2.2):
     - React-Core
     - RNBridSDK
   - React-perflogger (0.71.7)
@@ -417,7 +417,7 @@ PODS:
     - React-jsi (= 0.71.7)
     - React-logger (= 0.71.7)
     - React-perflogger (= 0.71.7)
-  - RNBridSDK (0.1.4):
+  - RNBridSDK (0.2.0):
     - GoogleAds-IMA-iOS-SDK (~> 3.14.1)
   - SocketRocket (0.6.1)
   - Yoga (1.14.0)
@@ -613,7 +613,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: eaa5f71eb8f6861cf0e57f1a0f52aeb020d9e18e
   React-jsinspector: 9885f6f94d231b95a739ef7bb50536fb87ce7539
   React-logger: 3f8ebad1be1bf3299d1ab6d7f971802d7395c7ef
-  react-native-bridtv-sdk-module: 86ae82674adc3dcacefb17040a09aa068a927931
+  react-native-bridtv-sdk-module: f06782207c5f419fcf767a2c51c81d4d8c45808f
   React-perflogger: 2d505bbe298e3b7bacdd9e542b15535be07220f6
   React-RCTActionSheet: 0e96e4560bd733c9b37efbf68f5b1a47615892fb
   React-RCTAnimation: fd138e26f120371c87e406745a27535e2c8a04ef
@@ -627,7 +627,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 08f132cad9896458776f37c112e71d60aef1c6ae
   React-runtimeexecutor: c5c89f8f543842dd864b63ded1b0bbb9c9445328
   ReactCommon: dbfbe2f7f3c5ce4ce44f43f2fd0d5950d1eb67c5
-  RNBridSDK: 3ac479de88c7b56f7f1c252e627eb324661a319b
+  RNBridSDK: a99dfecb0b761d33e55f352d1886e8233f9cb8b4
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: d56980c8914db0b51692f55533409e844b66133c
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
