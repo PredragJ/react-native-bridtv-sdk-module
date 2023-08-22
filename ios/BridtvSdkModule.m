@@ -15,13 +15,19 @@ bool hasListeners;
 
 RCT_EXPORT_MODULE(BridtvSdkModule);
 
+NSString *reactTag;
+NSString *lastEvent;
+NSString *lastEventAd;
+NSString *lastReference;
+NSString *lastReferenceAd;
+
 - (instancetype)init
 {
     self = [super init];
     if (self) {
         emitter = self;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerEventReceived:) name:@"PlayerEvent" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerEventReceived:) name:@"AdEvent" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerEventReceived:) name:@"BridPlayer" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerEventReceived:) name:@"BridPlayerAd" object:nil];
     }
     return self;
 }
@@ -31,32 +37,40 @@ RCT_EXPORT_MODULE(BridtvSdkModule);
     return YES;
 }
 
--(void)startObserving {
+- (void)startObserving {
     hasListeners = YES;
 }
 
--(void)stopObserving {
+- (void)stopObserving {
     hasListeners = NO;
 }
 
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[@"BridPlayerEvents", @"RNBridPlayerEvent"];
+    return @[@"BridPlayerEvents"];
 }
 
 - (void)playerEventReceived:(NSNotification *)notification
 {
-    if ([notification.name isEqualToString:@"PlayerEvent"]) {
-        [self sendEventWithName:@"BridPlayerEvents" body:@{@"name": notification.userInfo[@"event"]}];
-        [self sendEventWithName:@"RNBridPlayerEvent" body:@{@"name": notification.userInfo[@"event"]}];
-        
+    
+    if ([notification.name isEqualToString:@"BridPlayer"]) {
+        if ((lastEvent != notification.userInfo[@"event"]) || (lastReference != notification.userInfo[@"reference"])) {
+            [self sendEventWithName:@"BridPlayerEvents" body:@{@"name": notification.userInfo[@"event"], @"playerReference": notification.userInfo[@"reference"]}];
+            lastEvent = notification.userInfo[@"event"];
+            lastReference = notification.userInfo[@"reference"];
+            
+        }
     }
     
-    if ([notification.name isEqualToString:@"AdEvent"]) {
-        [self sendEventWithName:@"BridPlayerEvents" body:@{@"name": notification.userInfo[@"ad"]}];
-        [self sendEventWithName:@"RNBridPlayerEvent" body:@{@"name": notification.userInfo[@"ad"]}];
+    if ([notification.name isEqualToString:@"BridPlayerAd"]) {
+        if ((lastEventAd != notification.userInfo[@"ad"]) || (lastReferenceAd != notification.userInfo[@"reference"])) {
+            [self sendEventWithName:@"BridPlayerEvents" body:@{@"name": notification.userInfo[@"ad"], @"playerReference": notification.userInfo[@"reference"]}];
+            lastEventAd = notification.userInfo[@"ad"];
+            lastReferenceAd = notification.userInfo[@"reference"];
+            
+        }
     }
-
+    
 }
 
 

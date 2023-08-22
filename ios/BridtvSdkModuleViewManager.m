@@ -31,6 +31,7 @@ RCT_EXPORT_VIEW_PROPERTY(typeOfPlayer, NSString);
 RCT_EXPORT_VIEW_PROPERTY(useVPAIDSupport, BOOL);
 RCT_EXPORT_VIEW_PROPERTY(controlAutoplay, BOOL);
 RCT_EXPORT_VIEW_PROPERTY(scrollOnAd, BOOL);
+RCT_EXPORT_VIEW_PROPERTY(playerReference, NSString);
 
 RCT_EXPORT_METHOD(pause:(nonnull NSNumber *)reactTag) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {

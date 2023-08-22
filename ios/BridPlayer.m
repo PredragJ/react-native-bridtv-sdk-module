@@ -4,6 +4,7 @@
 #import <React/RCTLog.h>
 
 
+
 // import RCTEventDispatcher
 #if __has_include(<React/RCTEventDispatcher.h>)
 #import <React/RCTEventDispatcher.h>
@@ -23,10 +24,12 @@
 @synthesize typeOfPlayer;
 @synthesize useVPAIDSupport;
 @synthesize controlAutoplay;
+@synthesize playerReference;
 @synthesize scrollOnAd;
 
 BOOL isRelodaed;
 TypePlayer loadedType;
+
 -(void)layoutSubviews
 {
     [super layoutSubviews];
@@ -34,9 +37,9 @@ TypePlayer loadedType;
     useVPAIDSupport = [[bridPlayerConfig objectForKey:@"useVPAIDSupport"] boolValue];
     controlAutoplay = [[bridPlayerConfig objectForKey:@"controlAutoplay"] boolValue];
     scrollOnAd = [[bridPlayerConfig objectForKey:@"scrollOnAd"] boolValue];
+    playerReference = [bridPlayerConfig objectForKey:@"playerReference"];
     
     [self setupEventNetworking];
-    
     [self addSubview:self.player.view];
     self.player.view.frame = self.bounds;
     
@@ -67,12 +70,10 @@ TypePlayer loadedType;
         if (isRelodaed) {
             switch (loadedType) {
                 case SinglePlayer:
-                    NSLog(@"PECA USAO u SinglePlayer");
                     _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forVideoID:(int)[mediaID integerValue]]];
                     isRelodaed = NO;
                     break;
                 case PlaylistPlayer:
-                    NSLog(@"PECA USAO u PlaylistPlayer");
                     _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forPlaylistID:(int)[mediaID integerValue]]];
                     isRelodaed = NO;
                     break;
@@ -84,13 +85,13 @@ TypePlayer loadedType;
     
     [_player useVPAIDSupport:useVPAIDSupport];
     [_player controlAutoplay:controlAutoplay];
+    [_player setPlayerReferenceName:playerReference];
     [_player scrollOnAd:scrollOnAd];
     
     return _player;
 }
 
 - (void)loadVideo:(NSNumber *)playerID mediaID:(NSNumber *)mediaID {
-    NSLog(@"PECA USAO u _player playerID: %@, mediaID: %@",playerID, mediaID);
     self->playerID = playerID;
     self->mediaID = mediaID;
     loadedType = SinglePlayer;
@@ -112,17 +113,38 @@ TypePlayer loadedType;
 }
 
 - (void) eventWriter:(NSNotification *)notification {
+    NSDictionary *userInfo;
+    NSDictionary *userInfoAd;
+    NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *mutableUserInfoAd = [[NSMutableDictionary alloc] init];
     if ([notification.name isEqualToString:@"PlayerEvent"]) {
-        RCTLogInfo(@"%@",(NSString *)notification.userInfo[@"event"]);
         if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerSetFullscreenOn"]) {
             [UIApplication sharedApplication].statusBarHidden = YES;
         } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerSetFullscreenOff"]) {
             [UIApplication sharedApplication].statusBarHidden = NO;
         }
+        
+        NSDictionary *event = [NSDictionary dictionaryWithObject:notification.userInfo[@"event"] forKey:@"event"];
+        NSDictionary *reference = [NSDictionary dictionaryWithObject:notification.userInfo[@"reference"] forKey:@"reference"];
+        [mutableUserInfo addEntriesFromDictionary:reference];
+        [mutableUserInfo addEntriesFromDictionary:event];
+
+        userInfo = mutableUserInfo;
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"BridPlayer" object:nil userInfo:userInfo];
+         
     }
     if ([notification.name isEqualToString:@"AdEvent"]) {
-        RCTLogInfo(@"%@",(NSString *)notification.userInfo[@"ad"]);
+        NSDictionary *event = [NSDictionary dictionaryWithObject:notification.userInfo[@"ad"] forKey:@"ad"];
+        NSDictionary *reference = [NSDictionary dictionaryWithObject:notification.userInfo[@"reference"] forKey:@"reference"];
+        [mutableUserInfoAd addEntriesFromDictionary:reference];
+        [mutableUserInfoAd addEntriesFromDictionary:event];
+
+        userInfoAd = mutableUserInfoAd;
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"BridPlayerAd" object:nil userInfo:userInfoAd];
     }
+    
+   
+    
 }
 
 - (void)setMute:(BOOL)mute
