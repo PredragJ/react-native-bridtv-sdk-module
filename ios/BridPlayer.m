@@ -4,6 +4,7 @@
 #import <React/RCTLog.h>
 
 
+
 // import RCTEventDispatcher
 #if __has_include(<React/RCTEventDispatcher.h>)
 #import <React/RCTEventDispatcher.h>
@@ -115,17 +116,38 @@ TypePlayer loadedType;
 }
 
 - (void) eventWriter:(NSNotification *)notification {
+    NSDictionary *userInfo;
+    NSDictionary *userInfoAd;
+    NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *mutableUserInfoAd = [[NSMutableDictionary alloc] init];
     if ([notification.name isEqualToString:@"PlayerEvent"]) {
-        RCTLogInfo(@"%@",(NSString *)notification.userInfo[@"event"]);
         if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerSetFullscreenOn"]) {
             [UIApplication sharedApplication].statusBarHidden = YES;
         } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerSetFullscreenOff"]) {
             [UIApplication sharedApplication].statusBarHidden = NO;
         }
+        
+        NSDictionary *event = [NSDictionary dictionaryWithObject:notification.userInfo[@"event"] forKey:@"event"];
+        NSDictionary *reference = [NSDictionary dictionaryWithObject:notification.userInfo[@"reference"] forKey:@"reference"];
+        [mutableUserInfo addEntriesFromDictionary:reference];
+        [mutableUserInfo addEntriesFromDictionary:event];
+
+        userInfo = mutableUserInfo;
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"BridPlayer" object:nil userInfo:userInfo];
+         
     }
     if ([notification.name isEqualToString:@"AdEvent"]) {
-        RCTLogInfo(@"%@",(NSString *)notification.userInfo[@"ad"]);
+        NSDictionary *event = [NSDictionary dictionaryWithObject:notification.userInfo[@"ad"] forKey:@"ad"];
+        NSDictionary *reference = [NSDictionary dictionaryWithObject:notification.userInfo[@"reference"] forKey:@"reference"];
+        [mutableUserInfoAd addEntriesFromDictionary:reference];
+        [mutableUserInfoAd addEntriesFromDictionary:event];
+
+        userInfoAd = mutableUserInfoAd;
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"BridPlayerAd" object:nil userInfo:userInfoAd];
     }
+    
+   
+    
 }
 
 - (void)setMute:(BOOL)mute
