@@ -29,6 +29,7 @@
 
 BOOL isRelodaed;
 TypePlayer loadedType;
+NSDictionary *reference;
 
 -(void)layoutSubviews
 {
@@ -116,17 +117,18 @@ TypePlayer loadedType;
 }
 
 - (void) eventWriter:(NSNotification *)notification {
-    NSDictionary *userInfo;
-    NSDictionary *userInfoAd;
-    NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *mutableUserInfoAd = [[NSMutableDictionary alloc] init];
     
     if ([notification.name isEqualToString:@"PlayerEvent"]) {
+        NSDictionary *userInfo;
+        NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] init];
         if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerSetFullscreenOn"]) {
             [UIApplication sharedApplication].statusBarHidden = YES;
         } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerSetFullscreenOff"]) {
             [UIApplication sharedApplication].statusBarHidden = NO;
         }
+        
+        if (notification.userInfo[@"reference"])
+            reference = [NSDictionary dictionaryWithObject:notification.userInfo[@"reference"] forKey:@"reference"];
         
         NSDictionary *event;
         if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerVideoBuffering"]) {
@@ -157,8 +159,9 @@ TypePlayer loadedType;
             event = [NSDictionary dictionaryWithObject:notification.userInfo[@"event"] forKey:@"event"];
         }
         
-        NSDictionary *reference = [NSDictionary dictionaryWithObject:notification.userInfo[@"reference"] forKey:@"reference"];
-        [mutableUserInfo addEntriesFromDictionary:reference];
+        if (reference)
+            [mutableUserInfo addEntriesFromDictionary:reference];
+        
         [mutableUserInfo addEntriesFromDictionary:event];
 
         userInfo = mutableUserInfo;
@@ -168,7 +171,14 @@ TypePlayer loadedType;
     
     if ([notification.name isEqualToString:@"AdEvent"]) {
         NSDictionary *event;
-        if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"playerVideoBuffering"]) {
+        NSDictionary *userInfoAd;
+        NSMutableDictionary *mutableUserInfoAd = [[NSMutableDictionary alloc] init];
+        
+        NSDictionary *reference;
+        if (notification.userInfo[@"reference"])
+            reference = [NSDictionary dictionaryWithObject:notification.userInfo[@"reference"] forKey:@"reference"];
+        
+        if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adLoaded"]) {
             event = [NSDictionary dictionaryWithObject:@"AD_LOADED" forKey:@"ad"];
         } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adProgress"]) {
             event = [NSDictionary dictionaryWithObject:@"AD_INPROGRESS" forKey:@"ad"];
@@ -195,16 +205,15 @@ TypePlayer loadedType;
         } else {
             event = [NSDictionary dictionaryWithObject:notification.userInfo[@"ad"] forKey:@"ad"];
         }
-       
-        NSDictionary *reference = [NSDictionary dictionaryWithObject:notification.userInfo[@"reference"] forKey:@"reference"];
-        [mutableUserInfoAd addEntriesFromDictionary:reference];
+        
+        if (reference)
+            [mutableUserInfoAd addEntriesFromDictionary:reference];
+        
         [mutableUserInfoAd addEntriesFromDictionary:event];
 
         userInfoAd = mutableUserInfoAd;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"BridPlayerAd" object:nil userInfo:userInfoAd];
     }
-    
-   
     
 }
 
