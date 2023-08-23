@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -48,6 +49,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
     private ViewGroup mRootView;
     private RNBridPlayerView mPlayerView;
   public String playerReferenceString = null;
+  private FrameLayout playerHolder;
 
 
 
@@ -94,6 +96,11 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
 
         this.setFocusable(true);
         this.setFocusableInTouchMode(true);
+
+        playerHolder =  (FrameLayout) LayoutInflater.from(context).inflate(R.layout.brid_player_view_holder, null);
+
+        this.addView(playerHolder);
+
     }
 
     public void setPlayerId(int playerId, int videoId){
@@ -109,7 +116,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
     }
 
   public void loadVideo(int playerId, int videoId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference) {
-      bridPlayerBuilder =  new BridPlayerBuilder(getContext(), RNBridPlayerView.this);
+      bridPlayerBuilder =  new BridPlayerBuilder(getContext(), this);
       bridPlayerBuilder.useVpaidSupport(vpaidSupport);
       bridPlayerBuilder.enableAutoplay(!controlAutoplay);
       bridPlayerBuilder.setCreditsLabelColor(creditsLabelColor);
@@ -133,7 +140,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
     }
   }
   public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference) {
-        bridPlayerBuilder =  new BridPlayerBuilder(getContext(), RNBridPlayerView.this);
+        bridPlayerBuilder =  new BridPlayerBuilder(getContext(), playerHolder);
         bridPlayerBuilder.useVpaidSupport(vpaidSupport);
         bridPlayerBuilder.fullscreen(isFullscreen);
         bridPlayerBuilder.enableAutoplay(!controlAutoplay);
@@ -292,100 +299,104 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
 
     switch (status) {
       case PlayerEvents.EVENT_VIDEO_BUFFERING:
-        event.putString("message", "video_buffering");
+        event.putString("name", "VIDEO_BUFFERING");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents" + getId(), event);
         break;
 
       case PlayerEvents.EVENT_PLAYER_LOADED:
-        event.putString("message", "video_load");
+        event.putString("name", "VIDEO_LOADING");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents" + getId(), event);
         break;
       case "STARTED":
-        event.putString("message", "video_start");
+        event.putString("name", "VIDEO_STARTED");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
       case PlayerEvents.EVENT_VIDEO_PLAY:
-        event.putString("message", "video_played");
+        event.putString("name", "VIDEO_PLAYING");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
       case PlayerEvents.EVENT_VIDEO_PAUSE:
-        event.putString("message", "video_paused");
+        event.putString("name", "VIDEO_PAUSED");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
       case PlayerEvents.EVENT_VIDEO_END:
-        event.putString("message", "video_ended");
+        event.putString("name", "VIDEO_STOPPED");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId() , event);
         break;
       case PlayerEvents.EVENT_VIDEO_SEEK:
-        event.putString("message", "video_seek");
+        event.putString("name", "VIDEO_SEEK");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
+      case PlayerEvents.EVENT_VIDEO_AUTOPLAY:
+        event.putString("name","VIDEO_AUTOPLAY");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext,"BridPlayerEvents"+ getId(), event);
       case PlayerEvents.EVENT_AD_LOADED:
-        event.putString("message", "ad_loaded");
+        event.putString("name", "AD_LOADED");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
       case PlayerEvents.EVENT_AD_COMPLETED:
-        event.putString("message", "video_ad_completed");
+        event.putString("name", "AD_COMPLETED");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
       case PlayerEvents.EVENT_AD_RESUMED:
-        event.putString("message", "ad_resumed");
+        event.putString("name", "AD_RESUMED");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
       case PlayerEvents.EVENT_AD_SKIPPED:
-        event.putString("message", "ad_skipped");
+        event.putString("name", "AD_SKIPPED");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
       case PlayerEvents.EVENT_AD_STARTED:
-        event.putString("message", "ad_started");
+        event.putString("name", "AD_STARTED");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
       case PlayerEvents.EVENT_AD_PAUSED:
-        event.putString("message", "ad_paused");
+        event.putString("name", "AD_PAUSED");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
       case PlayerEvents.EVENT_AD_TAPPED:
-        event.putString("message", "ad_tapped");
+        event.putString("name", "AD_TAPPED");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
       case PlayerEvents.EVENT_ALL_ADS_COMPLETED:
-        event.putString("message", "all_ads_completed");
+        event.putString("name", "AD_COMPLETED");
         event.putString("playerRef", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
       case PlayerEvents.EVENT_AD_PROGRESS:
-        event.putString("message", "ad_progress");
+        event.putString("name", "AD_INPROGRESS");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
       case PlayerEvents.EVENT_AD_CLICKED:
-        event.putString("message", "ad_clicked");
+        event.putString("name", "AD_CLICKED");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
 
       case PlayerEvents.EVENT_FULLSCREEN_OPEN_REQUESTED:
-        event.putString("message", "fullscreen_open");
+        event.putString("name", "FULLSCREEN_OPEN");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
 
       case PlayerEvents.EVENT_FULLSCREEN_CLOSE_REQUESTED:
-        event.putString("message", "fullscreen_close");
+        event.putString("name", "FULLSCREEN_CLOSE");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
@@ -393,39 +404,36 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
       //PLAYER ERROR EVENTS
       case PlayerEvents.EVENT_AD_ERROR:
       case PlayerEvents.EVENT_AD_BREAK_FETCH_ERROR:
-        event.putString("message", "adError");
+        event.putString("name", "AD_ERROR");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
       case PlayerEvents.EVENT_VIDEO_ERROR:
-        event.putString("message", "unsupportedFormat");
+        event.putString("name", "unsupportedFormat");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
       case PlayerEvents.EVENT_VIDEO_NETWORK_ERROR:
-        event.putString("message", "lostIntenetConnection");
+        event.putString("name", "lostIntenetConnection");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
       case PlayerEvents.EVENT_VIDEO_CMS_ERROR:
-        event.putString("message", "videoBadUrl");
+        event.putString("name", "videoBadUrl");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
       case PlayerEvents.EVENT_VIDEO_LIVESTREAM_ERROR:
-        event.putString("message", "livestreamError");
+        event.putString("name", "livestreamError");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
       case PlayerEvents.EVENT_VIDEO_PROTECTED_ERROR:
-        event.putString("message", "protectedContent");
+        event.putString("name", "protectedContent");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
-      case PlayerEvents.EVENT_VIDEO_AUTOPLAY:
-        event.putString("message","player_autoplay");
-        event.putString("playerReference", playerReference);
-        sendEvent(mThemedReactContext,"BridPlayerEvents"+ getId(), event);
+
     }
   }
 
