@@ -42,17 +42,8 @@ import tv.brid.sdk.player.PlayerEvents;
 
 public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerView> {
   public static final String REACT_CLASS = "BridtvSdkModuleView";
-  public ViewGroup mRootView;
-  public FrameLayout frameLayout;
-  public Activity mActivity;
-  public ViewGroup mPlayerViewContainer;
-  public RNBridPlayerView rnBridPlayerView;
   public ThemedReactContext mReactContext;
   private final ReactApplicationContext mAppContext;
-
-  public BridPlayer bridPlayer;
-
-  public BridPlayerListener bridPlayerListener;
 
 
   @Override
@@ -70,7 +61,6 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
   public RNBridPlayerView createViewInstance(ThemedReactContext reactContext) {
 
     mReactContext = reactContext;
-
     return  new RNBridPlayerView(reactContext, mAppContext);
   }
 

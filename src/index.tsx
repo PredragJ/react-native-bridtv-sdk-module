@@ -142,8 +142,7 @@ export default class BridPlayer
   }
 
   handleBridPlayerEvent = (eventData: any) => {
-    const eventName =
-      Platform.OS === 'ios' ? eventData.name : eventData.message;
+    const eventName = eventData.name;
     const errorEvent = BridPlayerErrorEvents.get(eventName);
 
     if (errorEvent) {
@@ -447,7 +446,7 @@ export default class BridPlayer
   async isAutoplay() {
     if (BridtvSdkManager) {
       try {
-        const isAutoplay = await BridtvSdkManager.Autoplay(
+        const isAutoplay = await BridtvSdkManager.isAutoplay(
           findNodeHandle(this)
         );
         if (Platform.OS === 'ios') {

@@ -21,7 +21,7 @@ const App = () => {
   const [playlistId, setPlaylistId] = React.useState('21751');
 
   const handleAllPlayerEvents = (eventData) => {
-    // console.log(eventData);
+    console.log(eventData);
   };
 
   const handleVideoLoad = (eventData) => {
@@ -156,46 +156,12 @@ const App = () => {
             handleAllPlayerEvents={(eventData) =>
               handleAllPlayerEvents(eventData)
             }
-            //Video
-            handleVideoLoad={(eventData) => handleVideoLoad(eventData)}
-            handleVideoStart={(eventData) => handleVideoStart(eventData)}
-            handleVideoPlay={(eventData) => handleVideoPlay(eventData)}
-            handleVideoBuffering={(eventData) =>
-              handleVideoBuffering(eventData)
-            }
-            handleVideoProgress={(eventData) => handleVideoProgress(eventData)}
-            handleVideoSeek={(eventData) => handleVideoSeek(eventData)}
-            handleVideoPaused={(eventData) => handleVideoPause(eventData)}
-            handleVideoEnd={(eventData) => handleVideoEnd(eventData)}
-            handleFullscreenOpen={(eventData) =>
-              handleFullscreenOpen(eventData)
-            }
-            handleFullscreenClose={(eventData) =>
-              handleFullscreenClose(eventData)
-            }
-            handleVideoAutoplay={(eventData) => handleVideoAutoplay(eventData)}
-            //Ad
-            handleVideoAdLoaded={(eventData) => handleVideoAdLoaded(eventData)}
-            handleVideoAdCompleted={(eventData) =>
-              handleVideoAdCompleted(eventData)
-            }
-            handleVideoAdResumed={(eventData) =>
-              handleVideoAdResumed(eventData)
-            }
-            handleVideoAdStart={(eventData) => handleVideoAdStart(eventData)}
-            handleVideoAdPaused={(eventData) => handleVideoAdPaused(eventData)}
-            handleAdProgress={(eventData) => handleVideoAdProgress(eventData)}
-            handleVideoAdTapped={(eventData) => handleVideoAdTapped(eventData)}
-            handleVideoAdSkipped={(eventData) =>
-              handleVideoAdSkipped(eventData)
-            }
-            handleVideoError={(eventData) => handleVideoError(eventData)}
           />
 
           <View style={styles.buttonContainer}>
             <Button
               title="Prev"
-              onPress={() => bridPlayerRef.current?.previous()}
+              onPress={() => bridPlayerRef2.current?.isAutoplay()}
             />
 
             <Button

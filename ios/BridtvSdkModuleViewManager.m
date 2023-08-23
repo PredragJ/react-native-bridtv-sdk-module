@@ -263,7 +263,7 @@ RCT_REMAP_METHOD(isMuted, isMutedTag:(nonnull NSNumber *)reactTag
         
         NSNumber *isMuted;
         
-        if ([player isMuted])
+        if ([viewRegistry[reactTag] isMuted])
             isMuted = [NSNumber numberWithInt:1];
         else
             isMuted = [NSNumber numberWithInt:0];
@@ -283,7 +283,7 @@ RCT_REMAP_METHOD(isAdPlaying, isAdPlayingTag:(nonnull NSNumber *)reactTag
         
         NSNumber *isAdPlaying;
         
-        if ([player isAdPlaying])
+        if ([viewRegistry[reactTag] isAdPlaying])
             isAdPlaying = [NSNumber numberWithInt:1];
         else
             isAdPlaying = [NSNumber numberWithInt:0];
@@ -303,7 +303,7 @@ RCT_REMAP_METHOD(isPaused, isPausedTag:(nonnull NSNumber *)reactTag
         
         NSNumber *isPaused;
         
-        if ([player isPaused])
+        if ([viewRegistry[reactTag] isPaused])
             isPaused = [NSNumber numberWithInt:1];
         else
             isPaused = [NSNumber numberWithInt:0];
@@ -323,7 +323,7 @@ RCT_REMAP_METHOD(isRepeated, isRepeatedTag:(nonnull NSNumber *)reactTag
         
         NSNumber *isRepeated;
         
-        if ([player isRepeated])
+        if ([viewRegistry[reactTag] isRepeated])
             isRepeated = [NSNumber numberWithInt:1];
         else
             isRepeated = [NSNumber numberWithInt:0];
@@ -342,8 +342,7 @@ RCT_REMAP_METHOD(isAutoplay, isAutoplayTag:(nonnull NSNumber *)reactTag
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
         
         NSNumber *isAutoplay;
-        
-        if ([player isAutoplay])
+        if ([viewRegistry[reactTag] isAutoplay])
             isAutoplay = [NSNumber numberWithInt:1];
         else
             isAutoplay = [NSNumber numberWithInt:0];
