@@ -334,6 +334,10 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
+      case PlayerEvents.EVENT_VIDEO_AUTOPLAY:
+        event.putString("name","VIDEO_AUTOPLAY");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext,"BridPlayerEvents"+ getId(), event);
       case PlayerEvents.EVENT_AD_LOADED:
         event.putString("name", "AD_LOADED");
         event.putString("playerReference", playerReference);
@@ -429,10 +433,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
-      case PlayerEvents.EVENT_VIDEO_AUTOPLAY:
-        event.putString("name","VIDEO_AUTOPLAY");
-        event.putString("playerReference", playerReference);
-        sendEvent(mThemedReactContext,"BridPlayerEvents"+ getId(), event);
+
     }
   }
 
