@@ -74,6 +74,7 @@ The BridPlayer component accepts the following props:
 + **bridPlayerConfig**: An object that contains configuration options for the player.  It includes properties playerID, mediaID, typeOfPlayer, useVPAIDSupport,controlAutoplay, playerReference.
 +   scrollOnAd: true This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
 
++ **handleAllPlayerEvents** : Callback for Events from all players in one Activity {"name": "video/ad event", "playerReference": "reverence to player from props"}
 + **Video event callbacks**: These props allow you to specify callback functions for various video events like:
     - handleVideoLoad, 
     -  handleVideoStart, 
