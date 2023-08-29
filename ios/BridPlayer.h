@@ -28,10 +28,6 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 @property(nonatomic, strong) BVPlayer *_Nonnull player;
 - (void)loadVideo:(NSNumber *_Nonnull)playerID mediaID:(NSNumber *_Nonnull)mediaID;
 - (void)loadPlaylist:(NSNumber *_Nonnull)playerID mediaID:(NSNumber *_Nonnull)mediaID;
-
-- (instancetype)initWithEventDispatcher:(RCTEventDispatcher *_Nonnull)eventDispatcher;
-- (void)sendDataToReactNative:(NSString *_Nonnull)data;
-
 - (void)setMute:(BOOL)mute;
 - (BOOL)isMuted;
 - (BOOL)isAdPlaying;
