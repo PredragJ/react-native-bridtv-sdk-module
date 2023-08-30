@@ -9,6 +9,7 @@ interface BridPlayerConfig {
   scrollOnAd?: boolean;
   creditsLabelColor?: string; // 6 characters HEX
   playerReference?: string;
+  setCornerRadius?: number;
 }
 
 export type BridtvSdkModuleProps = {

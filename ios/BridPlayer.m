@@ -26,10 +26,13 @@
 @synthesize controlAutoplay;
 @synthesize playerReference;
 @synthesize scrollOnAd;
+@synthesize setCornerRadius;
 
 BOOL isRelodaed;
 TypePlayer loadedType;
 NSDictionary *reference;
+int playerID;
+int mediaID;
 
 -(void)layoutSubviews
 {
@@ -39,6 +42,15 @@ NSDictionary *reference;
     controlAutoplay = [[bridPlayerConfig objectForKey:@"controlAutoplay"] boolValue];
     scrollOnAd = [[bridPlayerConfig objectForKey:@"scrollOnAd"] boolValue];
     playerReference = [bridPlayerConfig objectForKey:@"playerReference"];
+    playerID  = [bridPlayerConfig objectForKey:@"playerID"];
+    mediaID = [bridPlayerConfig objectForKey:@"mediaID"];
+    setCornerRadius = [bridPlayerConfig objectForKey:@"setCornerRadius"];
+    
+    if ([playerID isKindOfClass:[NSNull class]])
+        playerID = 0;
+    
+    if ([mediaID isKindOfClass:[NSNull class]])
+        mediaID = 0;
     
     [self setupEventNetworking];
     [self addSubview:self.player.view];
@@ -60,10 +72,10 @@ NSDictionary *reference;
     if (!_player) {
         switch (type) {
             case SinglePlayer:
-                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[[bridPlayerConfig objectForKey:@"playerID"] integerValue] forVideoID:(int)[[bridPlayerConfig objectForKey:@"mediaID"] integerValue]]];
+                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:[playerID intValue] forVideoID:[mediaID intValue]]];
                 break;
             case PlaylistPlayer:
-                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[[bridPlayerConfig objectForKey:@"playerID"] integerValue] forPlaylistID:(int)[[bridPlayerConfig objectForKey:@"mediaID"] integerValue]]];
+                _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:[playerID intValue] forPlaylistID:[mediaID intValue]]];
                 break;
             default:
                 break;
@@ -89,6 +101,7 @@ NSDictionary *reference;
     [_player controlAutoplay:controlAutoplay];
     [_player setPlayerReferenceName:playerReference];
     [_player scrollOnAd:scrollOnAd];
+    [_player setCornerRadius:[setCornerRadius intValue]];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"referenceReactTag" object:nil userInfo:@{@"reactTag": [self.reactTag stringValue]}];
     

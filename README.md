@@ -53,6 +53,10 @@ const App = () => {
               playerID: xxxx, // PlayerID from BridTV cms
               mediaID: xxxxxxxx, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', // Single or Playlist
+              controlAutoplay: false, //enables the client to take control over autoplay
+              scrollOnAd: true, //This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
+              creditsLabelColor: '614BC3', // To achieve color modification for credits label, it is necessary to provide a sequence of six hexadecimal characters, excluding the '#' symbol.
+              setCornerRadius: 30, //This property enables setting the corner radius to the player itself. Its value is in pixels.
             }}
             //Callback for Events from all players in one Activity {"message": "video/ad event", "playerReference": "reverence to player from props"}
             handleAllPlayerEvents={(eventData) =>handleAllPlayerEvents(eventData)}
@@ -71,8 +75,7 @@ The BridPlayer component accepts the following props:
 
 + **style** (optional): Specifies the style for the player component.
 
-+ **bridPlayerConfig**: An object that contains configuration options for the player.  It includes properties playerID, mediaID, typeOfPlayer, useVPAIDSupport,controlAutoplay, playerReference.
-+   scrollOnAd: true This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
++ **bridPlayerConfig**: An object that contains configuration options for the player.  It includes properties playerID, mediaID, typeOfPlayer, useVPAIDSupport,      playerReference, controlAutoplay, scrollOnAd, creditsLabelColor, setCornerRadius. Explanations for each of the properties are given in the section above.
 
 + **handleAllPlayerEvents** : Callback for Events from all players in one Activity {"name": "video/ad event", "playerReference": "reverence to player from props"}
 + **Video event callbacks**: These props allow you to specify callback functions for various video events like:

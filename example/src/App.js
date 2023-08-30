@@ -117,11 +117,12 @@ const App = () => {
             bridPlayerConfig={{
               playerReference: 'player_1',
               playerID: 40512, // PlayerID from BridTV cms
-              mediaID: 1262083, //VideoID or PlaylistID from BridTv cms
+              mediaID: 1080419, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', //Single or Playlist
               controlAutoplay: false, //enables the client to take control over autoplay
               scrollOnAd: true, //This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
               creditsLabelColor: '614BC3', // To achieve color modification for credits label, it is necessary to provide a sequence of six hexadecimal characters, excluding the '#' symbol.
+              setCornerRadius: 30, //This property enables setting the corner radius to the player itself. Its value is in pixels.
             }}
           />
 
