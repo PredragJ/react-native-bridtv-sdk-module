@@ -26,6 +26,7 @@
 @synthesize controlAutoplay;
 @synthesize playerReference;
 @synthesize scrollOnAd;
+@synthesize setCornerRadius;
 
 BOOL isRelodaed;
 TypePlayer loadedType;
@@ -41,9 +42,9 @@ int mediaID;
     controlAutoplay = [[bridPlayerConfig objectForKey:@"controlAutoplay"] boolValue];
     scrollOnAd = [[bridPlayerConfig objectForKey:@"scrollOnAd"] boolValue];
     playerReference = [bridPlayerConfig objectForKey:@"playerReference"];
-    
     playerID  = [bridPlayerConfig objectForKey:@"playerID"];
     mediaID = [bridPlayerConfig objectForKey:@"mediaID"];
+    setCornerRadius = [bridPlayerConfig objectForKey:@"setCornerRadius"];
     
     if ([playerID isKindOfClass:[NSNull class]])
         playerID = 0;
@@ -100,6 +101,9 @@ int mediaID;
     [_player controlAutoplay:controlAutoplay];
     [_player setPlayerReferenceName:playerReference];
     [_player scrollOnAd:scrollOnAd];
+    [_player setCornerRadius:[setCornerRadius intValue]];
+    
+    NSLog(@"PECA setCornerRadius: %@",setCornerRadius);
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"referenceReactTag" object:nil userInfo:@{@"reactTag": [self.reactTag stringValue]}];
     
