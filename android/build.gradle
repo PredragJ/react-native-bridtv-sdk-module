@@ -65,9 +65,9 @@ repositories {
 dependencies {
   // For < 0.71, this will be from the local maven repo
   // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
-  //noinspection GradleDynamicVersion
+  //noinspection GradleDynpm namicVersion
   implementation "com.facebook.react:react-native:+"
-  implementation 'tv.brid.sdk:bridsdk:1.1.191-SNAPSHOT'
+  implementation 'tv.brid.sdk:bridsdk:1.1.199-SNAPSHOT'
 
 }
 
