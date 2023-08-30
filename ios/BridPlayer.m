@@ -103,8 +103,6 @@ int mediaID;
     [_player scrollOnAd:scrollOnAd];
     [_player setCornerRadius:[setCornerRadius intValue]];
     
-    NSLog(@"PECA setCornerRadius: %@",setCornerRadius);
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"referenceReactTag" object:nil userInfo:@{@"reactTag": [self.reactTag stringValue]}];
     
     return _player;
