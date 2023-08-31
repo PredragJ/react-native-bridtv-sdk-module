@@ -116,8 +116,8 @@ const App = () => {
             style={styles.square}
             bridPlayerConfig={{
               playerReference: 'player_1',
-              playerID: 40605, // PlayerID from BridTV cms
-              mediaID: 3423432, //VideoID or PlaylistID from BridTv cms
+              playerID: 39910, // PlayerID from BridTV cms
+              mediaID: 1376275, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', //Single or Playlist
               controlAutoplay: false, //enables the client to take control over autoplay
               scrollOnAd: true, //This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.

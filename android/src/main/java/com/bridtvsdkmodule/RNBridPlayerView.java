@@ -456,7 +456,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
 
   public void setConfig(ReadableMap prop) {
 
-    int playerId = 0,mediaId = 0, borderRadius = 0;
+    int playerId = 0,mediaId = 0, borderRadius = 1;
     boolean useVpaid = false, playlist = false, isFullscreen = false, controlAutoplay = false, enableAdControls = false;
     String creditsLabelColor = null, language = "en";
 
@@ -489,7 +489,8 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
         playerReferenceString = prop.getString("playerReference");
 
       if(prop.hasKey("setCornerRadius"))
-        borderRadius = prop.getInt("setCornerRadius");
+        if(prop.getInt("setCornerRadius") > 0)
+           borderRadius = prop.getInt("setCornerRadius");
 
       if(prop.hasKey("localization"))
         language = prop.getString("localization");
