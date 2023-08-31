@@ -10,6 +10,7 @@ interface BridPlayerConfig {
   creditsLabelColor?: string; // 6 characters HEX
   playerReference?: string;
   setCornerRadius?: number;
+  localization?: string;
 }
 
 export type BridtvSdkModuleProps = {
