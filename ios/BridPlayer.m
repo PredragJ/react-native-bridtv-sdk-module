@@ -27,6 +27,7 @@
 @synthesize playerReference;
 @synthesize scrollOnAd;
 @synthesize setCornerRadius;
+@synthesize localization;
 
 BOOL isRelodaed;
 TypePlayer loadedType;
@@ -45,6 +46,7 @@ int mediaID;
     playerID  = [bridPlayerConfig objectForKey:@"playerID"];
     mediaID = [bridPlayerConfig objectForKey:@"mediaID"];
     setCornerRadius = [bridPlayerConfig objectForKey:@"setCornerRadius"];
+    localization = [bridPlayerConfig objectForKey:@"localization"];
     
     if ([playerID isKindOfClass:[NSNull class]])
         playerID = 0;
@@ -97,11 +99,13 @@ int mediaID;
         }
     }
     
+    int radius = [setCornerRadius intValue];
     [_player useVPAIDSupport:useVPAIDSupport];
     [_player controlAutoplay:controlAutoplay];
     [_player setPlayerReferenceName:playerReference];
     [_player scrollOnAd:scrollOnAd];
-    [_player setCornerRadius:[setCornerRadius intValue]];
+    [_player setCornerRadius:radius/2];
+    [_player setPlayerLanguage:localization];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"referenceReactTag" object:nil userInfo:@{@"reactTag": [self.reactTag stringValue]}];
     
