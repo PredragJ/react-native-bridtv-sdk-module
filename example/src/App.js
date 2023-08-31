@@ -123,7 +123,7 @@ const App = () => {
               scrollOnAd: true, //This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
               creditsLabelColor: '614BC3', // To achieve color modification for credits label, it is necessary to provide a sequence of six hexadecimal characters, excluding the '#' symbol.
               setCornerRadius: 30, //This property enables setting the corner radius to the player itself. Its value is in pixels.
-              localization: 'it', //This property allows selecting the language in which the player and IMA will operate.
+              localization: 'es', //This property allows selecting the language in which the player and IMA will operate.
             }}
           />
 
