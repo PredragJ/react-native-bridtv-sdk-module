@@ -21,9 +21,11 @@ import androidx.annotation.RequiresApi;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.LifecycleEventListener;
+import com.facebook.react.bridge.NoSuchKeyException;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.UnexpectedNativeTypeException;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.uimanager.ThemedReactContext;
@@ -115,11 +117,13 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
         return bridPlayer;
     }
 
-  public void loadVideo(int playerId, int videoId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference) {
+  public void loadVideo(int playerId, int videoId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference, int borderRadius, String language) {
       bridPlayerBuilder =  new BridPlayerBuilder(getContext(), this);
       bridPlayerBuilder.useVpaidSupport(vpaidSupport);
       bridPlayerBuilder.enableAutoplay(!controlAutoplay);
       bridPlayerBuilder.setCreditsLabelColor(creditsLabelColor);
+      bridPlayerBuilder.setCornerRadius(borderRadius);
+      bridPlayerBuilder.setPlayerLanguage(language);
       if(playerReference != null)
         bridPlayerBuilder.setPlayerReference(playerReference);
       bridPlayer = bridPlayerBuilder.build();
@@ -129,6 +133,8 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
   }
 
     public void loadVideo(int playerId, int videoId) {
+      bridPlayerBuilder =  new BridPlayerBuilder(getContext(), this);
+      bridPlayer = bridPlayerBuilder.build();
       if(bridPlayer != null){
         bridPlayer.loadVideo(playerId, videoId);
       }
@@ -139,12 +145,14 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
       bridPlayer.loadPlaylist(playerId, playlistId);
     }
   }
-  public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference) {
+  public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference, int borderRadius, String language) {
         bridPlayerBuilder =  new BridPlayerBuilder(getContext(), playerHolder);
         bridPlayerBuilder.useVpaidSupport(vpaidSupport);
         bridPlayerBuilder.fullscreen(isFullscreen);
         bridPlayerBuilder.enableAutoplay(!controlAutoplay);
         bridPlayerBuilder.setCreditsLabelColor(creditsLabelColor);
+        bridPlayerBuilder.setCornerRadius(borderRadius);
+        bridPlayerBuilder.setPlayerLanguage(language);
         if(playerReference != null)
           bridPlayerBuilder.setPlayerReference(playerReference);
         bridPlayer = bridPlayerBuilder.build();
@@ -448,16 +456,18 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
 
   public void setConfig(ReadableMap prop) {
 
-    int playerId = 0,mediaId = 0;
+    int playerId = 0,mediaId = 0, borderRadius = 1;
     boolean useVpaid = false, playlist = false, isFullscreen = false, controlAutoplay = false, enableAdControls = false;
-    String creditsLabelColor = null;
+    String creditsLabelColor = null, language = "en";
 
 
     try {
-      if(prop.hasKey("playerID"))
-        playerId = (int) prop.getDouble("playerID");
-      if(prop.hasKey("mediaID"))
-        mediaId = (int) prop.getDouble("mediaID");
+      if(prop.hasKey("playerID")){
+        playerId = prop.getInt("playerID");
+      }
+      if(prop.hasKey("mediaID")){
+        mediaId = prop.getInt("mediaID");
+      }
       if(prop.hasKey("typeOfPlayer"))
         playlist = prop.getString("typeOfPlayer").equals("Playlist");
 
@@ -478,14 +488,26 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
       if(prop.hasKey("playerReference"))
         playerReferenceString = prop.getString("playerReference");
 
+      if(prop.hasKey("setCornerRadius"))
+        if(prop.getInt("setCornerRadius") > 0)
+           borderRadius = prop.getInt("setCornerRadius");
+
+      if(prop.hasKey("localization"))
+        language = prop.getString("localization");
+
+
 
       if(playlist)
-        loadPlaylist(playerId,mediaId, useVpaid,isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor, playerReferenceString);
+        loadPlaylist(playerId,mediaId, useVpaid,isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor, playerReferenceString, borderRadius, language);
       else
-        loadVideo(playerId, mediaId, useVpaid, isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor, playerReferenceString);
+        loadVideo(playerId, mediaId, useVpaid, isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor, playerReferenceString, borderRadius, language);
 
     } catch (NumberFormatException e){
-      toastMessage(e.getMessage());
+      loadVideo(0,0);
+    } catch (NoSuchKeyException ekey){
+      loadVideo(0,0);
+    } catch (UnexpectedNativeTypeException ekey){
+      loadVideo(0,0);
     }
   }
 };
