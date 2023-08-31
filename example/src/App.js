@@ -123,6 +123,7 @@ const App = () => {
               scrollOnAd: true, //This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
               creditsLabelColor: '614BC3', // To achieve color modification for credits label, it is necessary to provide a sequence of six hexadecimal characters, excluding the '#' symbol.
               setCornerRadius: 30, //This property enables setting the corner radius to the player itself. Its value is in pixels.
+              localization: 'it', //This property allows selecting the language in which the player and IMA will operate.
             }}
           />
 
@@ -133,8 +134,8 @@ const App = () => {
             style={styles.square}
             bridPlayerConfig={{
               playerReference: 'player_2',
-              playerID: 39104, // PlayerID from BridTV cms
-              mediaID: 1080419, //VideoID or PlaylistID from BridTv cms
+              playerID: 39910, // PlayerID from BridTV cms
+              mediaID: 1376275, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', //Single or Playlist
               controlAutoplay: false, //enables the client to take control over autoplay
               scrollOnAd: true, //This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
@@ -149,9 +150,9 @@ const App = () => {
             style={styles.square}
             bridPlayerConfig={{
               playerReference: 'player_3',
-              playerID: 39910, // PlayerID from BridTV cms
-              mediaID: 21544, //VideoID or PlaylistID from BridTv cms
-              typeOfPlayer: 'Playlist', // Single or Playlist
+              playerID: 40605, // PlayerID from BridTV cms
+              mediaID: 1376275, //VideoID or PlaylistID from BridTv cms
+              typeOfPlayer: 'Single', // Single or Playlist
             }}
             //Callback for Events from all players in one Activity {"message": "video/ad event", "playerReference": "reverence to player from props"}
             handleAllPlayerEvents={(eventData) =>

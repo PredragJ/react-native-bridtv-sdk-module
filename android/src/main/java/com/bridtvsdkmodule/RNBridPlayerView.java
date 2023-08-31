@@ -117,12 +117,13 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
         return bridPlayer;
     }
 
-  public void loadVideo(int playerId, int videoId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference, int borderRadius) {
+  public void loadVideo(int playerId, int videoId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference, int borderRadius, String language) {
       bridPlayerBuilder =  new BridPlayerBuilder(getContext(), this);
       bridPlayerBuilder.useVpaidSupport(vpaidSupport);
       bridPlayerBuilder.enableAutoplay(!controlAutoplay);
       bridPlayerBuilder.setCreditsLabelColor(creditsLabelColor);
       bridPlayerBuilder.setCornerRadius(borderRadius);
+      bridPlayerBuilder.setPlayerLanguage(language);
       if(playerReference != null)
         bridPlayerBuilder.setPlayerReference(playerReference);
       bridPlayer = bridPlayerBuilder.build();
@@ -144,13 +145,14 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
       bridPlayer.loadPlaylist(playerId, playlistId);
     }
   }
-  public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference, int borderRadius) {
+  public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference, int borderRadius, String language) {
         bridPlayerBuilder =  new BridPlayerBuilder(getContext(), playerHolder);
         bridPlayerBuilder.useVpaidSupport(vpaidSupport);
         bridPlayerBuilder.fullscreen(isFullscreen);
         bridPlayerBuilder.enableAutoplay(!controlAutoplay);
         bridPlayerBuilder.setCreditsLabelColor(creditsLabelColor);
         bridPlayerBuilder.setCornerRadius(borderRadius);
+        bridPlayerBuilder.setPlayerLanguage(language);
         if(playerReference != null)
           bridPlayerBuilder.setPlayerReference(playerReference);
         bridPlayer = bridPlayerBuilder.build();
@@ -454,9 +456,9 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
 
   public void setConfig(ReadableMap prop) {
 
-    int playerId = 0,mediaId = 0, borderRadius = 0;
+    int playerId = 0,mediaId = 0, borderRadius = 1;
     boolean useVpaid = false, playlist = false, isFullscreen = false, controlAutoplay = false, enableAdControls = false;
-    String creditsLabelColor = null;
+    String creditsLabelColor = null, language = "en";
 
 
     try {
@@ -487,13 +489,18 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
         playerReferenceString = prop.getString("playerReference");
 
       if(prop.hasKey("setCornerRadius"))
-        borderRadius = prop.getInt("setCornerRadius");
+        if(prop.getInt("setCornerRadius") > 0)
+           borderRadius = prop.getInt("setCornerRadius");
+
+      if(prop.hasKey("localization"))
+        language = prop.getString("localization");
+
 
 
       if(playlist)
-        loadPlaylist(playerId,mediaId, useVpaid,isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor, playerReferenceString, borderRadius);
+        loadPlaylist(playerId,mediaId, useVpaid,isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor, playerReferenceString, borderRadius, language);
       else
-        loadVideo(playerId, mediaId, useVpaid, isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor, playerReferenceString, borderRadius);
+        loadVideo(playerId, mediaId, useVpaid, isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor, playerReferenceString, borderRadius, language);
 
     } catch (NumberFormatException e){
       loadVideo(0,0);
