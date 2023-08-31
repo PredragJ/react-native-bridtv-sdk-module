@@ -27,6 +27,7 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 @property(nonatomic) BOOL scrollOnAd;
 @property(nonatomic) NSNumber *_Nonnull setCornerRadius;
 @property(nonatomic, strong) BVPlayer *_Nonnull player;
+@property(nonatomic) NSString *_Nonnull localization;
 
 - (void)loadVideo:(NSNumber *_Nonnull)playerID mediaID:(NSNumber *_Nonnull)mediaID;
 - (void)loadPlaylist:(NSNumber *_Nonnull)playerID mediaID:(NSNumber *_Nonnull)mediaID;
