@@ -124,6 +124,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
       bridPlayerBuilder.setCreditsLabelColor(creditsLabelColor);
       bridPlayerBuilder.setCornerRadius(borderRadius);
       bridPlayerBuilder.setPlayerLanguage(language);
+      bridPlayerBuilder.setSeekSeconds(0);
       if(playerReference != null)
         bridPlayerBuilder.setPlayerReference(playerReference);
       bridPlayer = bridPlayerBuilder.build();
@@ -153,7 +154,8 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
         bridPlayerBuilder.setCreditsLabelColor(creditsLabelColor);
         bridPlayerBuilder.setCornerRadius(borderRadius);
         bridPlayerBuilder.setPlayerLanguage(language);
-        if(playerReference != null)
+        bridPlayerBuilder.setSeekSeconds(0);
+    if(playerReference != null)
           bridPlayerBuilder.setPlayerReference(playerReference);
         bridPlayer = bridPlayerBuilder.build();
         bridPlayer.setBridListener(this);
