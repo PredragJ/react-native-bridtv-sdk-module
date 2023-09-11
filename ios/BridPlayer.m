@@ -198,7 +198,7 @@ int mediaID;
         if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adLoaded"]) {
             event = [NSDictionary dictionaryWithObject:@"AD_LOADED" forKey:@"ad"];
         } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adProgress"]) {
-            event = [NSDictionary dictionaryWithObject:@"AD_INPROGRESS" forKey:@"ad"];
+           return;
         } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adStarted"]) {
             event = [NSDictionary dictionaryWithObject:@"AD_STARTED" forKey:@"ad"];
         } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adPause"]) {
@@ -213,11 +213,13 @@ int mediaID;
             event = [NSDictionary dictionaryWithObject:@"AD_TAPPED" forKey:@"ad"];
         } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adSkipped"]) {
             event = [NSDictionary dictionaryWithObject:@"AD_SKIPPED" forKey:@"ad"];
-        } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adFirstQuartile"]) {
+        } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adFirst Quartile"]) {
+            return;
+        } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adThird Quartile"]) {
             return;
         } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adMidpoint"]) {
             return;
-        } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"Quartile"]) {
+        } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adSecond Quartile"]) {
             return;
         } else {
             event = [NSDictionary dictionaryWithObject:notification.userInfo[@"ad"] forKey:@"ad"];
@@ -227,7 +229,7 @@ int mediaID;
             [mutableUserInfoAd addEntriesFromDictionary:reference];
         
         [mutableUserInfoAd addEntriesFromDictionary:event];
-
+        
         userInfoAd = mutableUserInfoAd;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"BridPlayerAd" object:nil userInfo:userInfoAd];
     }
