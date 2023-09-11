@@ -198,7 +198,7 @@ int mediaID;
         if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adLoaded"]) {
             event = [NSDictionary dictionaryWithObject:@"AD_LOADED" forKey:@"ad"];
         } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adProgress"]) {
-            event = [NSDictionary dictionaryWithObject:@"AD_INPROGRESS" forKey:@"ad"];
+           return;
         } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adStarted"]) {
             event = [NSDictionary dictionaryWithObject:@"AD_STARTED" forKey:@"ad"];
         } else if ([(NSString *)notification.userInfo[@"ad"] isEqualToString:@"adPause"]) {
