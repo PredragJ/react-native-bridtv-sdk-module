@@ -116,8 +116,8 @@ const App = () => {
             style={styles.square}
             bridPlayerConfig={{
               playerReference: 'player_1',
-              playerID: null, // PlayerID from BridTV cms
-              mediaID: 12345, //VideoID or PlaylistID from BridTv cms
+              playerID: 39104, // PlayerID from BridTV cms
+              mediaID: 1080419, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', //Single or Playlist
               controlAutoplay: false, //enables the client to take control over autoplay
               scrollOnAd: true, //This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
@@ -266,12 +266,12 @@ const App = () => {
           <View style={styles.buttonContainer}>
             <Button
               title="Is Paused"
-              onPress={() => bridPlayerRef.current?.isPaused()}
+              onPress={() => bridPlayerRef.current?.isPlayingAd()}
             />
 
             <Button
               title="Is Repeated"
-              onPress={() => bridPlayerRef.current?.isRepeated()}
+              onPress={() => bridPlayerRef.current?.isPlayingAd()}
             />
           </View>
         </View>
