@@ -124,6 +124,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
       bridPlayerBuilder.setCreditsLabelColor(creditsLabelColor);
       bridPlayerBuilder.setCornerRadius(borderRadius);
       bridPlayerBuilder.setPlayerLanguage(language);
+      bridPlayerBuilder.setSeekSeconds(0);
       if(playerReference != null)
         bridPlayerBuilder.setPlayerReference(playerReference);
       bridPlayer = bridPlayerBuilder.build();
@@ -153,6 +154,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
         bridPlayerBuilder.setCreditsLabelColor(creditsLabelColor);
         bridPlayerBuilder.setCornerRadius(borderRadius);
         bridPlayerBuilder.setPlayerLanguage(language);
+        bridPlayerBuilder.setSeekSeconds(0);
         if(playerReference != null)
           bridPlayerBuilder.setPlayerReference(playerReference);
         bridPlayer = bridPlayerBuilder.build();
@@ -318,7 +320,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
         sendEvent(mThemedReactContext, "BridPlayerEvents" + getId(), event);
         break;
       case "STARTED":
-        event.putString("name", "VIDEO_STARTED");
+        event.putString("name", "VIDEO_INITIALIZED");
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents"+ getId(), event);
         break;
