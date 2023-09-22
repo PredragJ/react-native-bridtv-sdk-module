@@ -133,8 +133,8 @@ const App = () => {
             style={styles.square}
             bridPlayerConfig={{
               playerReference: 'player_2',
-              playerID: 39104, // PlayerID from BridTV cms
-              mediaID: 1080419, //VideoID or PlaylistID from BridTv cms
+              playerID: 40606, // PlayerID from BridTV cms
+              mediaID: 1406975, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', //Single or Playlist
               controlAutoplay: false, //enables the client to take control over autoplay
               scrollOnAd: true, //This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
@@ -149,9 +149,9 @@ const App = () => {
             style={styles.square}
             bridPlayerConfig={{
               playerReference: 'player_3',
-              playerID: 39910, // PlayerID from BridTV cms
-              mediaID: 21544, //VideoID or PlaylistID from BridTv cms
-              typeOfPlayer: 'Playlist', // Single or Playlist
+              playerID: 40606, // PlayerID from BridTV cms
+              mediaID: 1406975, //VideoID or PlaylistID from BridTv cms
+              typeOfPlayer: 'Single', // Single or Playlist
             }}
             //Callback for Events from all players in one Activity {"message": "video/ad event", "playerReference": "reverence to player from props"}
             handleAllPlayerEvents={(eventData) =>
