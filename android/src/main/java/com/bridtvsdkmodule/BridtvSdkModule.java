@@ -94,7 +94,7 @@ public class BridtvSdkModule extends ReactContextBaseJavaModule {
 
 
   @ReactMethod
-  public void isAdPlaying(final int reactTag, Promise promise){
+  public void isPlayingAd(final int reactTag, Promise promise){
     Log.d("BridtvSdkModuleLog", "isAdPlaying");
     try {
       UIManagerModule uiManager = mReactContext.getNativeModule(UIManagerModule.class);

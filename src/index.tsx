@@ -449,6 +449,8 @@ export default class BridPlayer
         const isAutoplay = await BridtvSdkManager.isAutoplay(
           findNodeHandle(this)
         );
+
+        console.log(isAutoplay);
         if (Platform.OS === 'ios') {
           if (isAutoplay === 1) return true;
           else return false;
