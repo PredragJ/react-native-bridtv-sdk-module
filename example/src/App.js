@@ -353,8 +353,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   square: {
-    height: 213,
-    width: 380,
+    height: 150,
+    width: 300,
   },
   buttonContainer: {
     borderRadius: 10,
