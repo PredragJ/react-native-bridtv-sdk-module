@@ -130,8 +130,8 @@ const App = () => {
             style={styles.square}
             bridPlayerConfig={{
               playerReference: 'player_1',
-              playerID: 40606, // PlayerID from BridTV cms
-              mediaID: 1390746, //VideoID or PlaylistID from BridTv cms
+              playerID: 39568, // PlayerID from BridTV cms
+              mediaID: 1364356, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', //Single or Playlist
               controlAutoplay: false, //enables the client to take control over autoplay
               scrollOnAd: true, //This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
@@ -140,7 +140,7 @@ const App = () => {
             }}
           />
 
-          <View style={styles.buttonContainer} />
+          {/* <View style={styles.buttonContainer} />
           {video2 && (
             <BridPlayer
               ref={bridPlayerRef2}
@@ -173,7 +173,7 @@ const App = () => {
                 handleAllPlayerEvents(eventData)
               }
             />
-          )}
+          )} */}
 
           <View style={styles.buttonContainer}>
             <Button
@@ -353,7 +353,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   square: {
-    height: 150,
+    height: 200,
     width: 300,
   },
   buttonContainer: {
