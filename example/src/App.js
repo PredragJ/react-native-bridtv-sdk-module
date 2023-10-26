@@ -140,8 +140,8 @@ const App = () => {
             }}
           />
 
-          {/* <View style={styles.buttonContainer} />
-          {video2 && (
+          <View style={styles.buttonContainer} />
+          {/* {video2 && (
             <BridPlayer
               ref={bridPlayerRef2}
               style={styles.square}
@@ -156,7 +156,7 @@ const App = () => {
               }}
               //Callback for Events from all players in one Activity {"message": "video/ad event", "playerReference": "reverence to player from props"}
             />
-          )}
+          )} */}
           <View style={styles.buttonContainer} />
           {video3 && (
             <BridPlayer
@@ -173,7 +173,7 @@ const App = () => {
                 handleAllPlayerEvents(eventData)
               }
             />
-          )} */}
+          )}
 
           <View style={styles.buttonContainer}>
             <Button
