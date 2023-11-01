@@ -18,12 +18,6 @@ Android
 
 To update dependencies and fetch the latest packages open Android Studio and run Gradle Sync. By performing the Gradle sync, you ensure that your Android project is up to date with the latest packages and dependencies, which can help resolve compatibility issues and provide access to new features and bug fixes.
 
-Because Module currently using BridPlayer SDK SNAPSHOT 
-In Gradle (Module:app) need to be added
-
- repositories {
-    maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
-  }
 
 ```
 
