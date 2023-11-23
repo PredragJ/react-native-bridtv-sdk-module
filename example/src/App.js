@@ -158,7 +158,7 @@ const App = () => {
             />
           )} */}
           <View style={styles.buttonContainer} />
-          {video3 && (
+          {/* {video3 && (
             <BridPlayer
               ref={bridPlayerRef3}
               style={styles.square}
@@ -173,7 +173,7 @@ const App = () => {
                 handleAllPlayerEvents(eventData)
               }
             />
-          )}
+          )} */}
 
           <View style={styles.buttonContainer}>
             <Button
