@@ -61,6 +61,20 @@ int mediaID;
     
 }
 
+- (void)dealloc
+{
+    [_player setPlayerReferenceName:nil];
+    reference = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"referenceReactTag" object:@{@"reactTag": [self.reactTag stringValue]}];
+}
+
+- (void)destroy
+{
+    [_player setPlayerReferenceName:nil];
+    reference = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"referenceReactTag" object:@{@"reactTag": [self.reactTag stringValue]}];
+}
+
 - (void)setPlayerTypeByString:(NSString *)typeString
 {
     if ([typeString  isEqual: @"Single"]) {
@@ -133,7 +147,7 @@ int mediaID;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventWriter:) name:@"AdEvent" object:nil];
 }
 
-- (void) eventWriter:(NSNotification *)notification {
+- (void)eventWriter:(NSNotification *)notification {
     
     if ([notification.name isEqualToString:@"PlayerEvent"]) {
         NSDictionary *userInfo;

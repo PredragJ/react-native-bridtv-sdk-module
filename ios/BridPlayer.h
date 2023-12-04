@@ -42,5 +42,6 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 - (NSNumber *_Nonnull)getAdDuration;
 - (NSNumber *_Nonnull)getAdCurrentTime;
 - (void)seekToTime:(float)time;
+- (void)destroy;
 
 @end
