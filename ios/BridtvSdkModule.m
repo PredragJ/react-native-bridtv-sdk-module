@@ -32,6 +32,19 @@ NSString *lastReferenceAd;
     return self;
 }
 
+- (void)dealloc
+{
+    [emitter stopObserving];
+    emitter = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"BridPlayer" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"BridPlayerAd" object:nil];
+    lastEvent = nil;
+    lastEventAd = nil;
+    lastReference = nil;
+    lastReferenceAd = nil;
+    
+}
+
 + (BOOL)requiresMainQueueSetup
 {
     return YES;
