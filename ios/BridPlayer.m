@@ -28,6 +28,8 @@
 @synthesize scrollOnAd;
 @synthesize setCornerRadius;
 @synthesize localization;
+@synthesize doubleTapSeek;
+@synthesize seekPreview;
 
 BOOL isRelodaed;
 TypePlayer loadedType;
@@ -47,6 +49,8 @@ int mediaID;
     mediaID = [bridPlayerConfig objectForKey:@"mediaID"];
     setCornerRadius = [bridPlayerConfig objectForKey:@"setCornerRadius"];
     localization = [bridPlayerConfig objectForKey:@"localization"];
+    doubleTapSeek = [bridPlayerConfig objectForKey:@"doubleTapSeek"];
+    seekPreview = [bridPlayerConfig objectForKey:@"seekPreview"];
     
     if ([playerID isKindOfClass:[NSNull class]])
         playerID = 0;
@@ -120,6 +124,8 @@ int mediaID;
     [_player scrollOnAd:scrollOnAd];
     [_player setCornerRadius:radius/2];
     [_player setPlayerLanguage:localization];
+    [_player setSeekSeconds:[doubleTapSeek intValue]];
+    [_player setSeekPreviewEnabled:[seekPreview intValue]];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"referenceReactTag" object:nil userInfo:@{@"reactTag": [self.reactTag stringValue]}];
     
@@ -178,6 +184,10 @@ int mediaID;
             event = [NSDictionary dictionaryWithObject:@"NEXT_VIDEO" forKey:@"event"];
         } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerAutoplay"]) {
             event = [NSDictionary dictionaryWithObject:@"VIDEO_AUTOPLAY" forKey:@"event"];
+        } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerExpip"]) {
+                event = [NSDictionary dictionaryWithObject:@"PLAYER_EXIT_PIP" forKey:@"event"];
+        } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerEnpip"]) {
+                event = [NSDictionary dictionaryWithObject:@"PLAYER_ENTER_PIP" forKey:@"event"];
         } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerSliderValueChanged"]) {
             return;
         } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerSliderTouched"]) {

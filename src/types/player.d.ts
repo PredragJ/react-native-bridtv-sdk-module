@@ -11,6 +11,8 @@ interface BridPlayerConfig {
   playerReference?: string;
   setCornerRadius?: number;
   localization?: string;
+  doubleTapSeek?: number;
+  seekPreview?: number;
 }
 
 export type BridtvSdkModuleProps = {
@@ -28,6 +30,9 @@ export type BridtvSdkModuleProps = {
   handleFullscreenOpen?: () => void;
   handleFullscreenClose?: () => void;
   handleVideoAutoplay?: () => void;
+  //Pip
+  handlePlayerEnterPip?: () => void;
+  handlePlayerExitPip?: () => void;
 
   //Ad
   handleVideoAdLoaded?: () => void;
