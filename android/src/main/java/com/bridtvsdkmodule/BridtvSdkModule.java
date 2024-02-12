@@ -25,7 +25,6 @@ import tv.brid.sdk.api.BridPlayerBuilder;
 public class BridtvSdkModule extends ReactContextBaseJavaModule {
 
     private final ReactApplicationContext mReactContext;
-    private BridPlayer bridPlayer;
     private static final String TAG = "BridtvSdkModule";
 
 
