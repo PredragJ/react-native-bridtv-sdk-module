@@ -1,6 +1,6 @@
 {
   "name": "react-native-bridtv-sdk-module",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "React native module for Android/IOS BridTV SDK",
   "main": "src/index.tsx",
   "types": "src/index.d.ts",

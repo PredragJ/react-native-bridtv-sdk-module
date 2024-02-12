@@ -76,6 +76,12 @@ export default class BridPlayer
     if (props.handleFullscreenClose) {
       this.onFullscreenClose(props.handleFullscreenClose);
     }
+    if (props.handlePlayerEnterPip) {
+      this.onPlayerEnterPip(props.handlePlayerEnterPip);
+    }
+    if (props.handlePlayerExitPip) {
+      this.onPlayerExitPip(props.handlePlayerExitPip);
+    }
     //AD EVENTS
     if (props.handleVideoAdLoaded) {
       this.onVideoAdLoaded(props.handleVideoAdLoaded);
@@ -215,6 +221,12 @@ export default class BridPlayer
 
   onFullscreenClose = (handler: () => void) => {
     this.registeredListener(BridPlayerEvents.fullscreenClose, handler);
+  };
+  onPlayerEnterPip = (handler: () => void) => {
+    this.registeredListener(BridPlayerEvents.enterPip, handler);
+  };
+  onPlayerExitPip = (handler: () => void) => {
+    this.registeredListener(BridPlayerEvents.exitPip, handler);
   };
 
   //VideoAdEvents
