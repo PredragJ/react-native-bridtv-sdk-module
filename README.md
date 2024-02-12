@@ -52,6 +52,9 @@ const App = () => {
               creditsLabelColor: '614BC3', // To achieve color modification for credits label, it is necessary to provide a sequence of six hexadecimal characters, excluding the '#' symbol.
               setCornerRadius: 30, //This property enables setting the corner radius to the player itself. Its value is in pixels.
               localization: 'en', //This property allows selecting the language in which the player and IMA will operate.
+              doubleTapSeek: 10, // This property set seek seconds for double tap seek player UI.
+              seekPreview: 1 // When set to 1, the feature is enabled and will be visible in all operational modes of the player. When set to 2 the thumbnail image preview during seeking will be available exclusively when the player is in fullscreen mode.
+
 
             }}
             //Callback for Events from all players in one Activity {"message": "video/ad event", "playerReference": "reverence to player from props"}
@@ -100,6 +103,9 @@ The BridPlayer component accepts the following props:
     -  handleFullscreenOpen, 
     -  handleFullscreenClose,
     -  handleVideoAutoplay
+      //Pip events
+    -  handlePlayerEnterPip?: () => void;
+    -  handlePlayerExitPip?: () => void;
 
 + **Ad event callbacks**: These props allow you to specify callback functions for various ad events like:
     -  handleVideoAdLoaded, 
