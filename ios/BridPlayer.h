@@ -28,6 +28,9 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 @property(nonatomic) NSNumber *_Nonnull setCornerRadius;
 @property(nonatomic, strong) BVPlayer *_Nonnull player;
 @property(nonatomic) NSString *_Nonnull localization;
+@property(nonatomic) NSNumber *_Nonnull doubleTapSeek;
+@property(nonatomic) NSNumber *_Nonnull seekPreview;
+
 
 - (void)loadVideo:(NSNumber *_Nonnull)playerID mediaID:(NSNumber *_Nonnull)mediaID;
 - (void)loadPlaylist:(NSNumber *_Nonnull)playerID mediaID:(NSNumber *_Nonnull)mediaID;
