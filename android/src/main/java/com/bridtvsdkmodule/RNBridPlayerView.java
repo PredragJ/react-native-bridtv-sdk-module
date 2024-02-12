@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -29,8 +28,8 @@ import com.facebook.react.uimanager.ThemedReactContext;
 
 import tv.brid.sdk.api.BridPlayer;
 import tv.brid.sdk.api.BridPlayerBuilder;
-import tv.brid.sdk.player.BridPlayerListener;
 import tv.brid.sdk.player.PlayerEvents;
+import tv.brid.sdk.player.listeners.BridPlayerListener;
 
 class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, BridPlayerListener {
 
@@ -95,14 +94,15 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
     return bridPlayer;
   }
 
-  public void loadVideo(int playerId, int videoId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference, int borderRadius, String language) {
+  public void loadVideo(int playerId, int videoId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference, int borderRadius, String language, int seekSeconds, int seekPreview) {
     bridPlayerBuilder = new BridPlayerBuilder(getContext(), this);
     bridPlayerBuilder.useVpaidSupport(vpaidSupport);
     bridPlayerBuilder.enableAutoplay(!controlAutoplay);
     bridPlayerBuilder.setCreditsLabelColor(creditsLabelColor);
     bridPlayerBuilder.setCornerRadius(borderRadius);
     bridPlayerBuilder.setPlayerLanguage(language);
-    bridPlayerBuilder.setSeekSeconds(0);
+    bridPlayerBuilder.setSeekSeconds(seekSeconds);
+    bridPlayerBuilder.setSeekPreviewEnabled(seekPreview);
     if (playerReference != null)
       bridPlayerBuilder.setPlayerReference(playerReference);
     bridPlayer = bridPlayerBuilder.build();
@@ -125,7 +125,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
     }
   }
 
-  public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference, int borderRadius, String language) {
+  public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference, int borderRadius, String language, int seekSeconds, int seekPreview) {
     bridPlayerBuilder = new BridPlayerBuilder(getContext(), playerHolder);
     bridPlayerBuilder.useVpaidSupport(vpaidSupport);
     bridPlayerBuilder.fullscreen(isFullscreen);
@@ -133,7 +133,8 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
     bridPlayerBuilder.setCreditsLabelColor(creditsLabelColor);
     bridPlayerBuilder.setCornerRadius(borderRadius);
     bridPlayerBuilder.setPlayerLanguage(language);
-    bridPlayerBuilder.setSeekSeconds(0);
+    bridPlayerBuilder.setSeekSeconds(seekSeconds);
+    bridPlayerBuilder.setSeekPreviewEnabled(seekPreview);
     if (playerReference != null)
       bridPlayerBuilder.setPlayerReference(playerReference);
     bridPlayer = bridPlayerBuilder.build();
@@ -268,7 +269,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
   @Override
   public void onHostPause() {
     Log.d("Lifecycle react", "onHostPause");
-    pause();
+//    pause();
   }
 
   @Override
@@ -419,6 +420,17 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
         event.putString("playerReference", playerReference);
         sendEvent(mThemedReactContext, "BridPlayerEvents" + getId(), event);
         break;
+        //PIP Events
+      case PlayerEvents.EVENT_ENTER_PICTURE_IN_PICTURE:
+        event.putString("name", "PLAYER_ENTER_PIP");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents" + getId(), event);
+        break;
+      case PlayerEvents.EVENT_EXIT_PICTURE_IN_PICTURE:
+        event.putString("name", "PLAYER_EXIT_PIP");
+        event.putString("playerReference", playerReference);
+        sendEvent(mThemedReactContext, "BridPlayerEvents" + getId(), event);
+        break;
 
     }
   }
@@ -433,7 +445,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
 
   public void setConfig(ReadableMap prop) {
 
-    int playerId = 0, mediaId = 0, borderRadius = 1;
+    int playerId = 0, mediaId = 0, borderRadius = 1, seekSeconds = -1, seekPreview = 0;
     boolean useVpaid = false, playlist = false, isFullscreen = false, controlAutoplay = false, enableAdControls = false;
     String creditsLabelColor = null, language = "en";
 
@@ -472,11 +484,17 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
       if (prop.hasKey("localization"))
         language = prop.getString("localization");
 
+      if (prop.hasKey("doubleTapSeek"))
+        seekSeconds = prop.getInt("doubleTapSeek");
+
+      if (prop.hasKey("seekPreview"))
+        seekPreview = prop.getInt("seekPreview");
+
 
       if (playlist)
-        loadPlaylist(playerId, mediaId, useVpaid, isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor, playerReferenceString, borderRadius, language);
+        loadPlaylist(playerId, mediaId, useVpaid, isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor, playerReferenceString, borderRadius, language, seekSeconds, seekPreview);
       else
-        loadVideo(playerId, mediaId, useVpaid, isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor, playerReferenceString, borderRadius, language);
+        loadVideo(playerId, mediaId, useVpaid, isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor, playerReferenceString, borderRadius, language, seekSeconds, seekPreview);
 
     } catch (NumberFormatException e) {
       loadVideo(0, 0);

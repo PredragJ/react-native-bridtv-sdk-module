@@ -10,6 +10,10 @@ const BridPlayerEventsIos = {
   videoError: 'VIDEO_ERROR',
   fullscreenOpen: 'FULLSCREEN_OPEN',
   fullscreenClose: 'FULLSCREEN_CLOSE',
+  enterPip: 'PLAYER_ENTER_PIP',
+  exitPip: 'PLAYER_EXIT_PIP',
+
+
 
   //Ad
   videoAdLoaded: 'AD_LOADED',
@@ -35,6 +39,9 @@ const BridPlayerEventsAndroid = {
   videoError: 'VIDEO_ERROR',
   fullscreenOpen: 'FULLSCREEN_OPEN',
   fullscreenClose: 'FULLSCREEN_CLOSE',
+  enterPip: 'PLAYER_ENTER_PIP',
+  exitPip: 'PLAYER_EXIT_PIP',
+
 
   //Ad
   videoAdLoaded: 'AD_LOADED',
