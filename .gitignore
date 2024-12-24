@@ -75,3 +75,6 @@ lib/
 example/android/app/build
 example/ios/build
 example/ios/Pods
+
+
+ android/java_pid22521.hprof
