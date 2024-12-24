@@ -56,7 +56,8 @@ android {
 }
 
 repositories {
-//  maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
+  maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
+  maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
   mavenCentral()
   google()
 }
@@ -66,8 +67,8 @@ dependencies {
   // For < 0.71, this will be from the local maven repo
   // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
   //noinspection GradleDynpm namicVersion
-  implementation "com.facebook.react:react-native:+"
-  implementation 'tv.brid.sdk:bridsdk:1.1.7'
+  implementation 'com.facebook.react:react-android:0.71.7'
+  implementation 'tv.brid.sdk:bridsdk:1.3.3-SNAPSHOT'
 
 }
 
