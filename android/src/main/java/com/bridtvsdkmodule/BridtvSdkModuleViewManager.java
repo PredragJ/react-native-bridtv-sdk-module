@@ -51,23 +51,23 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
 
     switch (commandId) {
       case LOAD_VIDEO:
-         playerID = args.getInt(0);
-         mediaID = args.getInt(1);
-           bridPlayerView.loadVideo(playerID,mediaID);
+        playerID = args.getInt(0);
+        mediaID = args.getInt(1);
+        bridPlayerView.loadVideo(playerID,mediaID);
         break;
       case LOAD_PLAYLIST:
-         playerID = args.getInt(0);
-         mediaID = args.getInt(1);
-          bridPlayerView.loadPlaylist(playerID, mediaID);
+        playerID = args.getInt(0);
+        mediaID = args.getInt(1);
+        bridPlayerView.loadPlaylist(playerID, mediaID);
       case PLAY:
-          bridPlayerView.play();
+        bridPlayerView.play();
         break;
       case PAUSE:
-          bridPlayerView.pause();
+        bridPlayerView.pause();
         break;
       case DESTROY_PLAYER:
-          bridPlayerView.destroyPlayer();
-          break;
+        bridPlayerView.destroyPlayer();
+        break;
       case SET_FULLSCREEN:
         isFullscreen = args.getBoolean(0);
         bridPlayerView.setFullScreen(isFullscreen);

@@ -24,49 +24,50 @@ import tv.brid.sdk.api.BridPlayerBuilder;
 
 public class BridtvSdkModule extends ReactContextBaseJavaModule {
 
-    private final ReactApplicationContext mReactContext;
-    private static final String TAG = "BridtvSdkModule";
+  private final ReactApplicationContext mReactContext;
+  private BridPlayer bridPlayer;
+  private static final String TAG = "BridtvSdkModule";
 
 
 
-    BridtvSdkModule(ReactApplicationContext context) {
-        super(context);
-        mReactContext = context;
-        Log.d("BridtvSdkModuleLog", "CREATE");
-    }
+  BridtvSdkModule(ReactApplicationContext context) {
+    super(context);
+    mReactContext = context;
+    Log.d("BridtvSdkModuleLog", "CREATE");
+  }
 
-    @NonNull
-    @Override
-    public String getName() {
-        Log.d("BridtvSdkModuleLog", "getName");
+  @NonNull
+  @Override
+  public String getName() {
+    Log.d("BridtvSdkModuleLog", "getName");
 
-        return TAG;
-    }
+    return TAG;
+  }
 
 
-    // react cannot resolve type LONG
-    @ReactMethod
-    public void getCurrentTime(final int reactTag, Promise promise){
-        Log.d("BridtvSdkModuleLog", "getCurrentTime");
+  // react cannot resolve type LONG
+  @ReactMethod
+  public void getCurrentTime(final int reactTag, Promise promise){
+    Log.d("BridtvSdkModuleLog", "getCurrentTime");
 
-        try {
-          UIManagerModule uiManager = mReactContext.getNativeModule(UIManagerModule.class);
-          uiManager.addUIBlock(new UIBlock() {
-            @Override
-            public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
-              RNBridPlayerView playerView = (RNBridPlayerView) nativeViewHierarchyManager.resolveView(reactTag);
-              if(playerView != null && playerView.getBridPlayer() != null){
-                promise.resolve(Double.valueOf(playerView.getBridPlayer().getCurrentPosition()));
-              }else {
-                promise.reject("RNBridPlayerError", "Player is null");
-              }
-            }
-          });
-
-        } catch (Exception e){
-            promise.reject("Error happened", e);
+    try {
+      UIManagerModule uiManager = mReactContext.getNativeModule(UIManagerModule.class);
+      uiManager.addUIBlock(new UIBlock() {
+        @Override
+        public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
+          RNBridPlayerView playerView = (RNBridPlayerView) nativeViewHierarchyManager.resolveView(reactTag);
+          if(playerView != null && playerView.getBridPlayer() != null){
+            promise.resolve(Double.valueOf(playerView.getBridPlayer().getCurrentPosition()));
+          }else {
+            promise.reject("RNBridPlayerError", "Player is null");
+          }
         }
+      });
+
+    } catch (Exception e){
+      promise.reject("Error happened", e);
     }
+  }
 
   @ReactMethod
   public void getVideoDuration(final int reactTag, Promise promise){
@@ -146,7 +147,8 @@ public class BridtvSdkModule extends ReactContextBaseJavaModule {
         public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
           RNBridPlayerView playerView = (RNBridPlayerView) nativeViewHierarchyManager.resolveView(reactTag);
           if(playerView != null && playerView.getBridPlayer() != null){
-            promise.resolve(playerView.getBridPlayer().isAutoplay());
+            //ToDo
+//            promise.resolve(playerView.getBridPlayer().isAutoplay());
           }else {
             promise.reject("RNBridPlayerError", "Player is null");
           }
