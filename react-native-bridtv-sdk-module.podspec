@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.license      = package["license"]
   s.authors      = package["author"]
 
-  s.platforms    = { :ios => "12.0" }
+  s.platforms    = { :ios => "15.6" }
   s.source       = { :git => "https://github.com/PredragJ/react-native-bridtv-sdk-module.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m,mm}"
@@ -27,11 +27,24 @@ Pod::Spec.new do |s|
         "OTHER_CPLUSPLUSFLAGS" => "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1",
         "CLANG_CXX_LANGUAGE_STANDARD" => "c++17"
     }
-    s.dependency "React-RCTFabric"
-    s.dependency "React-Codegen"
+    s.dependency "React"
+    s.dependency "React-Core"
+    s.dependency "React-RCTBridge"
+    s.dependency "React-RCTImage"
+    s.dependency "React-RCTLinking"
+    s.dependency "React-RCTNetwork"
+    s.dependency "React-RCTText"
+    s.dependency "React-CoreModules"
+    s.dependency 'PrebidMobile'
+    s.dependency 'Protobuf'
+    s.dependency "React-jsi"
+    s.dependency "React-jsiexecutor"
+    s.dependency "React-runtimeexecutor"
     s.dependency "RCT-Folly"
-    s.dependency "RCTRequired"
-    s.dependency "RCTTypeSafety"
     s.dependency "ReactCommon/turbomodule/core"
+    s.dependency "React-hermes"
+    s.dependency "FlipperKit", "0.125.0"
+    s.dependency "Flipper-Folly", "2.6.10"
+    s.dependency "Flipper-Glog", "0.5.0.5"
   end
 end
