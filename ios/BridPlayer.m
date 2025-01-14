@@ -28,8 +28,8 @@
 @synthesize scrollOnAd;
 @synthesize setCornerRadius;
 @synthesize localization;
-@synthesize doubleTapSeek;
-@synthesize seekPreview;
+@synthesize setSeekSecond;
+@synthesize setSeekPreview;
 
 BOOL isRelodaed;
 TypePlayer loadedType;
@@ -49,8 +49,8 @@ int mediaID;
     mediaID = [bridPlayerConfig objectForKey:@"mediaID"];
     setCornerRadius = [bridPlayerConfig objectForKey:@"setCornerRadius"];
     localization = [bridPlayerConfig objectForKey:@"localization"];
-    doubleTapSeek = [bridPlayerConfig objectForKey:@"doubleTapSeek"];
-    seekPreview = [bridPlayerConfig objectForKey:@"seekPreview"];
+    doubleTapSeek = [bridPlayerConfig objectForKey:@"setSeekSecond"];
+    seekPreview = [bridPlayerConfig objectForKey:@"setSeekPreview"];
     
     if ([playerID isKindOfClass:[NSNull class]])
         playerID = 0;
@@ -124,8 +124,8 @@ int mediaID;
     [_player scrollOnAd:scrollOnAd];
     [_player setCornerRadius:radius/2];
     [_player setPlayerLanguage:localization];
-    [_player setSeekSeconds:[doubleTapSeek intValue]];
-    [_player setSeekPreviewEnabled:[seekPreview intValue]];
+    [_player setSeekSeconds:[setSeekSeconds intValue]];
+    [_player setSeekPreviewEnabled:[setSeekPreview intValue]];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"referenceReactTag" object:nil userInfo:@{@"reactTag": [self.reactTag stringValue]}];
     

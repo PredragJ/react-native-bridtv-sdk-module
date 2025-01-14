@@ -6,7 +6,6 @@
 #import "React/RCTViewManager.h"
 #import "React/RCTComponent.h"
 
-
 @class RCTEventDispatcher;
 
 typedef NS_ENUM(NSUInteger, TypePlayer) {
@@ -28,9 +27,8 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 @property(nonatomic) NSNumber *_Nonnull setCornerRadius;
 @property(nonatomic, strong) BVPlayer *_Nonnull player;
 @property(nonatomic) NSString *_Nonnull localization;
-@property(nonatomic) NSNumber *_Nonnull doubleTapSeek;
-@property(nonatomic) NSNumber *_Nonnull seekPreview;
-
+@property(nonatomic) NSNumber *_Nonnull setSeekSeconds;
+@property(nonatomic) NSNumber *_Nonnull setSeekPreview;
 
 - (void)loadVideo:(NSNumber *_Nonnull)playerID mediaID:(NSNumber *_Nonnull)mediaID;
 - (void)loadPlaylist:(NSNumber *_Nonnull)playerID mediaID:(NSNumber *_Nonnull)mediaID;
