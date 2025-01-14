@@ -11,15 +11,17 @@ Pod::Spec.new do |s|
   s.license      = package["license"]
   s.authors      = package["author"]
 
-  s.platforms    = { :ios => "12.0" }
+  s.platforms    = { :ios => "15.6" }
   s.source       = { :git => "https://github.com/PredragJ/react-native-bridtv-sdk-module.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m,mm}"
 
   s.dependency "React-Core"
-  s.dependency 'BridSDK'# ~> '1.4.4'
+  s.dependency 'BridSDK'
+  s.dependency 'google-cast-sdk'
+  s.dependency 'BridSDKDynamicPrebidMobile'
+  s.dependency 'BridSDKDynamicProtobuf'
 
-  # Don't install the dependencies when we run `pod install` in the old architecture.
   if ENV['RCT_NEW_ARCH_ENABLED'] == '1' then
     s.compiler_flags = folly_compiler_flags + " -DRCT_NEW_ARCH_ENABLED=1"
     s.pod_target_xcconfig    = {
