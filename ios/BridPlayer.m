@@ -49,8 +49,8 @@ int mediaID;
     mediaID = [bridPlayerConfig objectForKey:@"mediaID"];
     setCornerRadius = [bridPlayerConfig objectForKey:@"setCornerRadius"];
     localization = [bridPlayerConfig objectForKey:@"localization"];
-    doubleTapSeek = [bridPlayerConfig objectForKey:@"setSeekSecond"];
-    seekPreview = [bridPlayerConfig objectForKey:@"setSeekPreview"];
+    setSeekSeconds = [bridPlayerConfig objectForKey:@"setSeekSecond"];
+    setSeekPreview = [bridPlayerConfig objectForKey:@"setSeekPreview"];
     
     if ([playerID isKindOfClass:[NSNull class]])
         playerID = 0;
