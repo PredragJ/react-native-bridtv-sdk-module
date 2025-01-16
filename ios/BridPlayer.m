@@ -28,7 +28,7 @@
 @synthesize scrollOnAd;
 @synthesize setCornerRadius;
 @synthesize localization;
-@synthesize setSeekSecond;
+@synthesize setSeekSeconds;
 @synthesize setSeekPreview;
 
 BOOL isRelodaed;
