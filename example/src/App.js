@@ -138,7 +138,8 @@ const App = () => {
               creditsLabelColor: '614BC3', // To achieve color modification for credits label, it is necessary to provide a sequence of six hexadecimal characters, excluding the '#' symbol.
               setCornerRadius: 30, //This property enables setting the corner radius to the player itself. Its value is in pixels.
               doubleTapSeek: 10, // This property set seek seconds for double tap seek player UI.
-              seekPreview: 1 // When set to 1, the feature is enabled and will be visible in all operational modes of the player. When set to 2 the thumbnail image preview during seeking will be available exclusively when the player is in fullscreen mode.
+              setSeekPreview: 1, // When set to 1, the feature is enabled and will be visible in all operational modes of the player. When set to 2 the thumbnail image preview during seeking will be available exclusively when the player is in fullscreen mode.
+              setSeekSeconds:5
 
             }}
           />

@@ -53,7 +53,11 @@ const App = () => {
               setCornerRadius: 30, //This property enables setting the corner radius to the player itself. Its value is in pixels.
               localization: 'en', //This property allows selecting the language in which the player and IMA will operate.
               doubleTapSeek: 10, // This property set seek seconds for double tap seek player UI. -  from version 1.1.1
-              seekPreview: 1 // When set to 1, the feature is enabled and will be visible in all operational modes of the player. When set to 2 the thumbnail image preview during seeking will be available exclusively when the player is in fullscreen mode. - from version 1.1.1
+              setSeekPreview: 1, // When set to 1, the feature is enabled and will be visible in all operational modes of the player. When set to 2 the thumbnail image preview during seeking will be available exclusively when the player is in fullscreen mode. - from version 1.1.1
+              setSeekSeconds:5,// The number of seconds to seek when user double tap on player view.
+              setControllerTimeoutMS:5000,//Timeout for player controller in milliseconds
+              setCcBottomOffset:16 //Change Closed Captions bottom offset - in pixels
+
             }}
             //Callback for Events from all players in one Activity {"message": "video/ad event", "playerReference": "reverence to player from props"}
             handleAllPlayerEvents={(eventData) =>handleAllPlayerEvents(eventData)}
