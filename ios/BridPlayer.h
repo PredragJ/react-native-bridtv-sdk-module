@@ -29,6 +29,7 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 @property(nonatomic) NSString *_Nonnull localization;
 @property(nonatomic) NSNumber *_Nonnull setSeekSeconds;
 @property(nonatomic) NSNumber *_Nonnull setSeekPreview;
+@property(nonatomic) NSNumber *_Nonnull setSubtitleBottomOffset;
 
 - (void)loadVideo:(NSNumber *_Nonnull)playerID mediaID:(NSNumber *_Nonnull)mediaID;
 - (void)loadPlaylist:(NSNumber *_Nonnull)playerID mediaID:(NSNumber *_Nonnull)mediaID;

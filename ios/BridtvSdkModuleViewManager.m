@@ -36,6 +36,7 @@ RCT_EXPORT_VIEW_PROPERTY(setCornerRadius, NSNumber);
 RCT_EXPORT_VIEW_PROPERTY(localization, NSString);
 RCT_EXPORT_VIEW_PROPERTY(setSeekSecond, NSNumber);
 RCT_EXPORT_VIEW_PROPERTY(setSeekPreview, NSNumber);
+RCT_EXPORT_VIEW_PROPERTY(setSubtitleBottomOffset, NSNumber);
 
 RCT_EXPORT_METHOD(pause:(nonnull NSNumber *)reactTag) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {

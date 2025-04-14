@@ -30,6 +30,7 @@
 @synthesize localization;
 @synthesize setSeekSeconds;
 @synthesize setSeekPreview;
+@synthesize setSubtitleBottomOffset;
 
 BOOL isRelodaed;
 TypePlayer loadedType;
@@ -49,8 +50,9 @@ int mediaID;
     mediaID = [bridPlayerConfig objectForKey:@"mediaID"];
     setCornerRadius = [bridPlayerConfig objectForKey:@"setCornerRadius"];
     localization = [bridPlayerConfig objectForKey:@"localization"];
-    setSeekSeconds = [bridPlayerConfig objectForKey:@"setSeekSecond"];
+    setSeekSeconds = [bridPlayerConfig objectForKey:@"setSeekSeconds"];
     setSeekPreview = [bridPlayerConfig objectForKey:@"setSeekPreview"];
+    setSubtitleBottomOffset = [bridPlayerConfig objectForKey:@"setCcBottomOffset"];
     
     if ([playerID isKindOfClass:[NSNull class]])
         playerID = 0;
@@ -126,7 +128,8 @@ int mediaID;
     [_player setPlayerLanguage:localization];
     [_player setSeekSeconds:[setSeekSeconds intValue]];
     [_player setSeekPreviewEnabled:[setSeekPreview intValue]];
-    
+    [_player setSubtitleBottomOffset:[setSubtitleBottomOffset intValue]];
+  
     [[NSNotificationCenter defaultCenter] postNotificationName:@"referenceReactTag" object:nil userInfo:@{@"reactTag": [self.reactTag stringValue]}];
     
     return _player;
