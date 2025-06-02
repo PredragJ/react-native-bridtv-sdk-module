@@ -20,6 +20,7 @@ public class BridPlayerCommands {
   public static final String HIDE_POSTER = "hidePoster";
   public static final String PREVIOUS = "previous";
   public static final String NEXT = "next";
+  public static final String STOP = "stop";
 
   public static final String SET_PLAYER_REF_KEY = "playerRefKey";
 

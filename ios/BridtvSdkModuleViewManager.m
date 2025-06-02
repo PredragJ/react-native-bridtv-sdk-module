@@ -81,6 +81,17 @@ RCT_EXPORT_METHOD(previous:(nonnull NSNumber *)reactTag) {
     }];
 }
 
+RCT_EXPORT_METHOD(stop:(nonnull NSNumber *)reactTag) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+        BridPlayer *view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[BridPlayer class]] || view.player == nil) {
+            RCTLogError(@"Invalid view returned from registry, expecting BridPlayer, got: %@", view);
+        } else {
+            [view.player stop];
+        }
+    }];
+}
+
 RCT_EXPORT_METHOD(destroyPlayer:(nonnull NSNumber *)reactTag) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
         BridPlayer *view = viewRegistry[reactTag];
