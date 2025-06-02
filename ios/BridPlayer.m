@@ -67,14 +67,32 @@ int mediaID;
 
 - (void)dealloc
 {
-    [_player setPlayerReferenceName:nil];
+    if (_player) {
+        [_player pause];
+        [_player stop];
+        [_player setPlayerReferenceName:nil];
+        [_player.view removeFromSuperview];
+        _player = nil;
+    }
     reference = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"referenceReactTag" object:@{@"reactTag": [self.reactTag stringValue]}];
 }
 
+- (void)removeFromSuperview
+{
+    [self destroy];
+    [super removeFromSuperview];
+}
+
 - (void)destroy
 {
-    [_player setPlayerReferenceName:nil];
+    if (_player) {
+        [_player pause];
+        [_player stop];
+        [_player setPlayerReferenceName:nil];
+        [_player.view removeFromSuperview];
+        _player = nil;
+    }
     reference = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"referenceReactTag" object:@{@"reactTag": [self.reactTag stringValue]}];
 }

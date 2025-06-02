@@ -54,6 +54,7 @@ export type BridtvSdkModuleProps = {
 export interface BridPlayerInterface {
   play(): void;
   pause(): void;
+  stop(): void;
   previous(): void;
   next(): void;
   mute(): void;

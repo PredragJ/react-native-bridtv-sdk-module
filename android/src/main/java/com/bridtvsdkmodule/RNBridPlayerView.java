@@ -151,6 +151,10 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
     if (bridPlayer != null)
       bridPlayer.pause();
   }
+  public void stop() {
+    if (bridPlayer != null)
+      bridPlayer.pause();
+  }
 
   public void destroyPlayer() {
     if (bridPlayer != null)

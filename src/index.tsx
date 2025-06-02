@@ -218,7 +218,6 @@ export default class BridPlayer
   onFullscreenOpen = (handler: () => void) => {
     this.registeredListener(BridPlayerEvents.fullscreenOpen, handler);
   };
-
   onFullscreenClose = (handler: () => void) => {
     this.registeredListener(BridPlayerEvents.fullscreenClose, handler);
   };
@@ -278,6 +277,10 @@ export default class BridPlayer
 
   pause() {
     UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'pause', []);
+  }
+
+  stop() {
+    UIManager.dispatchViewManagerCommand(findNodeHandle(this), 'stop', []);
   }
 
   mute() {
