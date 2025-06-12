@@ -76,11 +76,29 @@ int mediaID;
 
 - (void)destroy
 {
-  [_player setPlayerReferenceName:nil];
-  [_player destroy];
-  [_player.view removeFromSuperview];
+  if (_player) {
+     [_player pause];
+     [_player destroy];
+     [_player.view removeFromSuperview];
+     _player = nil;
+   }
   reference = nil;
   [[NSNotificationCenter defaultCenter] removeObserver:self name:@"referenceReactTag" object:@{@"reactTag": [self.reactTag stringValue]}];
+}
+
+- (void)didMoveToWindow {
+  [super didMoveToWindow];
+  
+  if (self.window == nil) {
+    RCTLogInfo(@"[BridPlayer] View removed from window – destroying player.");
+    [self destroy];
+  }
+}
+
+- (void)removeFromSuperview {
+  [super removeFromSuperview];
+  RCTLogInfo(@"[BridPlayer] removeFromSuperview called – destroying player.");
+  [self destroy];
 }
 
 - (void)setPlayerTypeByString:(NSString *)typeString
@@ -106,7 +124,7 @@ int mediaID;
     }
   } else {
     if (isRelodaed) {
-      [self destroy];git 
+      [self destroy];
       switch (loadedType) {
         case SinglePlayer:
           _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forVideoID:(int)[mediaID integerValue]]];
