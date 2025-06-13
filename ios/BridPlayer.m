@@ -86,15 +86,6 @@ int mediaID;
   [[NSNotificationCenter defaultCenter] removeObserver:self name:@"referenceReactTag" object:@{@"reactTag": [self.reactTag stringValue]}];
 }
 
-- (void)didMoveToWindow {
-  [super didMoveToWindow];
-  
-  if (self.window == nil) {
-    RCTLogInfo(@"[BridPlayer] View removed from window – destroying player.");
-    [self destroy];
-  }
-}
-
 - (void)removeFromSuperview {
   [super removeFromSuperview];
   RCTLogInfo(@"[BridPlayer] removeFromSuperview called – destroying player.");
