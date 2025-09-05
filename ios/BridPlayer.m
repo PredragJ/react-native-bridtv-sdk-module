@@ -117,7 +117,6 @@ int mediaID;
     }
   } else {
     if (isRelodaed) {
-      [self destroy];
       switch (loadedType) {
         case SinglePlayer:
           _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forVideoID:(int)[mediaID integerValue]]];
