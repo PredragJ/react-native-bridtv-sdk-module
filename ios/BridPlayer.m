@@ -54,11 +54,13 @@ int mediaID;
   setSeekPreview = [bridPlayerConfig objectForKey:@"setSeekPreview"];
   setSubtitleBottomOffset = [bridPlayerConfig objectForKey:@"setCcBottomOffset"];
   
-  if ([playerID isKindOfClass:[NSNull class]])
-    playerID = 0;
   
-  if ([mediaID isKindOfClass:[NSNull class]])
-    mediaID = 0;
+// MARK: - Removed because UM NO VIDEO ERROR
+//  if ([playerID isKindOfClass:[NSNull class]])
+//    playerID = 0;
+//  
+//  if ([mediaID isKindOfClass:[NSNull class]])
+//    mediaID = 0;
   
   [self setupEventNetworking];
   [self addSubview:self.player.view];
