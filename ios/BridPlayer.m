@@ -146,26 +146,19 @@ int mediaID;
   [_player setSubtitleBottomOffset:[setSubtitleBottomOffset intValue]];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:@"referenceReactTag" object:nil userInfo:@{@"reactTag": [self.reactTag stringValue]}];
-  
-  
-  NSString *message = [NSString stringWithFormat:@"Brid playerID: %@\nmediaID: %@\ntype: %ld\nplayerReference: %@",
-                       playerID,
-                       mediaID,
-                       (long)type,
-                       playerReference];
 
-  UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"BVPlayer Info"
-                                                                 message:message
-                                                          preferredStyle:UIAlertControllerStyleAlert];
+  NSDictionary *info = @{
+  @"event": @"PlayerData",
+  @"playerID": playerID ?: @"nil",
+  @"mediaID": mediaID ?: @"nil",
+  @"type": @(type),
+  @"playerReference": playerReference ?: @"nil"
+};
 
-  UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-  [alert addAction:okAction];
+[[NSNotificationCenter defaultCenter] postNotificationName:@"BridPlayer"
+                                                    object:nil
+                                                  userInfo:info];
 
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self.viewController presentViewController:alert animated:YES completion:nil];
-  });
-
-  
   return _player;
 }
 
