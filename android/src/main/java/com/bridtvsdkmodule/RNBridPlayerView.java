@@ -1,6 +1,5 @@
 package com.bridtvsdkmodule;
 
-
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -43,7 +42,6 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
   public String playerReferenceString = null;
   private FrameLayout playerHolder;
 
-
   public RNBridPlayerView(@NonNull Context context) {
     super(context);
     mContext = context;
@@ -57,13 +55,11 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
     init(context.getReactApplicationContext().getCurrentActivity());
   }
 
-
   public RNBridPlayerView(@NonNull Context context, View rootView) {
     super(context);
     mContext = context;
     init(context);
   }
-
 
   public RNBridPlayerView(@NonNull Context context, @Nullable AttributeSet attrs) {
     super(context, attrs);
@@ -95,7 +91,9 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
     return bridPlayer;
   }
 
-  public void loadVideo(int playerId, int videoId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference, int borderRadius, String language, int seekSeconds, int seekPreview, int controllerTimeoutMs, int ccBottomOffset) {
+  public void loadVideo(int playerId, int videoId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay,
+      boolean enableAdControls, String creditsLabelColor, String playerReference, int borderRadius, String language,
+      int seekSeconds, int seekPreview, int controllerTimeoutMs, int ccBottomOffset) {
     bridPlayerBuilder = new BridPlayerBuilder(getContext(), this);
     bridPlayerBuilder.useVpaidSupport(vpaidSupport);
     bridPlayerBuilder.enableAutoplay(!controlAutoplay);
@@ -129,7 +127,10 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
     }
   }
 
-  public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen, boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference, int borderRadius, String language, int seekSeconds, int seekPreview, int controllerTimeoutMs, int ccBottomOffset) {
+  public void loadPlaylist(int playerId, int playlistId, boolean vpaidSupport, boolean isFullscreen,
+      boolean controlAutoplay, boolean enableAdControls, String creditsLabelColor, String playerReference,
+      int borderRadius, String language, int seekSeconds, int seekPreview, int controllerTimeoutMs,
+      int ccBottomOffset) {
     bridPlayerBuilder = new BridPlayerBuilder(getContext(), playerHolder);
     bridPlayerBuilder.useVpaidSupport(vpaidSupport);
     bridPlayerBuilder.fullscreen(isFullscreen);
@@ -175,7 +176,6 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
   public void toastMessage(String message) {
     Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
   }
-
 
   public void unMute() {
     if (bridPlayer != null)
@@ -223,7 +223,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
   }
 
   private static Context getNonBuggyContext(ThemedReactContext reactContext,
-                                            ReactApplicationContext appContext) {
+      ReactApplicationContext appContext) {
     Context superContext = reactContext;
     if (!contextHasBug(appContext.getCurrentActivity())) {
       superContext = appContext.getCurrentActivity();
@@ -240,18 +240,20 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
 
   private static boolean contextHasBug(Context context) {
     return context == null ||
-      context.getResources() == null ||
-      context.getResources().getConfiguration() == null;
+        context.getResources() == null ||
+        context.getResources().getConfiguration() == null;
   }
-
 
   @Override
   public void requestLayout() {
     super.requestLayout();
 
-    // The spinner relies on a measure + layout pass happening after it calls requestLayout().
-    // Without this, the widget never actually changes the selection and doesn't call the
-    // appropriate listeners. Since we override onLayout in our ViewGroups, a layout pass never
+    // The spinner relies on a measure + layout pass happening after it calls
+    // requestLayout().
+    // Without this, the widget never actually changes the selection and doesn't
+    // call the
+    // appropriate listeners. Since we override onLayout in our ViewGroups, a layout
+    // pass never
     // happens after a call to requestLayout, so we simulate one here.
     post(measureAndLayout);
   }
@@ -260,7 +262,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
     @Override
     public void run() {
       measure(MeasureSpec.makeMeasureSpec(getWidth(), MeasureSpec.EXACTLY),
-        MeasureSpec.makeMeasureSpec(getHeight(), MeasureSpec.EXACTLY));
+          MeasureSpec.makeMeasureSpec(getHeight(), MeasureSpec.EXACTLY));
       layout(getLeft(), getTop(), getRight(), getBottom());
     }
   };
@@ -268,7 +270,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
   @Override
   public void onHostResume() {
     Log.d("Lifecycle react", "onHostResume");
-//    play();
+    // play();
     showControls();
   }
 
@@ -394,7 +396,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
         sendEvent(mThemedReactContext, "BridPlayerEvents" + getId(), event);
         break;
 
-      //PLAYER ERROR EVENTS
+      // PLAYER ERROR EVENTS
       case PlayerEvents.EVENT_AD_ERROR:
       case PlayerEvents.EVENT_AD_BREAK_FETCH_ERROR:
         event.putString("name", "AD_ERROR");
@@ -431,19 +433,19 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
   }
 
   private void sendEvent(ReactContext reactContext,
-                         String eventName,
-                         @Nullable WritableMap params) {
+      String eventName,
+      @Nullable WritableMap params) {
     reactContext
-      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-      .emit(eventName, params);
+        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+        .emit(eventName, params);
   }
 
   public void setConfig(ReadableMap prop) {
 
-    int playerId = 0, mediaId = 0, borderRadius = 1, seekSeconds = 0, seekPreview = 0, controllerTimeoutMs = 5000, ccBottomOffset = 0;
+    // int playerId = 0, mediaId = 0,
+    int borderRadius = 1, seekSeconds = 0, seekPreview = 0, controllerTimeoutMs = 5000, ccBottomOffset = 0;
     boolean useVpaid = false, playlist = false, isFullscreen = false, controlAutoplay = false, enableAdControls = false;
     String creditsLabelColor = null, language = "en";
-
 
     try {
       if (prop.hasKey("playerID")) {
@@ -491,12 +493,14 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
       if (prop.hasKey("setCcBottomOffset"))
         ccBottomOffset = prop.getInt("setCcBottomOffset");
 
-
-
       if (playlist)
-        loadPlaylist(playerId, mediaId, useVpaid, isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor, playerReferenceString, borderRadius, language, seekSeconds, seekPreview, controllerTimeoutMs, ccBottomOffset);
+        loadPlaylist(playerId, mediaId, useVpaid, isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor,
+            playerReferenceString, borderRadius, language, seekSeconds, seekPreview, controllerTimeoutMs,
+            ccBottomOffset);
       else
-        loadVideo(playerId, mediaId, useVpaid, isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor, playerReferenceString, borderRadius, language, seekSeconds, seekPreview, controllerTimeoutMs, ccBottomOffset);
+        loadVideo(playerId, mediaId, useVpaid, isFullscreen, controlAutoplay, enableAdControls, creditsLabelColor,
+            playerReferenceString, borderRadius, language, seekSeconds, seekPreview, controllerTimeoutMs,
+            ccBottomOffset);
 
     } catch (NumberFormatException e) {
       loadVideo(0, 0);

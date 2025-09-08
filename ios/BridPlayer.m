@@ -78,16 +78,14 @@ int mediaID;
 
 - (void)destroy
 {
-//  if (_player) {
-//     [_player pause];
-//     [_player destroy];
-//     [_player.view removeFromSuperview];
-//     _player = nil;
-//   }
-//  reference = nil;
-//  [[NSNotificationCenter defaultCenter] removeObserver:self name:@"referenceReactTag" object:@{@"reactTag": [self.reactTag stringValue]}];
+  if (_player) {
+    [_player pause];
+    [_player.view removeFromSuperview];
+    [_player setPlayerReferenceName:nil];
+    [_player destroy];
+    _player = nil;
+  }
   
-  [_player setPlayerReferenceName:nil];
   reference = nil;
   [[NSNotificationCenter defaultCenter] removeObserver:self name:@"referenceReactTag" object:@{@"reactTag": [self.reactTag stringValue]}];
 }
@@ -148,6 +146,25 @@ int mediaID;
   [_player setSubtitleBottomOffset:[setSubtitleBottomOffset intValue]];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:@"referenceReactTag" object:nil userInfo:@{@"reactTag": [self.reactTag stringValue]}];
+  
+  
+  NSString *message = [NSString stringWithFormat:@"Brid playerID: %@\nmediaID: %@\ntype: %ld\nplayerReference: %@",
+                       playerID,
+                       mediaID,
+                       (long)type,
+                       playerReference];
+
+  UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"BVPlayer Info"
+                                                                 message:message
+                                                          preferredStyle:UIAlertControllerStyleAlert];
+
+  UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+  [alert addAction:okAction];
+
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self.viewController presentViewController:alert animated:YES completion:nil];
+  });
+
   
   return _player;
 }
