@@ -442,8 +442,8 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
 
   public void setConfig(ReadableMap prop) {
 
-    // int playerId = 0, mediaId = 0,
-    int borderRadius = 1, seekSeconds = 0, seekPreview = 0, controllerTimeoutMs = 5000, ccBottomOffset = 0;
+    int playerId = 0, mediaId = 0, borderRadius = 1, seekSeconds = 0, seekPreview = 0, controllerTimeoutMs = 5000,
+        ccBottomOffset = 0;
     boolean useVpaid = false, playlist = false, isFullscreen = false, controlAutoplay = false, enableAdControls = false;
     String creditsLabelColor = null, language = "en";
 
