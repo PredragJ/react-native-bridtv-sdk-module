@@ -78,21 +78,25 @@ int mediaID;
 
 - (void)destroy
 {
-  if (_player) {
-     [_player pause];
-     [_player destroy];
-     [_player.view removeFromSuperview];
-     _player = nil;
-   }
+//  if (_player) {
+//     [_player pause];
+//     [_player destroy];
+//     [_player.view removeFromSuperview];
+//     _player = nil;
+//   }
+//  reference = nil;
+//  [[NSNotificationCenter defaultCenter] removeObserver:self name:@"referenceReactTag" object:@{@"reactTag": [self.reactTag stringValue]}];
+  
+  [_player setPlayerReferenceName:nil];
   reference = nil;
   [[NSNotificationCenter defaultCenter] removeObserver:self name:@"referenceReactTag" object:@{@"reactTag": [self.reactTag stringValue]}];
 }
 
-- (void)removeFromSuperview {
-  [super removeFromSuperview];
-  RCTLogInfo(@"[BridPlayer] removeFromSuperview called – destroying player.");
-  [self destroy];
-}
+//- (void)removeFromSuperview {
+//  [super removeFromSuperview];
+//  RCTLogInfo(@"[BridPlayer] removeFromSuperview called – destroying player.");
+//  [self destroy];
+//}
 
 - (void)setPlayerTypeByString:(NSString *)typeString
 {
