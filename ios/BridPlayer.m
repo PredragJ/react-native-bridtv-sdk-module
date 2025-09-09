@@ -56,7 +56,7 @@ UILabel *_debugLabel;
   setSubtitleBottomOffset = [bridPlayerConfig objectForKey:@"setCcBottomOffset"];
   
   [self setupDebugLabel];
-  [self updateDebugLabelText];
+  [self updateDebugLabelTextAndLayout];
 // MARK: - Removed because UM NO VIDEO ERROR
 //  if ([playerID isKindOfClass:[NSNull class]])
 //    playerID = 0;
@@ -73,13 +73,13 @@ UILabel *_debugLabel;
 
 - (void)destroy
 {
-//  if (_player) {
+  if (_player) {
     [_player pause];
     [_player.view removeFromSuperview];
     [_player setPlayerReferenceName:nil];
     [_player destroy];
     _player = nil;
-//  }
+  }
   
   reference = nil;
   [[NSNotificationCenter defaultCenter] removeObserver:self name:@"referenceReactTag" object:@{@"reactTag": [self.reactTag stringValue]}];
@@ -93,11 +93,11 @@ UILabel *_debugLabel;
 }
 
 
-//- (void)removeFromSuperview {
-//  [super removeFromSuperview];
-//  RCTLogInfo(@"[BridPlayer] removeFromSuperview called – destroying player.");
-//  [self destroy];
-//}
+- (void)removeFromSuperview {
+  [super removeFromSuperview];
+  RCTLogInfo(@"[BridPlayer] removeFromSuperview called – destroying player.");
+  [self destroy];
+}
 
 - (void)setPlayerTypeByString:(NSString *)typeString
 {
@@ -109,7 +109,6 @@ UILabel *_debugLabel;
 }
 
 - (BVPlayer *)player {
-  [self updateDebugLabelText];
   if (!_player) {
     switch (type) {
       case SinglePlayer:
@@ -160,6 +159,10 @@ UILabel *_debugLabel;
   loadedType = SinglePlayer;
   isRelodaed = YES;
   [self setNeedsLayout];
+  
+  dispatch_async(dispatch_get_main_queue(), ^{
+      [self updateDebugLabelTextAndLayout];
+  });
 }
 
 - (void)loadPlaylist:(NSNumber *)playerID mediaID:(NSNumber *)mediaID {
@@ -358,21 +361,19 @@ UILabel *_debugLabel;
   return [obj description];
 }
 
-- (void)updateDebugLabelText {
-  NSString *pID = [self safeString:self->playerID];
-  NSString *mID = [self safeString:self->mediaID];
-  NSString *ref = [self safeString:self->playerReference];
+- (void)updateDebugLabelTextAndLayout {
+  NSString *pID = [self str:self->playerID];
+  NSString *mID = [self str:self->mediaID];
+  NSString *ref = [self str:self->playerReference];
 
   _debugLabel.text = [NSString stringWithFormat:@"playerID: %@   mediaID: %@\nreference: %@",
                       pID, mID, ref];
 
-  // Pozicioniraj gore-levo sa malo paddinga
   CGFloat pad = 8.0;
   CGFloat maxW = CGRectGetWidth(self.bounds) - pad*2;
   CGSize fit = [_debugLabel sizeThatFits:CGSizeMake(maxW, CGFLOAT_MAX)];
   _debugLabel.frame = CGRectMake(pad, pad, MIN(maxW, fit.width + 12), fit.height + 8);
 
-  // Uvek iznad player view-a
   [self bringSubviewToFront:_debugLabel];
 }
 
