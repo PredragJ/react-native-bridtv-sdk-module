@@ -90,6 +90,14 @@ int mediaID;
   [[NSNotificationCenter defaultCenter] removeObserver:self name:@"referenceReactTag" object:@{@"reactTag": [self.reactTag stringValue]}];
 }
 
+- (void)dealloc
+{
+    [_player setPlayerReferenceName:nil];
+    reference = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"referenceReactTag" object:@{@"reactTag": [self.reactTag stringValue]}];
+}
+
+
 //- (void)removeFromSuperview {
 //  [super removeFromSuperview];
 //  RCTLogInfo(@"[BridPlayer] removeFromSuperview called – destroying player.");
