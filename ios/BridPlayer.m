@@ -155,18 +155,6 @@ int mediaID;
   
   [[NSNotificationCenter defaultCenter] postNotificationName:@"referenceReactTag" object:nil userInfo:@{@"reactTag": [self.reactTag stringValue]}];
 
-  NSDictionary *info = @{
-  @"event": @"PlayerData",
-  @"playerID": playerID ?: @"nil",
-  @"mediaID": mediaID ?: @"nil",
-  @"type": @(type),
-  @"playerReference": playerReference ?: @"nil"
-};
-
-[[NSNotificationCenter defaultCenter] postNotificationName:@"BridPlayer"
-                                                    object:nil
-                                                  userInfo:info];
-
   return _player;
 }
 
