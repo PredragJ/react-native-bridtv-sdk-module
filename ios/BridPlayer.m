@@ -361,7 +361,7 @@ UILabel *_debugLabel;
 - (void)updateDebugLabelText {
   NSString *pID = [self safeString:self->playerID];
   NSString *mID = [self safeString:self->mediaID];
-  NSString *ref = [self safeString:self->playerReference ?: (id)self->reference[@"reference"]];
+  NSString *ref = [self safeString:self->playerReference];
 
   _debugLabel.text = [NSString stringWithFormat:@"playerID: %@   mediaID: %@\nreference: %@",
                       pID, mID, ref];
