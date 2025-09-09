@@ -69,13 +69,6 @@ int mediaID;
   
 }
 
-- (void)dealloc
-{
-  [_player setPlayerReferenceName:nil];
-  reference = nil;
-  [[NSNotificationCenter defaultCenter] removeObserver:self name:@"referenceReactTag" object:@{@"reactTag": [self.reactTag stringValue]}];
-}
-
 - (void)destroy
 {
   if (_player) {
