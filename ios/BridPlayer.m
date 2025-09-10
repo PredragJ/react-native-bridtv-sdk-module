@@ -55,8 +55,7 @@ UILabel *_debugLabel;
   setSeekPreview = [bridPlayerConfig objectForKey:@"setSeekPreview"];
   setSubtitleBottomOffset = [bridPlayerConfig objectForKey:@"setCcBottomOffset"];
   
-  [self setupDebugLabel];
-  [self updateDebugLabelTextAndLayout];
+
 // MARK: - Removed because UM NO VIDEO ERROR
 //  if ([playerID isKindOfClass:[NSNull class]])
 //    playerID = 0;
@@ -73,14 +72,15 @@ UILabel *_debugLabel;
 
 - (void)destroy
 {
-  if (_player) {
-    [_player pause];
-    [_player.view removeFromSuperview];
-    [_player setPlayerReferenceName:nil];
-    [_player destroy];
-    _player = nil;
-  }
+//  if (_player) {
+//    [_player pause];
+//    [_player.view removeFromSuperview];
+//    [_player setPlayerReferenceName:nil];
+//    [_player destroy];
+//    _player = nil;
+//  }
   
+  [_player setPlayerReferenceName:nil];
   reference = nil;
   [[NSNotificationCenter defaultCenter] removeObserver:self name:@"referenceReactTag" object:@{@"reactTag": [self.reactTag stringValue]}];
 }
@@ -94,13 +94,17 @@ UILabel *_debugLabel;
 
 
 - (void)removeFromSuperview {
-  [super removeFromSuperview];
-  RCTLogInfo(@"[BridPlayer] removeFromSuperview called – destroying player.");
-  [self destroy];
+ [super removeFromSuperview];
+ RCTLogInfo(@"[BridPlayer] removeFromSuperview called – destroying player.");
+ [self destroy];
 }
 
 - (void)setPlayerTypeByString:(NSString *)typeString
 {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setupDebugLabel];
+        [self updateDebugLabelTextAndLayout];
+    });
   if ([typeString  isEqual: @"Single"]) {
     type = SinglePlayer;
   } else if ([typeString  isEqual: @"Playlist"]) {
@@ -160,9 +164,7 @@ UILabel *_debugLabel;
   isRelodaed = YES;
   [self setNeedsLayout];
   
-  dispatch_async(dispatch_get_main_queue(), ^{
-      [self updateDebugLabelTextAndLayout];
-  });
+
 }
 
 - (void)loadPlaylist:(NSNumber *)playerID mediaID:(NSNumber *)mediaID {
@@ -344,7 +346,7 @@ UILabel *_debugLabel;
 }
 
 - (void)setupDebugLabel {
-  if (_debugLabel) { return; }
+//  if (_debugLabel) { return; }
   _debugLabel = [[UILabel alloc] initWithFrame:CGRectZero];
   _debugLabel.textColor = [UIColor whiteColor];
   _debugLabel.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.35];
@@ -352,13 +354,13 @@ UILabel *_debugLabel;
   _debugLabel.font = [UIFont monospacedSystemFontOfSize:12 weight:UIFontWeightRegular];
   _debugLabel.layer.cornerRadius = 6;
   _debugLabel.layer.masksToBounds = YES;
-  [self addSubview:_debugLabel];
+  [self.player.view addSubview:_debugLabel];
 }
 
-- (NSString *)safeString:(id)obj {
-  if (!obj || obj == (id)kCFNull) { return @"nil"; }
-  if ([obj isKindOfClass:[NSNumber class]]) { return [(NSNumber *)obj stringValue]; }
-  return [obj description];
+- (NSString *)str:(id)x {
+  if (!x || x == (id)kCFNull) return @"nil";
+  if ([x isKindOfClass:NSNumber.class]) return [(NSNumber *)x stringValue];
+  return [x description];
 }
 
 - (void)updateDebugLabelTextAndLayout {
@@ -374,7 +376,7 @@ UILabel *_debugLabel;
   CGSize fit = [_debugLabel sizeThatFits:CGSizeMake(maxW, CGFLOAT_MAX)];
   _debugLabel.frame = CGRectMake(pad, pad, MIN(maxW, fit.width + 12), fit.height + 8);
 
-  [self bringSubviewToFront:_debugLabel];
+  [self.player.view  bringSubviewToFront:_debugLabel];
 }
 
 @end
