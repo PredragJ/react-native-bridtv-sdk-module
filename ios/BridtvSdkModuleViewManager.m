@@ -88,7 +88,6 @@ RCT_EXPORT_METHOD(destroyPlayer:(nonnull NSNumber *)reactTag) {
         if (![view isKindOfClass:[BridPlayer class]] || view.player == nil) {
             RCTLogError(@"Invalid view returned from registry, expecting BridPlayer, got: %@", view);
         } else {
-          [view destroy];
           [view.player destroy];
         }
     }];
