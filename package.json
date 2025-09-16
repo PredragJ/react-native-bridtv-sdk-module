@@ -1,6 +1,6 @@
 {
 
-  "version": "1.4.6",
+  "version": "1.4.7",
   "name": "react-native-bridtv-sdk-module",
   "description": "React native module for Android/IOS BridTV SDK",
   "main": "src/index.tsx",
@@ -57,7 +57,7 @@
   "bugs": {
     "url": "https://github.com/PredragJ/react-native-bridtv-sdk-module/issues"
   },
-  "homepage": "https://github.com/PredragJ/react-native-bridtv-sdk-module#readme",
+  "homepage": "https://github.com/PredragJ/react-native-bridtv-sdk-module#readme",git 
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
