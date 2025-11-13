@@ -9,15 +9,18 @@
     "pods": "pod-install --quiet"
   },
   "dependencies": {
-    "react": "18.2.0",
-    "react-native": "0.75.1",
-    "react-native-bridtv-sdk-module": "file:/Users/predragjevtic/react-native-bridtv-sdk-module"
+    "react": "19.0.0",
+    "react-native": "0.79.1",
+    "react-native-bridtv-sdk-module": "file:/Users/Brid/Desktop/react-native-bridtv-sdk/react-native-bridtv-sdk-module"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@babel/preset-env": "^7.20.0",
     "@babel/runtime": "^7.20.0",
-    "babel-plugin-module-resolver": "^5.0.0",
-    "metro-react-native-babel-preset": "0.73.9"
+    "@react-native-community/cli": "^20.0.2",
+    "@react-native/babel-preset": "^0.82.1",
+    "@react-native/metro-config": "^0.82.1",
+    "@types/react": "19",
+    "babel-plugin-module-resolver": "^5.0.0"
   }
 }

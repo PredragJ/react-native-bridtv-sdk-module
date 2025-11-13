@@ -1,3 +1,4 @@
+const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 const path = require('path');
 const escape = require('escape-string-regexp');
 const exclusionList = require('metro-config/src/defaults/exclusionList');
@@ -9,12 +10,12 @@ const modules = Object.keys({
   ...pak.peerDependencies,
 });
 
-module.exports = {
+const defaultConfig = getDefaultConfig(__dirname);
+
+const config = {
   projectRoot: __dirname,
   watchFolders: [root],
 
-  // We need to make sure that only one version is loaded for peerDependencies
-  // So we block them at the root, and alias them to the versions in example's node_modules
   resolver: {
     blacklistRE: exclusionList(
       modules.map(
@@ -27,6 +28,9 @@ module.exports = {
       acc[name] = path.join(__dirname, 'node_modules', name);
       return acc;
     }, {}),
+
+    assetExts: defaultConfig.resolver.assetExts,
+    sourceExts: defaultConfig.resolver.sourceExts,
   },
 
   transformer: {
@@ -38,3 +42,5 @@ module.exports = {
     }),
   },
 };
+
+module.exports = mergeConfig(defaultConfig, config);

@@ -1,88 +1,82 @@
-//
-//  BridtvSdkModule.m
-//  BridtvSdkModule
-//
-//  Created by Predrag Jevtic on 17.5.23..
-//  Copyright © 2023 Facebook. All rights reserved.
-//
-
 #import "BridtvSdkModule.h"
 
-@implementation BridtvSdkModule
-
-bool hasListeners;
-@synthesize emitter;
+@implementation BridtvSdkModule {
+  BOOL hasListeners;
+  NSString *lastEvent;
+  NSString *lastEventAd;
+  NSString *lastReference;
+  NSString *lastReferenceAd;
+}
 
 RCT_EXPORT_MODULE(BridtvSdkModule);
 
-NSString *lastEvent;
-NSString *lastEventAd;
-NSString *lastReference;
-NSString *lastReferenceAd;
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        emitter = self;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerEventReceived:) name:@"BridPlayer" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerEventReceived:) name:@"BridPlayerAd" object:nil];
-
-    }
-    return self;
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(playerEventReceived:)
+                                                 name:@"BridPlayer"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(playerEventReceived:)
+                                                 name:@"BridPlayerAd"
+                                               object:nil];
+  }
+  return self;
 }
 
-- (void)dealloc
-{
-    [emitter stopObserving];
-    emitter = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"BridPlayer" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"BridPlayerAd" object:nil];
-    lastEvent = nil;
-    lastEventAd = nil;
-    lastReference = nil;
-    lastReferenceAd = nil;
-    
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  lastEvent = nil;
+  lastEventAd = nil;
+  lastReference = nil;
+  lastReferenceAd = nil;
 }
 
-+ (BOOL)requiresMainQueueSetup
-{
-    return YES;
++ (BOOL)requiresMainQueueSetup {
+  return YES;
 }
 
 - (void)startObserving {
-    hasListeners = YES;
+  hasListeners = YES;
 }
 
 - (void)stopObserving {
-    hasListeners = NO;
+  hasListeners = NO;
 }
 
-- (NSArray<NSString *> *)supportedEvents
-{
-    return @[@"BridPlayerEvents"];
+- (NSArray<NSString *> *)supportedEvents {
+  return @[@"BridPlayerEvents"];
 }
 
-- (void)playerEventReceived:(NSNotification *)notification
-{
-    if ([notification.name isEqualToString:@"BridPlayer"]) {
-        if ((lastEvent != notification.userInfo[@"event"]) || (lastReference != notification.userInfo[@"reference"])) {
-            [self sendEventWithName:@"BridPlayerEvents" body:@{@"name": notification.userInfo[@"event"], @"playerReference": notification.userInfo[@"reference"]}];
-            lastEvent = notification.userInfo[@"event"];
-            lastReference = notification.userInfo[@"reference"];
-            
-        }
+- (void)playerEventReceived:(NSNotification *)notification {
+  if (!hasListeners) return;
+
+  if ([notification.name isEqualToString:@"BridPlayer"]) {
+    id eventValue = notification.userInfo[@"event"];
+    id referenceValue = notification.userInfo[@"reference"];
+
+    if ((lastEvent != eventValue) || (lastReference != referenceValue)) {
+      [self sendEventWithName:@"BridPlayerEvents"
+                         body:@{@"name": eventValue ?: @"",
+                                @"playerReference": referenceValue ?: @""}];
+      lastEvent = eventValue;
+      lastReference = referenceValue;
     }
-    
-    if ([notification.name isEqualToString:@"BridPlayerAd"]) {
-        if ((lastEventAd != notification.userInfo[@"ad"]) || (lastReferenceAd != notification.userInfo[@"reference"])) {
-            [self sendEventWithName:@"BridPlayerEvents" body:@{@"name": notification.userInfo[@"ad"], @"playerReference": notification.userInfo[@"reference"]}];
-            lastEventAd = notification.userInfo[@"ad"];
-            lastReferenceAd = notification.userInfo[@"reference"];
-            }
-    }
-    
-}
+  }
 
+  if ([notification.name isEqualToString:@"BridPlayerAd"]) {
+    id adValue = notification.userInfo[@"ad"];
+    id referenceValue = notification.userInfo[@"reference"];
+
+    if ((lastEventAd != adValue) || (lastReferenceAd != referenceValue)) {
+      [self sendEventWithName:@"BridPlayerEvents"
+                         body:@{@"name": adValue ?: @"",
+                                @"playerReference": referenceValue ?: @""}];
+      lastEventAd = adValue;
+      lastReferenceAd = referenceValue;
+    }
+  }
+}
 
 @end

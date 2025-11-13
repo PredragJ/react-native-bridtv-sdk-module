@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Text } from 'react-native';
-1;
 import {
   StyleSheet,
   View,
@@ -15,111 +14,111 @@ import BridPlayer from 'react-native-bridtv-sdk-module';
 const App = () => {
   const bridPlayerRef = React.useRef(null);
   const bridPlayerRef2 = React.useRef(null);
-  const bridPlayerRef3 = React.useRef(null);
+  // const bridPlayerRef3 = React.useRef(null);
   const [playerId, setPlayerId] = React.useState('40606');
   const [videoId, setVideoId] = React.useState('1319855');
   const [playlistId, setPlaylistId] = React.useState('21751');
 
-  const [video1, setVideo1] = React.useState(false);
-  const [video2, setVideo2] = React.useState(false);
-  const [video3, setVideo3] = React.useState(false);
+  // const [video1, setVideo1] = React.useState(false);
+  // const [video2, setVideo2] = React.useState(false);
+  // const [video3, setVideo3] = React.useState(false);
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      setVideo2(true);
-    }, 5000);
+  // React.useEffect(() => {
+  //   setTimeout(() => {
+  //     setVideo2(true);
+  //   }, 5000);
 
-    setTimeout(() => {
-      setVideo3(true);
-    }, 10000);
-  }, []);
+  //   setTimeout(() => {
+  //     setVideo3(true);
+  //   }, 10000);
+  // }, []);
 
-  const handleAllPlayerEvents = (eventData) => {
-    console.log(eventData);
-  };
+  // const handleAllPlayerEvents = (eventData) => {
+  //   console.log(eventData);
+  // };
 
-  const handleVideoLoad = (eventData) => {
-    console.log('VIDEO LOADED' + '-' + eventData.playerReference);
-  };
-  const handleVideoPlay = (eventData) => {
-    console.log('VIDEO PLAYED' + '-' + eventData.playerReference);
-  };
+  // const handleVideoLoad = (eventData) => {
+  //   console.log('VIDEO LOADED' + '-' + eventData.playerReference);
+  // };
+  // const handleVideoPlay = (eventData) => {
+  //   console.log('VIDEO PLAYED' + '-' + eventData.playerReference);
+  // };
 
-  const handleVideoBuffering = (eventData) => {
-    console.log('VIDEO BUFFERING' + '-' + eventData.playerReference);
-  };
+  // const handleVideoBuffering = (eventData) => {
+  //   console.log('VIDEO BUFFERING' + '-' + eventData.playerReference);
+  // };
 
-  const handleVideoStart = (eventData) => {
-    console.log('VIDEO STARTED' + '-' + eventData.playerReference);
-  };
+  // const handleVideoStart = (eventData) => {
+  //   console.log('VIDEO STARTED' + '-' + eventData.playerReference);
+  // };
 
-  const handleVideoPause = (eventData) => {
-    console.log('VIDEO PAUSED' + '-' + eventData.playerReference);
-  };
-  const handleVideoProgress = (eventData) => {
-    console.log('VIDEO PROGRESS' + '-' + eventData.playerReference);
-  };
+  // const handleVideoPause = (eventData) => {
+  //   console.log('VIDEO PAUSED' + '-' + eventData.playerReference);
+  // };
+  // const handleVideoProgress = (eventData) => {
+  //   console.log('VIDEO PROGRESS' + '-' + eventData.playerReference);
+  // };
 
-  const handleVideoSeek = (eventData) => {
-    console.log('VIDEO SEEK' + '-' + eventData.playerReference);
-  };
+  // const handleVideoSeek = (eventData) => {
+  //   console.log('VIDEO SEEK' + '-' + eventData.playerReference);
+  // };
 
-  const handleVideoEnd = (eventData) => {
-    console.log('VIDEO END' + '-' + eventData.playerReference);
-  };
+  // const handleVideoEnd = (eventData) => {
+  //   console.log('VIDEO END' + '-' + eventData.playerReference);
+  // };
 
-  const handleFullscreenOpen = (eventData) => {
-    console.log('FULL SCREEN OPEN' + '-' + eventData.playerReference);
-  };
+  // const handleFullscreenOpen = (eventData) => {
+  //   console.log('FULL SCREEN OPEN' + '-' + eventData.playerReference);
+  // };
 
-  const handleFullscreenClose = (eventData) => {
-    console.log('FULL SCREEN CLOSE' + '-' + eventData.playerReference);
-  };
+  // const handleFullscreenClose = (eventData) => {
+  //   console.log('FULL SCREEN CLOSE' + '-' + eventData.playerReference);
+  // };
 
-  // Ad Events
-  const handleVideoAdLoaded = (eventData) => {
-    console.log('AD LOADED' + '-' + eventData.playerReference);
-  };
-  const handleVideoAdCompleted = (eventData) => {
-    console.log('AD COMPLETED' + '-' + eventData.playerReference);
-  };
-  const handleVideoAdResumed = (eventData) => {
-    console.log('AD RESUMED' + '-' + eventData.playerReference);
-  };
-  const handleVideoAdStart = (eventData) => {
-    console.log('AD STARTED' + '-' + eventData.playerReference);
-  };
-  const handleVideoAdPaused = (eventData) => {
-    console.log('AD PAUSED' + '-' + eventData.playerReference);
-  };
+  // // Ad Events
+  // const handleVideoAdLoaded = (eventData) => {
+  //   console.log('AD LOADED' + '-' + eventData.playerReference);
+  // };
+  // const handleVideoAdCompleted = (eventData) => {
+  //   console.log('AD COMPLETED' + '-' + eventData.playerReference);
+  // };
+  // const handleVideoAdResumed = (eventData) => {
+  //   console.log('AD RESUMED' + '-' + eventData.playerReference);
+  // };
+  // const handleVideoAdStart = (eventData) => {
+  //   console.log('AD STARTED' + '-' + eventData.playerReference);
+  // };
+  // const handleVideoAdPaused = (eventData) => {
+  //   console.log('AD PAUSED' + '-' + eventData.playerReference);
+  // };
 
-  const handleVideoAdProgress = (eventData) => {
-    console.log('AD PROGRESS' + '-' + eventData.playerReference);
-  };
+  // const handleVideoAdProgress = (eventData) => {
+  //   console.log('AD PROGRESS' + '-' + eventData.playerReference);
+  // };
 
-  const handleVideoAdTapped = (eventData) => {
-    console.log('AD TAPPED' + '-' + eventData.playerReference);
-  };
+  // const handleVideoAdTapped = (eventData) => {
+  //   console.log('AD TAPPED' + '-' + eventData.playerReference);
+  // };
 
-  const handleVideoAdSkipped = (eventData) => {
-    console.log('AD SKIPPED' + '-' + eventData.playerReference);
-  };
+  // const handleVideoAdSkipped = (eventData) => {
+  //   console.log('AD SKIPPED' + '-' + eventData.playerReference);
+  // };
 
-  const handleVideoAutoplay = (eventData) => {
-    console.log('VIDEO AUTOPLAY' + '-' + eventData.playerReference);
-  };
+  // const handleVideoAutoplay = (eventData) => {
+  //   console.log('VIDEO AUTOPLAY' + '-' + eventData.playerReference);
+  // };
 
-  //VIDEO ERROR EVENTS
-  const handleVideoError = (errorEvent) => {
-    console.log(
-      'Error Code => ' +
-        errorEvent.code +
-        ' | Error Name => ' +
-        errorEvent.name +
-        ' | Error Message => ' +
-        errorEvent.message
-    );
-  };
+  // //VIDEO ERROR EVENTS
+  // const handleVideoError = (errorEvent) => {
+  //   console.log(
+  //     'Error Code => ' +
+  //       errorEvent.code +
+  //       ' | Error Name => ' +
+  //       errorEvent.name +
+  //       ' | Error Message => ' +
+  //       errorEvent.message
+  //   );
+  // };
 
   return (
     <SafeAreaView>
@@ -139,20 +138,19 @@ const App = () => {
               setCornerRadius: 30, //This property enables setting the corner radius to the player itself. Its value is in pixels.
               doubleTapSeek: 10, // This property set seek seconds for double tap seek player UI.
               setSeekPreview: 1, // When set to 1, the feature is enabled and will be visible in all operational modes of the player. When set to 2 the thumbnail image preview during seeking will be available exclusively when the player is in fullscreen mode.
-              setSeekSeconds:5
-
+              setSeekSeconds: 5,
             }}
           />
 
-          <View style={styles.buttonContainer} />
-          {/* {video2 && (
+          {/* <View style={styles.buttonContainer} />
+          {video2 && (
             <BridPlayer
               ref={bridPlayerRef2}
               style={styles.square}
               bridPlayerConfig={{
                 playerReference: 'player_2',
-                playerID: 40606, // PlayerID from BridTV cms
-                mediaID: 1406975, //VideoID or PlaylistID from BridTv cms
+                playerID: 41519, // PlayerID from BridTV cms
+                mediaID: 1497964, //VideoID or PlaylistID from BridTv cms
                 typeOfPlayer: 'Single', //Single or Playlist
                 controlAutoplay: false, //enables the client to take control over autoplay
                 scrollOnAd: true, //This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
@@ -161,15 +159,15 @@ const App = () => {
               //Callback for Events from all players in one Activity {"message": "video/ad event", "playerReference": "reverence to player from props"}
             />
           )} */}
-          <View style={styles.buttonContainer} />
-          {/* {video3 && (
+          {/* <View style={styles.buttonContainer} />
+          {video3 && (
             <BridPlayer
               ref={bridPlayerRef3}
               style={styles.square}
               bridPlayerConfig={{
                 playerReference: 'player_3',
-                playerID: 40606, // PlayerID from BridTV cms
-                mediaID: 1406975, //VideoID or PlaylistID from BridTv cms
+                playerID: 41519, // PlayerID from BridTV cms
+                mediaID: 1497964, //VideoID or PlaylistID from BridTv cms
                 typeOfPlayer: 'Single', // Single or Playlist
               }}
               //Callback for Events from all players in one Activity {"message": "video/ad event", "playerReference": "reverence to player from props"}
@@ -286,12 +284,22 @@ const App = () => {
           <View style={styles.buttonContainer}>
             <Button
               title="Is Paused"
-              onPress={() => bridPlayerRef.current?.isPlayingAd()}
+              onPress={async () => {
+                const paused = await bridPlayerRef.current?.isPaused();
+                console.log(paused);
+
+                return paused;
+              }}
             />
 
             <Button
               title="Is Repeated"
-              onPress={() => bridPlayerRef.current?.isPlayingAd()}
+              onPress={async () => {
+                const repeated = await bridPlayerRef.current?.isRepeated();
+                console.log(repeated);
+
+                return repeated;
+              }}
             />
           </View>
         </View>

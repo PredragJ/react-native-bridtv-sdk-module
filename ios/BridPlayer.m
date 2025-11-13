@@ -165,13 +165,17 @@ int mediaID;
   [self setNeedsLayout];
 }
 
+// - (void)setupEventNetworking {
+//   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventWriter:) name:@"PlayerEvent" object:nil];
+//   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventWriter:) name:@"AdEvent" object:nil];
+// }
+
 - (void)setupEventNetworking {
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventWriter:) name:@"PlayerEvent" object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventWriter:) name:@"AdEvent" object:nil];
 }
 
 - (void)eventWriter:(NSNotification *)notification {
-  
   if ([notification.name isEqualToString:@"PlayerEvent"]) {
     NSDictionary *userInfo;
     NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] init];

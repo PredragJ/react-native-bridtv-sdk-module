@@ -13,8 +13,6 @@ const BridPlayerEventsIos = {
   enterPip: 'PLAYER_ENTER_PIP',
   exitPip: 'PLAYER_EXIT_PIP',
 
-
-
   //Ad
   videoAdLoaded: 'AD_LOADED',
   videoAdCompleted: 'AD_COMPLETED',
@@ -41,7 +39,6 @@ const BridPlayerEventsAndroid = {
   fullscreenClose: 'FULLSCREEN_CLOSE',
   enterPip: 'PLAYER_ENTER_PIP',
   exitPip: 'PLAYER_EXIT_PIP',
-
 
   //Ad
   videoAdLoaded: 'AD_LOADED',

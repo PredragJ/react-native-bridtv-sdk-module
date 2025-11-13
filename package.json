@@ -1,6 +1,5 @@
 {
-
-  "version": "1.4.7",
+  "version": "1.4.8",
   "name": "react-native-bridtv-sdk-module",
   "description": "React native module for Android/IOS BridTV SDK",
   "main": "src/index.tsx",
@@ -34,7 +33,13 @@
     "release": "release-it",
     "example": "yarn --cwd example",
     "bootstrap": "yarn example && yarn install && yarn example pods",
-    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build"
+    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build",
+    "ios": "yarn example ios",
+    "android": "yarn example android",
+    "start": "yarn example start",
+    "pods": "cd example/ios && pod install",
+    "simulator": "open -a Simulator",
+    "simulator:iphone17": "xcrun simctl boot 'iPhone 17 Pro' && open -a Simulator"
   },
   "keywords": [
     "react-native",
@@ -51,7 +56,6 @@
     "bridSDK"
   ],
   "repository": "https://github.com/PredragJ/react-native-bridtv-sdk-module",
-  
   "author": "BridTV <predrag.jevtic@brid.tv> (https://github.com/PredragJ)",
   "license": "MIT",
   "bugs": {
@@ -65,6 +69,7 @@
     "@commitlint/config-conventional": "^17.0.2",
     "@evilmartians/lefthook": "^1.2.2",
     "@react-native-community/eslint-config": "^3.0.2",
+    "@react-native/babel-preset": "^0.82.1",
     "@release-it/conventional-changelog": "^9.0.4",
     "@types/jest": "^29.5.14",
     "@types/react": "~17.0.21",

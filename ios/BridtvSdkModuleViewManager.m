@@ -12,16 +12,11 @@
 
 @implementation BridtvSdkModuleViewManager
 
-NSString *eventName;
-
 RCT_EXPORT_MODULE(BridtvSdkModuleView)
-
-BridPlayer *player;
 
 - (UIView *)view
 {
-    player = [[BridPlayer alloc] init];
-    return player;
+    return [[BridPlayer alloc] init];
 }
 
 RCT_EXPORT_VIEW_PROPERTY(bridPlayerConfig, NSDictionary);
@@ -206,157 +201,147 @@ RCT_EXPORT_METHOD(seekToTime:(nonnull NSNumber *)reactTag:(float)time) {
     }];
 }
 
-RCT_REMAP_METHOD(getCurrentTime, timeTag:(nonnull NSNumber *)reactTag
+RCT_REMAP_METHOD(getCurrentTime, getCurrentTimeForTag:(nonnull NSNumber *)reactTag
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
-    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-        NSNumber *time = [player getPlayerCurrentTime];
-        if (!time) {
-            reject(@"event_getCurrentTime_failure", @"failed to read current time", nil);
-        } else {
-            resolve(time);
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+        BridPlayer *view = viewRegistry[reactTag];
+        
+        if (![view isKindOfClass:[BridPlayer class]] || !view.player) {
+            reject(@"E_NO_PLAYER", @"Player instance not found", nil);
+            return;
         }
+        
+        NSNumber *time = [view getPlayerCurrentTime];
+        resolve(time ?: @0);
     }];
 }
 
-RCT_REMAP_METHOD(getVideoDuration, videoDurationTag:(nonnull NSNumber *)reactTag
+RCT_REMAP_METHOD(getVideoDuration, getVideoDurationForTag:(nonnull NSNumber *)reactTag
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
-    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-
-        NSNumber *videoDuration = [player getVideoDuration];
-        if (!videoDuration) {
-            reject(@"event_getVideoDuration_failure", @"failed to read current getVideoDuration time", nil);
-        } else {
-            resolve(videoDuration);
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+        BridPlayer *view = viewRegistry[reactTag];
+        
+        if (![view isKindOfClass:[BridPlayer class]] || !view.player) {
+            reject(@"E_NO_PLAYER", @"Player instance not found", nil);
+            return;
         }
+        
+        NSNumber *videoDuration = [view getVideoDuration];
+        resolve(videoDuration ?: @0);
     }];
 }
 
-RCT_REMAP_METHOD(getAdDuration, adDurationTag:(nonnull NSNumber *)reactTag
+RCT_REMAP_METHOD(getAdDuration, getAdDurationForTag:(nonnull NSNumber *)reactTag
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
-    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-
-        NSNumber *time = [player getAdDuration];
-        if (!time) {
-            reject(@"event_getAdDuration_failure", @"failed to read current getAdDuration time", nil);
-        } else {
-            resolve(time);
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+        BridPlayer *view = viewRegistry[reactTag];
+        
+        if (![view isKindOfClass:[BridPlayer class]] || !view.player) {
+            reject(@"E_NO_PLAYER", @"Player instance not found", nil);
+            return;
         }
+        
+        NSNumber *time = [view getAdDuration];
+        resolve(time ?: @0);
     }];
 }
 
-RCT_REMAP_METHOD(getAdCurrentTime, adCurrentTimeTag:(nonnull NSNumber *)reactTag
+RCT_REMAP_METHOD(getAdCurrentTime, getAdCurrentTimeForTag:(nonnull NSNumber *)reactTag
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
-    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
-
-        NSNumber *time = [player getAdCurrentTime];
-        if (!time) {
-            reject(@"event_getAdCurrentTime_failure", @"failed to read current getAdCurrentTime time", nil);
-        } else {
-            resolve(time);
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+        BridPlayer *view = viewRegistry[reactTag];
+        
+        if (![view isKindOfClass:[BridPlayer class]] || !view.player) {
+            reject(@"E_NO_PLAYER", @"Player instance not found", nil);
+            return;
         }
+        
+        NSNumber *time = [view getAdCurrentTime];
+        resolve(time ?: @0);
     }];
 }
 
-RCT_REMAP_METHOD(isMuted, isMutedTag:(nonnull NSNumber *)reactTag
+RCT_REMAP_METHOD(isMuted, isMutedForTag:(nonnull NSNumber *)reactTag
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
-    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+        BridPlayer *view = viewRegistry[reactTag];
         
-        NSNumber *isMuted;
-        
-        if ([viewRegistry[reactTag] isMuted])
-            isMuted = [NSNumber numberWithInt:1];
-        else
-            isMuted = [NSNumber numberWithInt:0];
-        
-        if (!isMuted) {
-            reject(@"isMuted failure", @"failed to read current isMuted", nil);
-        } else {
-            resolve(isMuted);
+        if (![view isKindOfClass:[BridPlayer class]]) {
+            reject(@"E_NO_PLAYER", @"Player instance not found", nil);
+            return;
         }
+        
+        NSNumber *isMuted = [view isMuted] ? @1 : @0;
+        resolve(isMuted);
     }];
 }
 
-RCT_REMAP_METHOD(isAdPlaying, isAdPlayingTag:(nonnull NSNumber *)reactTag
+RCT_REMAP_METHOD(isPlayingAd, isPlayingAdForTag:(nonnull NSNumber *)reactTag
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
-    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+        BridPlayer *view = viewRegistry[reactTag];
         
-        NSNumber *isAdPlaying;
-        
-        if ([viewRegistry[reactTag] isAdPlaying])
-            isAdPlaying = [NSNumber numberWithInt:1];
-        else
-            isAdPlaying = [NSNumber numberWithInt:0];
-        
-        if (!isAdPlaying) {
-            reject(@"isAdPlaying failure", @"failed to read current isAdPlaying", nil);
-        } else {
-            resolve(isAdPlaying);
+        if (![view isKindOfClass:[BridPlayer class]]) {
+            reject(@"E_NO_PLAYER", @"Player instance not found", nil);
+            return;
         }
+        
+        NSNumber *isAdPlaying = [view isAdPlaying] ? @1 : @0;
+        resolve(isAdPlaying);
     }];
 }
 
-RCT_REMAP_METHOD(isPaused, isPausedTag:(nonnull NSNumber *)reactTag
+RCT_REMAP_METHOD(isPaused, isPausedForTag:(nonnull NSNumber *)reactTag
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
-    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+        BridPlayer *view = viewRegistry[reactTag];
         
-        NSNumber *isPaused;
-        
-        if ([viewRegistry[reactTag] isPaused])
-            isPaused = [NSNumber numberWithInt:1];
-        else
-            isPaused = [NSNumber numberWithInt:0];
-        
-        if (!isPaused) {
-            reject(@"isPaused failure", @"failed to read current isPaused", nil);
-        } else {
-            resolve(isPaused);
+        if (![view isKindOfClass:[BridPlayer class]]) {
+            reject(@"E_NO_PLAYER", @"Player instance not found", nil);
+            return;
         }
+        
+        NSNumber *isPaused = [view isPaused] ? @1 : @0;
+        resolve(isPaused);
     }];
 }
 
-RCT_REMAP_METHOD(isRepeated, isRepeatedTag:(nonnull NSNumber *)reactTag
+RCT_REMAP_METHOD(isRepeated, isRepeatedForTag:(nonnull NSNumber *)reactTag
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
-    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+        BridPlayer *view = viewRegistry[reactTag];
         
-        NSNumber *isRepeated;
-        
-        if ([viewRegistry[reactTag] isRepeated])
-            isRepeated = [NSNumber numberWithInt:1];
-        else
-            isRepeated = [NSNumber numberWithInt:0];
-        
-        if (!isRepeated) {
-            reject(@"isRepeated failure", @"failed to read current isRepeated", nil);
-        } else {
-            resolve(isRepeated);
+        if (![view isKindOfClass:[BridPlayer class]]) {
+            reject(@"E_NO_PLAYER", @"Player instance not found", nil);
+            return;
         }
+        
+        NSNumber *isRepeated = [view isRepeated] ? @1 : @0;
+        resolve(isRepeated);
     }];
 }
 
-RCT_REMAP_METHOD(isAutoplay, isAutoplayTag:(nonnull NSNumber *)reactTag
+RCT_REMAP_METHOD(isAutoplay, isAutoplayForTag:(nonnull NSNumber *)reactTag
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
-    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, BridPlayer *> *viewRegistry) {
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+        BridPlayer *view = viewRegistry[reactTag];
         
-        NSNumber *isAutoplay;
-        if ([viewRegistry[reactTag] isAutoplay])
-            isAutoplay = [NSNumber numberWithInt:1];
-        else
-            isAutoplay = [NSNumber numberWithInt:0];
-        
-        if (!isAutoplay) {
-            reject(@"isAutoplay failure", @"failed to read current isAutoplay", nil);
-        } else {
-            resolve(isAutoplay);
+        if (![view isKindOfClass:[BridPlayer class]]) {
+            reject(@"E_NO_PLAYER", @"Player instance not found", nil);
+            return;
         }
+        
+        NSNumber *isAutoplay = [view isAutoplay] ? @1 : @0;
+        resolve(isAutoplay);
     }];
 }
 

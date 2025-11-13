@@ -11,6 +11,6 @@
 
 @interface BridtvSdkModule : RCTEventEmitter <RCTBridgeModule>
 
-@property (nonatomic) RCTEventEmitter *emitter;
+// @property (nonatomic) RCTEventEmitter *emitter;
 
 @end

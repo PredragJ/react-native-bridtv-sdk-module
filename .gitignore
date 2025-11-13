@@ -78,3 +78,13 @@ example/ios/Pods
 
 
  android/java_pid22521.hprof
+
+ # local Xcode envs
+example/ios/.xcode.env.local
+# Xcode privacy / per-user files
+*.xcprivacy
+# local env files
+.env.local
+.env.*.local
+
+yarn.lock
