@@ -15,8 +15,8 @@ const App = () => {
   const bridPlayerRef = React.useRef(null);
   const bridPlayerRef2 = React.useRef(null);
   // const bridPlayerRef3 = React.useRef(null);
-  const [playerId, setPlayerId] = React.useState('40606');
-  const [videoId, setVideoId] = React.useState('1319855');
+  const [playerId, setPlayerId] = React.useState('50057');
+  const [videoId, setVideoId] = React.useState('2676826');
   const [playlistId, setPlaylistId] = React.useState('21751');
 
   // const [video1, setVideo1] = React.useState(false);
@@ -129,8 +129,8 @@ const App = () => {
             style={styles.square}
             bridPlayerConfig={{
               playerReference: 'player_1',
-              playerID: 41519, // PlayerID from BridTV cms
-              mediaID: 1497964, //VideoID or PlaylistID from BridTv cms
+              playerID: 50057, // PlayerID from BridTV cms
+              mediaID: 2676826, //VideoID or PlaylistID from BridTv cms
               typeOfPlayer: 'Single', //Single or Playlist
               controlAutoplay: false, //enables the client to take control over autoplay
               scrollOnAd: true, //This option enables scrolling during ad and is specific to the iOS platform. By default, Android has scrolling enabled during ads.
@@ -365,8 +365,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   square: {
-    height: 200,
-    width: 300,
+    width: 320,
+    aspectRatio: 4 / 3,
   },
   buttonContainer: {
     borderRadius: 10,

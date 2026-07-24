@@ -1,7 +1,8 @@
 const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 const path = require('path');
 const escape = require('escape-string-regexp');
-const exclusionList = require('metro-config/src/defaults/exclusionList');
+const exclusionListModule = require('metro-config/private/defaults/exclusionList');
+const exclusionList = exclusionListModule.default || exclusionListModule;
 const pak = require('../package.json');
 
 const root = path.resolve(__dirname, '..');
@@ -17,7 +18,7 @@ const config = {
   watchFolders: [root],
 
   resolver: {
-    blacklistRE: exclusionList(
+    blockList: exclusionList(
       modules.map(
         (m) =>
           new RegExp(`^${escape(path.join(root, 'node_modules', m))}\\/.*$`)

@@ -114,6 +114,14 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
   }
 
   public void loadVideo(int playerId, int videoId) {
+    // Reuse the already-configured player (built from bridPlayerConfig) so its
+    // styling — corner radius, credits color, language, seek, etc. — is kept.
+    // Rebuilding a bare BridPlayerBuilder here is what dropped the corner radius
+    // when loading a new video via the command. Mirrors loadPlaylist(int,int).
+    if (bridPlayer != null) {
+      bridPlayer.loadVideo(playerId, videoId);
+      return;
+    }
     bridPlayerBuilder = new BridPlayerBuilder(getContext(), this);
     bridPlayer = bridPlayerBuilder.build();
     if (bridPlayer != null) {

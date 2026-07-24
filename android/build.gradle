@@ -14,7 +14,8 @@ buildscript {
   }
 
   dependencies {
-    classpath "com.android.tools.build:gradle:7.2.1"
+    // AGP is provided by the consuming application (React Native app).
+    // Do not declare it here to avoid "multiple AGP versions" conflicts.
   }
 }
 
@@ -40,6 +41,7 @@ def getExtOrIntegerDefault(name) {
 }
 
 android {
+  namespace "com.bridtvsdkmodule"
   compileSdkVersion getExtOrIntegerDefault("compileSdkVersion")
 
   defaultConfig {
@@ -58,8 +60,8 @@ android {
   }
 
   compileOptions {
-    sourceCompatibility JavaVersion.VERSION_11
-    targetCompatibility JavaVersion.VERSION_11
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
   }
 
 }
@@ -83,7 +85,7 @@ dependencies {
   // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
   //noinspection GradleDynpm namicVersion
   implementation "com.facebook.react:react-native:0.20.1"
-  implementation 'tv.brid:sdk:1.4.9'
+  implementation 'tv.brid.sdk:bridsdk:1.6.7'
 
 }
 

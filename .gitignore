@@ -88,3 +88,4 @@ example/ios/.xcode.env.local
 .env.*.local
 
 yarn.lock
+.yarn
